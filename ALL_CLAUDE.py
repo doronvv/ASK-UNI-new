@@ -1,9 +1,9 @@
 """
 ALL_CLAUDE.py
 =============
-בונה ChromaDB מקיף מכל קבצי ה-CSV בתיקיית data/.
+בונה ChromaDB מקיף מכל קבצי ה-CSV בתיקייה הראשית.
 הרץ פעם אחת (או בכל עדכון נתונים):
-    .venv\\Scripts\\python.exe ALL_CLAUDE.py
+    python ALL_CLAUDE.py
 """
 
 import json
@@ -14,7 +14,8 @@ from pathlib import Path
 import chromadb
 import pandas as pd
 
-DATA_DIR = Path(__file__).parent / "data"
+# שינוי קריטי: הגדרת התיקייה הראשית (איפה שהסקריפט נמצא) כתיקיית הנתונים
+DATA_DIR = Path(__file__).parent
 CHROMA_DIR = Path(__file__).parent / "chroma_db_storage"
 COLLECTION = "bgu_knowledge"
 
@@ -324,7 +325,6 @@ def people_docs() -> list[dict]:
 def main() -> None:
     print("ALL_CLAUDE – בונה ChromaDB מקיף מכל קבצי CSV...\n")
 
-    # מחיקה מלאה של תיקיית ChromaDB כדי למנוע קורפשן מריצות קודמות
     if CHROMA_DIR.exists():
         shutil.rmtree(CHROMA_DIR, ignore_errors=True)
         if CHROMA_DIR.exists():
@@ -335,15 +335,14 @@ def main() -> None:
 
     client = chromadb.PersistentClient(path=str(CHROMA_DIR))
 
-    # מחיקת collection אם קיים (אחרי rmtree זה בדרך כלל לא קיים, אבל ליתר ביטחון)
     try:
         client.delete_collection(COLLECTION)
     except Exception:
         pass
 
     col = client.create_collection(COLLECTION)
-    time.sleep(1)  # allow Rust backend to flush collection metadata
-    col = client.get_collection(COLLECTION)  # re-fetch for stable reference
+    time.sleep(1)  
+    col = client.get_collection(COLLECTION)  
     print(f"  נוצר collection: {COLLECTION}\n")
 
     builders = [
@@ -353,6 +352,8 @@ def main() -> None:
         ("פרויקטים",   project_docs),
         ("קורסים",     course_docs),
         ("צבא",        army_docs),
+        ("מידע כללי",  partner_docs),
+        ("סגל",        people_docs),
     ]
 
     total = 0
@@ -369,7 +370,6 @@ def main() -> None:
                 seen_ids.add(d["id"])
                 unique.append(d)
 
-        # batch 25 – upsert is more stable than add on Rust backend (Windows)
         for start in range(0, len(unique), 25):
             chunk = unique[start : start + 25]
             for attempt in range(3):
@@ -390,7 +390,7 @@ def main() -> None:
         total += len(unique)
 
     print(f'\n✓ סה"כ {total} מסמכים ב-ChromaDB.')
-    print("  הרץ BGUManager.py להתחיל שיחה.")
+    print("  הרץ BGUManager2.py להתחיל שיחה.")
 
 
 if __name__ == "__main__":
