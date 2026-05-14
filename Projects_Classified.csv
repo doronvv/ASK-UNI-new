@@ -1,0 +1,561 @@
+﻿Year,Faculty,Department,Suggestion ID,Project ID,Project Name,Advisers,Keywords,Link,Specialization
+2026,Engineering,Electrical and Computer Engineering,s-2026-001,p-2026-086,"Nanoparticle Tracking in Biological Media
+עקיבה אחר נאנוחלקיקים",Karabchevsky.Alina;Karabchevsky.Alina,"super-resolution, measurements, motion",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-002,p-2026-149,"Laser-writing technology
+טכנולוגיית כתיבה בלייזר",Karabchevsky.Alina;Karabchevsky.Alina,experiment;programming,,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-003,p-2026-148,"Laser-writing technology
+טכנולוגיית כתיבה בלייזר",Karabchevsky.Alina;Karabchevsky.Alina,experiment;programming,,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-004,,"Nanoparticle Tracking in Biological Media
+עקיבה אחר נאנוחלקיקים",Karabchevsky.Alina,"super-resolution, measurements, motion",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-005,p-2026-070,"design of advanced optical fibers
+תכנון סיבים אופטיים מתקדמים",Sivan.Yonatan;Sivan.Yonatan,"electro-optic, optical fibers, electromagnetism, numerical computations",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-007,p-2026-064,"Developing a super-resolution algorithm for event camera
+פיתוח אלגורית סופר-רזולומיה למלמת אירועים",Stern.Adrian;Stern.Adrian,event camera;image super resolution,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-009,p-2026-124,"Color Event Cameras
+מצלמות אירועים צבעוניות",Stern.Adrian,"optical design, advanced camera, Event camera, PSF engineering, multichannel multiplexing, demultiplexing algorithms",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-012,p-2026-160,"Image reconstruction from 16 pixels with diffusion models
+שחזור תמונה באמצעות מתוך 16 פיקסלים באמצעות מודלי דיפוזיה",Stern.Adrian,"Deep Learning, Diffusion Models, Compressive Imaging",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-013,p-2026-040,"Constructing artificial hyperspectral cubes for data analysi
+א",Rotman.Stanley;Rotman.Stanley,"Hyperspectral, target detection, artificial cubes",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-014,p-2026-013,"Analyzing Hyperspectral Imagery for change detection
+a",Rotman.Stanley;Rotman.Stanley,New Project,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-015,p-2026-029,"Subpixel target detection in hyperspectral images
+a",Rotman.Stanley;Rotman.Stanley,"hyperspectral, target detection",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-016,p-2026-028,"Hyperspectral large target detection - Via Reggio
+a",Rotman.Stanley;Rotman.Stanley,Hyperspectral target detection,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-018,p-2026-027,"Hyprspectral change detection: Segmented chronochrome
+a",Rotman.Stanley;Rotman.Stanley,ACE hyperspectral algorithm,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-019,p-2026-014,"Segmentation of Hyperspectral Images - target detection
+a",Rotman.Stanley;Rotman.Stanley,"hyperspectral target detection, edge suppression",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-021,p-2026-018,"Change detection in hyperspectral data: Hyperbolic change
+a",Rotman.Stanley;Rotman.Stanley,Hyperbolic change detection,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-024,p-2026-118,"Robustness to Adversarial Perturbations of Event-Camera
+הערכת החוסן להפרעות יריבות בראייה-מבוססת-אירועים",Stern.Adrian;Stern.Adrian;Hazan.Adir;Hazan.Adir,"Event camera, Physical adversarial attacks, Deep Neural Networks",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-025,p-2026-091,"Defending DNNs Against Adversarial with S2N2N
+הגנה על רשתות עצביות עמוקות מפני התקפות עוינות באמצעות S²N2N",Stern.Adrian;Stern.Adrian;Hazan.Adir;Hazan.Adir,"Adversarial Attacks on DNNs, 3D image denoising",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-026,p-2026-009,"Implementation of a IIoT/OT network and cyber security.
+הדמיית מערכת בקרה תעשייתית (IIoT/ OT) ומימוש הגנת סייבר",Tel-zur.Guy;Tel-zur.Guy,"Cyber, Industrial Internet of Things (IIoT), Operation Technology (OT), Machine Learning, Anomaly Detection, OpenPLC, OPC-UA.",,Computer Networks and Cloud Engineering
+2026,Engineering,Electrical and Computer Engineering,s-2026-027,p-2026-006,"Touch Mouse for Amputee Soldiers
+עכבר מגע לחיילים קטועי ידים",Arnon.Shlomi;Arnon.Shlomi;Levanon.Yafa;Levanon.Yafa,A I and deep learning,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-028,p-2026-001,"Robotic Assistance with AI Vision for Amputees soldiers
+סיוע רובוטי עם ראיית בינה מלאכותית לחיילים קטועי גפיים",Arnon.Shlomi;Arnon.Shlomi,A I and deep learning,,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-029,p-2026-002,"Robotic Navigation Platform for Wounded Soldiers
+ניוט פלטפורמה רובטית עבור חיילים פצועים",Arnon.Shlomi;Arnon.Shlomi,A I and deep learning robot,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-030,p-2026-005,"Modifying PlayStation for Amputee Soldiers
+התאמת מערכת הפלייסטיישן עבור חיילים קטועי גפיים",Arnon.Shlomi;Arnon.Shlomi;Levanon.Yafa;Levanon.Yafa,A I and deep learning,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-032,p-2026-004,"Deep learning of Newborns and infants' brains diffuse optica
+למידה עמוקה לטומוגרפיה של מוח תינוקות באמצעות קרינה אור מפוז",Arnon.Shlomi;Arnon.Shlomi,"A.I, Deep learning, NN",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-034,p-2026-034,"Cancer scan project - new scanner
+פרויקט סורק סרטן סורק חדש",Arnon.Shlomi;Arnon.Shlomi,new scaner,,Electromagnetics and Microwaves
+2026,Engineering,Electrical and Computer Engineering,s-2026-036,p-2026-066,"Brain chip-algorithm
+אלגוריתמים ציפ מוח",Arnon.Shlomi;Arnon.Shlomi,"brain chip, hardware",,Nano-Electronics and VLSI
+2026,Engineering,Electrical and Computer Engineering,s-2026-037,p-2026-072,"Learn-to-track graph variations
+עקיבה נלמדת עבור גרפים",Shlezinger.Nir;Shlezinger.Nir,Graph signals. Deep learning. Dynamic systems,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-039,p-2026-060,"Model-based deep learning for spatial audio processing
+למידה עמוקה מבססת מודל עבור אותות שמע מרחביים",Shlezinger.Nir,"Spatial audio processing, deep learning, optimization",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-040,p-2026-032,"Intelligent Traffic Semaphore
+a",Guterman.Hugo;Guterman.Hugo,"AI, Traffic Control, Image Processing, RT processing",,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-041,p-2026-030,"Detection, Identification and tracking of moving objects in IR images
+a",Guterman.Hugo;Guterman.Hugo,rt;learning;image processing;tracking,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-042,p-2026-031,"Design and Implementation of a Hovering Autonomous Underwater Vehicle (HAUV)
+תכנון ויישום של רכב תת ימי אוטונומי מרחף (HAUV)",Guterman.Hugo;Guterman.Hugo,navigation;signal processing;hauv;control;rov;image processing,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-044,p-2026-075,"Examination of neural networks based on biological retina
+מימוש ובחינת רשתות נוירונים מבוססות רשתית ביולוגית",Yitzhaky.Yitzhak;Yitzhaky.Yitzhak,"artificial neural networks, biological neural networks, eye diseases",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-045,p-2026-061,"Classification of objects at a very low resolution
+סיווג עצמים ברזולוציה נמוכה מאוד",Yitzhaky.Yitzhak;Yitzhaky.Yitzhak,"object classification, deep learning, low resolution",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-046,p-2026-043,"Facial expression recognition in different emotion situation
+זיהוי הבעות פנים במצבים רגשיים שונים",Yitzhaky.Yitzhak;Yitzhaky.Yitzhak,"Computer vision, deep learning, face expression recognitioמ",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-047,p-2026-050,"Thermal-to-Visible Conversion via Generative AI
+המרת פנים מתרמי לתחום הנראה ע""י בינה מלאכותית יצרנית",Yitzhaky.Yitzhak;Yitzhaky.Yitzhak,"deep learning, generative AI, facial images, face recognition",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-048,p-2026-038,"Restoration of motion blurred images using neural networks
+שחזור תמונה שנפגעה מתנועה בעזרת רשתות נוירונים",Yitzhaky.Yitzhak;Yitzhaky.Yitzhak,"Motion deblurring, deep learning, image restoration.",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-049,p-2026-062,"Super-resolution with application to millimeter-wave images
+העלאת רזולוציה ויישום בתמונות גלים מילימטריים",Yitzhaky.Yitzhak;Yitzhaky.Yitzhak,"deep learning, generative AI, millimeter-wave images",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-050,p-2026-065,"3D scene analysis using integral imaging and deep learning
+ניתוח המרחב בתלת מימד בעזרת דימות אינטגרלי ולימוד עמוק",Yitzhaky.Yitzhak,"3D object detection, deep learning, depth recognition, computational integral imaging",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-051,p-2026-076,"pressure sensor based on organic piezoelectric OTFT
+חיישן לחץ מבוסס על פיאזואלקטריק אורגניי וטרנזיסטור תוצר שדה",Shikler.Rafi;Shikler.Rafi,"OTFT,PVDF-TRFE, Piezoelctric",,Nano-Electronics and VLSI
+2026,Engineering,Electrical and Computer Engineering,s-2026-052,p-2026-041,"directional transducer from organic piezoelectric material
+מתנד כיווני מחומר פיאזואלקטרי אורגני",Shikler.Rafi;Shikler.Rafi,"piezoelectric, PVDF-TRFE, beam shaping",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-055,p-2026-134,"Object detection in video under adverse weather conditions
+שיפור ביצועי מודל זיהוי אוביקטים בוידאו בתנאי מ״א קשים",Birman.Raz;Birman.Raz;Hadar.Ofer;Hadar.Ofer;Agarwal.Shubham;Agarwal.Shubham,"Object Detection, AI,adverse weather conditions",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-056,p-2026-067,"Assessing object detection vs. Panoptic segmentation
+השוואת ביצועים של מודלים לזיהוי אוביקטים",Birman.Raz;Birman.Raz;Hadar.Ofer;Hadar.Ofer;Agarwal.Shubham;Agarwal.Shubham,"Panoptic Segmentation, AI ,adverse weather condition.",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-057,p-2026-069,"Adversarial Attacks in Multimodal Remote Sensing Systems
+התקפות עוינות במערכות חישה מרחוק רב-מודאליות",Birman.Raz;Birman.Raz;Hadar.Ofer;Hadar.Ofer,"Adversarial Attacks on AI models,multimodal fusion",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-058,p-2026-068,"Prompt Injection Attacks on Stable Diffusion
+התקפות שינוי פרומט על מודלי Stable Diffusion",Birman.Raz;Birman.Raz;Hadar.Ofer;Hadar.Ofer,"Stable Diffusion,adversarial attacks on diffusion models",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-060,p-2026-021,"Wide Output Voltage Range Flyback Converter
+ממיר FLYBACK עם תווך מתחי מוצא רחב",Peretz.Mor;Peretz.Mor,"Flyback, DC-DC, PCB, power management",,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-061,p-2026-022,"Intelligent centralized energy distribution system
+מרכזיה חכמה לניהול והפצת אנרגיה והספק",Peretz.Mor;Peretz.Mor,"Energy, power, dc-dc, PCB, control",,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-062,p-2026-023,"Accurate Phase Control in Very High Frequency Resonant CPT
+בקרת מופע במערכות תהודה להעברת הספק אלחוטי קיבולי בתדר גבוה",Peretz.Mor;Peretz.Mor,"Phase Control, High Frequency, wireless power transfer",,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-063,p-2026-024,"High-Order Impedance Matching for Large-Scale Resonant Circ.
+תיאום עכבות מסדר גבוה בפריסות נרחבות של מעגלי תהודה",Peretz.Mor;Peretz.Mor,"Impedance Matching, Resonant, PCB, control",,Electromagnetics and Microwaves
+2026,Engineering,Electrical and Computer Engineering,s-2026-064,p-2026-026,"On chip controller for high frequency PWM converters
+בקר על שבב לממירי PWM בתדר גבוה",Peretz.Mor;Peretz.Mor,"IC design, analog IC, control, PWM, high frequency, VLSI",,Nano-Electronics and VLSI
+2026,Engineering,Electrical and Computer Engineering,s-2026-065,p-2026-025,"Integrated Circuit Power Management System
+מערכת ניהול הספק על שבב",Peretz.Mor;Peretz.Mor,"VLSI, Power management, miniaturization, premium loads, chip design, analog circuits",,Nano-Electronics and VLSI
+2026,Engineering,Electrical and Computer Engineering,s-2026-068,p-2026-045,"Finding good network structure to minimize transmission time
+מציאת מבנה יעיל של הרשת המקטין זמן תגובה",Segal.Michael,spanning tree;reduced transmission delay;network optimization,,Computer Networks and Cloud Engineering
+2026,Engineering,Electrical and Computer Engineering,s-2026-070,p-2026-044,"Design and maintenance of swarm-based network
+תכנון ותחזוקה של רשת מבוססת נחיל רחפנים",Segal.Michael;Segal.Michael,"swarm of drones, machine learning, dynamic network",,Computer Networks and Cloud Engineering
+2026,Engineering,Electrical and Computer Engineering,s-2026-071,p-2026-053,"The cyber attack on car
+התקפת סייבר של מכונית",Segal.Michael;Segal.Michael,"cyber attack, car, CAN bus",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-073,p-2026-047,"Collaborative secure image matching
+התאמת תמונה מאובטחת שיתופית",Segal.Michael,"Visual Secret Sharingת Swarm of drones, Byzantine adversaries",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-074,p-2026-115,"Developing a user interface for an automated system that cha
+פיתוח ממשק משתמש למערכת אוטומטית המאפיינת תכונות של מערכת הש",Hadar.Ofer;Hadar.Ofer;Lazarovitch.Naftali;Lazarovitch.Naftali,"Precision Agricalture, optimal irrigation and fertilization, Plant's root analysis with AI",,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-075,p-2026-090,"Development and Implementation of Algorithms for Expanding S
+פיתוח אלגוריתמים להרחבת תחום מדידה של חיישנים ומימושם",Stern.Adrian;Osovizky.Alon,"sensors, dynamic range,",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-076,p-2026-011,"MEH-based AC power supply for service loads
+הזנת עומסי שירות במתח חלופין דרך קוצר אנרגיה מגנטית",Kuperman.Alon;Kuperman.Alon,TBD,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-077,p-2026-010,"MEH-based power injection into high-voltage line
+הזרקת אנרגיה אל קו מתח גבוה באמצעות קוצר אנרגיה מגנטית",Kuperman.Alon;Kuperman.Alon,TBD,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-078,p-2026-033,"Controlled MEH-based charging of Li-Ion Battery
+טעינה מבוקרת של סוללת ליתיום באמצעות קוצר אנרגיה מגנטית",Kuperman.Alon;Kuperman.Alon,TBD,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-079,p-2026-052,"עומס מכאני מבוקר
+Controlled mechanical load",Kuperman.Alon;Kuperman.Alon,TBD,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-080,p-2026-055,"Load-side converter for dual-winding MEH
+ממיר צד עומס עבור קוצר אנרגיה מגנטית דו-ליפופי",Kuperman.Alon;Kuperman.Alon,TBD,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-081,p-2026-059,"Speed-controlled electric drive
+מערכת הנע חשמלי מבוקרת מהירות",Kuperman.Alon;Kuperman.Alon,TBD,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-082,p-2026-125,"Novel switching ripple suppressor for DC-DC converters
+מנחית אדווה חדשני עבור ממירי מתח ישר",Kuperman.Alon;Kuperman.Alon,TBD,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-084,p-2026-015,"Machine learning- assisted shape estimation of a flexible an
+שערוך צורה של מערך אנטנות גמיש באמצעות למידת מכונה",Gal Katziri.Matan;Gal Katziri.Matan,"Machine learning, Flexible Electronics, RF, Antenna arrays",,Electromagnetics and Microwaves
+2026,Engineering,Electrical and Computer Engineering,s-2026-085,p-2026-016,"Microscale measurements at megahertz rates
+מדידה של תנועות מיקרוסקופיות בקצבי דגימה גבוהים",Gal Katziri.Matan;Gal Katziri.Matan,"Magnetic sensors, Microcontroller, Firmware development, Geology",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-086,p-2026-007,"Salinity Analysis in aqueuous
+מדידת מליחות במים",Gal Katziri.Matan;Gal Katziri.Matan,"Sensors, Impedance analysis, Data analysis, Spectroscopy, Linear circuits, Hardware development",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-087,p-2026-036,"Deep Learning Powered Non-Invasive Vital Sign Monitoring
+ניטור לא פולשני של סימנים חיוניים במטופל על ידי למידה עמוקה",Hadar.Ofer;Hadar.Ofer,"video motion magnificatio,vital signs in premature infants, AI and Deep Learning",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-088,p-2026-105,"Encrypted Internet Traffic Analysis
+ניתוח תעבורה מוצפנת ברשת",Sidorov.Michael;Sidorov.Michael;Hadar.Ofer;Hadar.Ofer,"Encrypted Internet Traffic Analysis machine learning (ML) models,Quality of Experience (QoE)",,Computer Networks and Cloud Engineering
+2026,Engineering,Electrical and Computer Engineering,s-2026-089,p-2026-020,"Inverse design for on-chip devices
+בינה מלאכותית להתקנים על השבב",Karabchevsky.Alina;Karabchevsky.Alina,"AI, Chip, Python",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-090,p-2026-088,"Three Dimensional Generic curved time-harmonic beam
+תכנון של אלומה תלת מימדית בתחום התדר מבוסס אלומות במרחב פאזה",Melamed.Timor,Electromagnetics; waves,,Electromagnetics and Microwaves
+2026,Engineering,Electrical and Computer Engineering,s-2026-092,p-2026-017,"Segmentation of hyperspectral images 2
+a",Rotman.Stanley;Rotman.Stanley,"Hyperspectral images, segmentation",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-093,p-2026-019,"Learning Algorithms for Spectrum Access
+אלגוריתמים לומדים לגישה לספקטרום",Cohen.Kobi;Cohen.Kobi,"Machine learning, AI, spectrum access",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-094,p-2026-035,"Active Power Factor Correction (APFC)
+תיקון גורם הספק אקטיבית",Peretz.Mor,"Board Design, controller, analog",,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-097,p-2026-074,"Exploring the design and application of metalenses
+חקירת התכנון והיישומים של מטא-עדשות",Shitrit.Nir;Shitrit.Nir,"Metasurfaces, Metalenses, Flat lenses, Flat optics, Nanostructures",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-099,p-2026-037,"AskUni: A Smart Assistant for Student Life
+AskUni: עוזר חכם לחיים הסטודנטיאליים",Vilenchik.Dan;Vilenchik.Dan,"Administrative chatbot,Large Language Models,Natural Language Processing Retrieval-Augmented Generation,Campus helpdesk",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-100,p-2026-039,"Constructing artificial hyperspectral cubes for data
+a",Rotman.Stanley;Rotman.Stanley,hyperspectral artificial cubes,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-101,p-2026-042,"Coordination between monitoring drones and mobile stations
+תאום בין רחפני ניטור לתחנות בסיס ניידות",Segal.Michael;Segal.Michael,"drones, mobile base stations, coordination",,Computer Networks and Cloud Engineering
+2026,Engineering,Electrical and Computer Engineering,s-2026-103,p-2026-051,"Cooperation between networks
+שיתוף פעולה בין הרשתות",Segal.Michael;Segal.Michael,"cooperation, swarm of drones, wireless sensor network",,Computer Networks and Cloud Engineering
+2026,Engineering,Electrical and Computer Engineering,s-2026-104,p-2026-058,"Deep Learning for Biomedical Imaging analysis
+למידה עמוקה עבור אנליזה של תמונות ביורפואיות",Riklin Raviv.Tammy;Riklin Raviv.Tammy,brain;neuroscience;deep learning;mri,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-105,p-2026-071,"Measurement of non-linear properties of 2D materials
+מדידת תכונות לא לינאריות של חומרים דו-מימדיים",Karabchevsky.Alina;Karabchevsky.Alina,"non-linear, devices, set-up, experiment",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-107,p-2026-054,"Computer Aid for Arm Amputees with Visual Impairments
+התקן עזר למחשב לקטוע יד עם בעיות ראיה",Arnon.Shlomi;Arnon.Shlomi,"Arm Amputees, Visual Impairments",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-108,p-2026-095,"Integration of a piezoelectrically-activated motorized slit
+שילוב סליט ממונע פיאזואלקטרי במערכת ספקטרוסקופית",Shalish.Ilan;Shalish.Ilan,LABVIEW position sensing spectroscopy,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-109,p-2026-056,"Hyperspectral anomaly detection
+a",Rotman.Stanley;Rotman.Stanley,Hyperspectral anomaly detection,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-110,p-2026-057,"temp_yotam_segev
+זמני_יותם_שגב",Vilenchik.Dan;Vilenchik.Dan,TBD,,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-111,p-2026-063,"Piezoelectric Resonance Frequency Identification System
+מערכת לזיהוי תדר רזוננס של גביש פיאזואלקטרי",Shalish.Ilan;Shalish.Ilan,Microcontroller Piesoelectric Crystal,,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-112,p-2026-073,"AI and Brain chip
+AI ציפ מוח",Arnon.Shlomi;Arnon.Shlomi,"brain chip, algorithm",,Nano-Electronics and VLSI
+2026,Engineering,Electrical and Computer Engineering,s-2026-113,p-2026-079,"Estimating the MTF from IMU and Image Data in Airborne Imagi
+חישוב פונקציית התמסורת האופטית (MTF) מנתוני IMU ומהתמונה במע",Birman.Raz;Birman.Raz;Hadar.Ofer;Hadar.Ofer,MTF • IMU • Motion Blur • Drone Imaging • Helicopter Vibration • Optical Transfer Function • Image Quality • Edge Analysis • Point Spread Function • Airborne Sensors,,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-114,p-2026-081,"design of advanced optical fibers
+תכנון סיבים אופטיים מתקדמים",Sivan.Yonatan;Sivan.Yonatan,אלקטרואופטיקה,,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-115,p-2026-092,"Controlled inductor based PWM converters
+ממיר ממותג מבוסס סליל מבוקר",Ben-yaakov.Shmuel;Ben-yaakov.Shmuel,magnetics;controlled inductor;pwm converters;power electronics,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-116,p-2026-089,"Voltage sensor based on Qgate
+חיישן מתח מבוסס Qgate",Ben-yaakov.Shmuel;Ben-yaakov.Shmuel,Flux gate; Qgate; voltage sensor; nonlinear capcitor,,Electromagnetics and Microwaves
+2026,Engineering,Electrical and Computer Engineering,s-2026-117,p-2026-094,"Controlled capacitor based resonant converters
+ממיר תהודה מבוסס קבל מבוקר",Ben-yaakov.Shmuel;Ben-yaakov.Shmuel,power electronics;voltage dependent capacitor;variable capacitor;resonant converters,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-118,p-2026-106,"MagViVid: Transformer-based Spatiotemporal Magnification App
+גישה מרחבית-זמנית מבוססת Trasformerלצורך ניטור מדדים חיונים",Hadar.Ofer;Hadar.Ofer,"Vital signals , Video monitoring, AI.",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-120,p-2026-155,"MCP server and caching
+פיתוח והתקנת שרת MCP כולל מטמון",Avin.Chen,"DML, inference, ChatGPT, client-server, MCP, caching.",,Computer Networks and Cloud Engineering
+2026,Engineering,Electrical and Computer Engineering,s-2026-121,p-2026-078,"See Hebrew
+יחידת סריקה לאיתור נעדרים על גבי רחפן אוטונומי",Avin.Chen;Avin.Chen,TBD,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-122,p-2026-084,"Capacity of optical intensity channel
+קיבולת ערוץ עוצמה אופטית",Derevyanko.Stanislav;Derevyanko.Stanislav,"Signal processing, communications, information theory",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-123,p-2026-093,"Geometric shaping in the FSO turbulent channel
+עיצוב גיאומטרי בערוץ FSO תחת השפעת טורבולנציה",Derevyanko.Stanislav;Derevyanko.Stanislav,"Information theory, optimization",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-124,p-2026-131,"Incoherent nonlinear combining of high intensity laser beams
+שילוב לא ליניארי לא קוהרנטי של אלומות לייזר בעוצמה גבוהה",Derevyanko.Stanislav;Derevyanko.Stanislav,"nonlinear optics, simulations",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-125,p-2026-077,"Multi-planar Brain MRI reconstruction using deep learning
+שחזור סריקות MRI ממנחים שונים באמצעות למידה עמוקה",Riklin Raviv.Tammy;Riklin Raviv.Tammy,mri acquisition;deep learning,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-128,p-2026-083,"HW implementation of SNN in NENGO environment on FPGA
+מימוש בחומרה של רשת SNN בסביבת מעטפת NENGO בפלטפורמת FPGA",Greenberg.Shlomo;Greenberg.Shlomo,SNN; NENGO;fpga;neural networks;tflm;ml,,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-129,p-2026-096,"design of advanced optical fibers
+תכנון סיבים אופטיים מתקדמים",Sivan.Yonatan;Sivan.Yonatan,אלקטרו-אופטיקה,,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-130,p-2026-085,"Compact LLM-Powered Robot for Assisting Wounded Soldiers
+הרובוט מונע על ידי מודל שפה קומפקטי לסיוע בחיילים פצועים",Arnon.Shlomi;Arnon.Shlomi,LLM,,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-132,p-2026-098,"Simulator localization of the Autonomous vehicle
+מערכת לוקזציה לרכב מירץ בזמן אמת",Bilik.Igal,Autonomous vehicle,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-133,p-2026-099,"Autonomous Real-Time Object Detection System Using LiDAR
+מערכת תיוג אוטומטי לתחומי עניין מנקודות ענן בזמן אמת",Bilik.Igal;Bilik.Igal,Race car BGR,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-134,p-2026-100,"Advanced Simulator for an Autonomous Racing Car Gazebo
+סימולטור מתקדם לרכב מירוץ אוטונומי בסביבת Gazebo",Bilik.Igal;Bilik.Igal,BGR Race Car,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-135,p-2026-137,"High Voltage DCDC Converter Design for Low Voltage Vehicle
+תכנון ממיר DCDC ממתח גבוה למערכות מתח נמוך ברכב מרוץ",Bilik.Igal,BGR Race car,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-136,p-2026-157,"Implementation of Quantum Key Distribution (QKD) in Free-Spa
+יישום של חלוקת מפתחות קוונטית (QKD) ב-Free-Spa",Greenberg.Shlomo;Greenberg.Shlomo;Manor.Erez;Manor.Erez,QKD; Quantum Key Distribution; FSOC: optical communication,,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-137,p-2026-087,"Distributed Search for Static Objects using Swarm of Drones
+חיפוש מבוזר של אובייקטים סטטיים באמצעות נחיל רחפנים",Segal.Michael,"swarm of drones, searching",,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-138,p-2026-122,"Microcontroller-controled Kelvin probe circuit
+מעגל גשש קלווין נשלט מיקרובקר",Shalish.Ilan;Shalish.Ilan,Photovoltaic effet; Kelvin probe; sensing; surface voltage;,,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-139,p-2026-126,"Hovering Autonomous Underwater Vehicle (HAUV)
+רכב תת ימי אוטונומי מרחף (HAUV)",Guterman.Hugo,navigation;signal processing;hauv;control;rov;image processing,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-140,p-2026-116,"Generative Deep Learning for Qubit State Synthesis
+למידה עמוקה גנרטיבית ליצירת מצבי קיוביטים",Nachmani.Eliya,"Quantum State Generation, Qubit Synthesis, Generative Models, Deep Learning, Quantum Machine Learning, Variational Autoencoders, Quantum Simulation",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-141,p-2026-112,"Speech-to-Speech Translation with Mamba Architecture
+תרגום דיבור לדיבור עם ארכיטקטורת Mamba",Nachmani.Eliya;Nachmani.Eliya,"Speech-to-Speech Translation, Mamba, State-Space Models, Neural Networks, Real-Time Translation, Speech Generation, Sequence Modeling",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-144,p-2026-114,"Neural Brain Fields for EEG Reconstruction with GS
+Neural Brain Fields לשחזור EEG באמצעות GS",Nachmani.Eliya;Nachmani.Eliya,"Emotional Voice Conversion, Active Speech Processing, Deep Learning, Voice Modulation, Real-Time Emotion Control, Speech Signal Processing, ANC-inspired Architecture",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-145,p-2026-113,"Deep Learning-Based Decoder for Quantum Error Correction Us
+מפענח מבוסס למידה עמוקה לתיקון שגיאות קוונטי באמצעות אלגורי",Nachmani.Eliya;Nachmani.Eliya,"Quantum Error Correction, Deep Learning, Minimum-Weight Perfect Matching, Neural Decoding, Surface Codes, Quantum Codes, Machine Learning, Fault-Tolerant Quantum Computing",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-147,p-2026-097,"Coding for semantic communication - 1
+קידוד לתקשורת סמנטית",Cohen.Asaf;Cohen.Asaf,"Semantic communication, machine learning, large language models, error correcting codes",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-149,p-2026-138,"Best arm Identification in the presence of a Copycat -1
+בחירת מומחה בטוחה -1",Cohen.Asaf;Cohen.Asaf,"best arm identification, estimation, coding",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-150,p-2026-108,"Secure Best Arm Identification in the Presence of a Copycat2
+בחירת מומחה בטוחה 2",Cohen.Asaf,"best arm identification, coding, estimation",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-151,p-2026-101,"Brain MRI analysis Using Deep Learning
+אנליזה של סריקות MRI של המוח על ידי למידה עמוקה",Riklin Raviv.Tammy;Riklin Raviv.Tammy,Brain MRI analysis Deep Neural Networks Medical Imaging Enhancement,,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-153,p-2026-119,"Future Electricity Grid
+רשת החשמל העתידית לשילוב מתחדשות",Routtenberg.Tirza;Routtenberg.Tirza;Hareli.Gad;Hareli.Gad,אנרגיה ואלקטרוניקת הספק בקרה למידת מכונה/למידה עמוקה סימולציה,,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-154,p-2026-102,"Solar Driven AC Triboelectric Nanogenerator
+ננוגנראטור טרייבואלקטרי מופעל בתא סולארי שמייצר זרם חילופין",Abdulhalim.Ibrahim;Abdulhalim.Ibrahim,"TENG, solar cells, triboelectric generators",,Power Systems and Energy Conversion
+2026,Engineering,Electrical and Computer Engineering,s-2026-155,p-2026-107,"Multichannel DC-balanced AC waveform generator for LCD
+מחולל אות חילופין מאוזן DC רב ערוצי להתקני LCD",Abdulhalim.Ibrahim,"LCD driver, function generators, portable drivers",,Nano-Electronics and VLSI
+2026,Engineering,Electrical and Computer Engineering,s-2026-156,p-2026-103,"Indoor Wi-Fi Signal Mapping Using a Drone
+מיפוי איכות קליטת Wi-Fi בחללים סגורים באמצעות רחפן",Gurewitz.Omer;Gurewitz.Omer,"RSSI, Wi-Fi, Drone",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-157,p-2026-110,"Hardware Interfaces and Control for Custom Delta Arm Robot
+ממשקי חומרה ובקרה לרובוט זרוע דלתא מותאם אישית",Bilik.Igal,"Delta Robot, ROS2, HW Interface",,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-158,p-2026-109,"Tracking and Analyzing Fish Movement Using Computer Vision a
+מעקב וניתוח תנועת דגים באמצעות ראייה ממוחשבת ולמידת מכונה",Hadar.Ofer;Hadar.Ofer;Jamal.Alaa;Jamal.Alaa,"Fish Detection, Counting, Movvment Tracking Using Image Processing and Neural Networks",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-160,p-2026-127,"Hardware Interfaces and Control for Autonomous Field Robot
+ממשקי חומרה ובקרה לרובוט שדה אוטונומי",Bilik.Igal;Bilik.Igal,Robot,,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-161,p-2026-117,"A K-divergence based training of Bayes classifier
+אימון של מסווג בייס מבוסס על מדד עיוות K",Todros.Koby;Todros.Koby,"Classification, divergences, machine learning, robust statistics.",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-162,p-2026-121,"A Hierarchical Deep Learning for Building Damage Assessment
+פתרון היררכי מבוסס למידה עמוקה לזיהוי נזקי מבנים מצילומי לוו",Hadar.Ofer;Hadar.Ofer;Aviv.Omer;Aviv.Omer,"Image Classification, Image Segmentation, Damage Classification, Deep Learning, Structural Damage Assessment",,Signal Processing
+2026,Engineering,Electrical and Computer Engineering,s-2026-163,p-2026-120,"A Predictive Modeling Framework for Smart Aquaculture
+מסגרת מידול חיזוי לחקלאות ימית חכמה",Hadar.Ofer;Jamal.Alaa,"systems modeling, optimization, and control engineering,Smart Aquaculture",,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-164,p-2026-128,"Automation of SPR biosensor in the spectral mode
+אוטומציה של ביוחיישן פלסמוני במוד הספקטראלי",Abdulhalim.Ibrahim,"Spectrometers, Plasmonic sensors, Refractive index measurements",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-165,p-2026-129,"Automation of operation and characterisation system of liqui
+אוטומציה של מערכת להפעלה ואפיון של התקני גביש נוזלי",Abdulhalim.Ibrahim,"liquid crystal devices, automation, optical measurements",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-167,p-2026-135,"Off grid communication unit
+יחידת תקשורת עצמאית",Routtenberg.Tirza;Routtenberg.Tirza;Nassi.David ;Nassi.David,"Off-Grid, Embedded system, Energy harvesting, LoRa, I2C, SPI, Analog sensing, GPS.",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-169,p-2026-141,"GCM Galois Multiplier HW implementation analysis for HF&LP
+בחינת מימושי חומרה של מכפל גלואה בתדר שעון גבוה והספק נמוך",Avin.Chen;Avin.Chen;Basher.Uria;Basher.Uria;Zevulun.Adir;Zevulun.Adir,"GCM, Galois multiplier, GM, high clock frequency, power",,Nano-Electronics and VLSI
+2026,Engineering,Electrical and Computer Engineering,s-2026-170,p-2026-140,"Billlie - Your personal bill assistant. Friendly. Punctual.
+בילי - העוזרת האישית שלך לתשלומים. אדיבה. מדויקת.",Vilenchik.Dan;Vilenchik.Dan,"Telegram bot, smart reminders, bill management, automation, AI assistant",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-171,p-2026-142,"Ethernet switch card development
+פיתוח כרטיס מתג Ethernet",Dabora.Ron;Dabora.Ron;Lampel.Eyal;Lampel.Eyal,"ETHERNET, B2B",,Computer Networks and Cloud Engineering
+2026,Engineering,Electrical and Computer Engineering,s-2026-172,p-2026-147,"Generic tests
+בדיקות גנריות",Dabora.Ron;Dabora.Ron;Marzuk.Eitan;Marzuk.Eitan,"Generic tests,",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-173,p-2026-146,"RFIC implementation in advanced communications projects
+לימוד וחקר טכנולוגיות RFIC למימוש בפרויקטי תקשורת מתקדמים",Gal Katziri.Matan;Gal Katziri.Matan;Boaron.Yaniv;Boaron.Yaniv,"RFIC, communications, XILINX",,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-174,p-2026-151,"Embedded iot system controller
+בקר מערכת IoT משובץ",Tel-zur.Guy;Tel-zur.Guy;Sberro.Pini ;Sberro.Pini ;Harari.Yehonatan;Harari.Yehonatan,"Embedded, IOT, controller, I2C, UART, USB, NCSI, MCU",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-175,p-2026-143,"LIFI – Light Fidelity Communicating at the speed of light
+LIFI – Light Fidelity תקשורת במהירות האור",Kuperman.Alon;Kuperman.Alon;Berliant.Roman;Berliant.Roman,LIFI – Light Fidelity Communicating at the speed of light,,Communications and Transmission Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-176,p-2026-145,"Variable polarization antenna
+אנטנה בעלת קיטוב משתנה",Shlivinski.Amir;Bauer.Reuven,"Variable polarization, antenna, Phased array",,Electromagnetics and Microwaves
+2026,Engineering,Electrical and Computer Engineering,s-2026-177,p-2026-144,"LLM-based code review system
+מערכת Code-review מבוססת LLM",Baskin.Chaim;Baskin.Chaim;Blumenfeld.Aviel;Blumenfeld.Aviel,"LLM, code Review, Pull Request",,Computer and Hardware Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-178,p-2026-156,"Multiple drones route planning using reinforcement learning
+תכנון מסלול למספר רחפנים באמצעות reinforcement learning",Segal.Michael;Sirkis.Amit,"drones, route planning, reinforcement learning",,Control Systems
+2026,Engineering,Electrical and Computer Engineering,s-2026-179,p-2026-152,"Radar radome mapping in the Anechoic chamber cell
+מיפוי ראדום מכ""מ בתא אל-הד",Shlivinski.Amir;Shlivinski.Amir;Golan.Or;Golan.Or,"Radar, radome, mapping, Anechoic chamber, cell",,Electromagnetics and Microwaves
+2026,Engineering,Electrical and Computer Engineering,s-2026-180,p-2026-153,"Tunable On-Chip Meta-Waveguides for Reprogrammable PIC
+מטה-מוליכי גל מתכווננים לשבבים פוטוניים מתכנתים",Karabchevsky.Alina,Integrated Photonics; Meta-Waveguides; Nanophotonic Metasurfaces; Lithium Niobate (LN); Liquid Crystals (LCs); Dynamic Light Control; Reprogrammable Optical Circuits; Optical Communication; Photonic Computing; Quantum Technologies,,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-181,p-2026-154,"AI-Driven Inverse Design of Metasurfaces for On-Chip
+תכנון מבוסס בינה מלאכותית של מתא-משטחים למיקוד אור על השבב",Karabchevsky.Alina,Integrated Photonics; Metamaterials; Inverse Design; Artificial Intelligence (AI); Nanophotonic Devices; Light Focusing; On-Chip Photonics; Optical Waveguides; Photonic Computing; Reprogrammable Optics,,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-182,p-2026-158,"High-Power Pulsed Fiber Laser for Yellow Light Generation
+לייזר סיב פולסי בעוצמה שיאית גבוהה ליצירת אור צהוב",Ishaaya.Amiel;Ishaaya.Amiel,"fiber laser, SRS, MOPA, Yellow laser, Frequency doubling",,Photonics and Electro-Optics
+2026,Engineering,Electrical and Computer Engineering,s-2026-183,p-2026-159,"The little seal bug
+שיחזור שיחה בצורה חכמה",Segal.Michael,side channel attack,,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-001,p-2025-077,"Constructing artificial hyperspectral cubes for data analysi
+א",Rotman.Stanley;Rotman.Stanley,"Hyperspectral, target detection, artificial cubes",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-002,p-2025-008,"Analysis of Historical documents - multispectral
+a",Rotman.Stanley;Rotman.Stanley,"multispectral, historical documents",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-003,p-2025-043,"Change detection in hyperspectral data
+a",Rotman.Stanley,Hyperbolic change detection,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-004,p-2025-021,"Considering the substitution target detection algorithm
+a",Rotman.Stanley;Rotman.Stanley,hyperspectral target detection,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-005,p-2025-038,"Segmentation of Hyperspectral Images - target detection
+a",Rotman.Stanley;Rotman.Stanley,"hyperspectral target detection, edge suppression",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-006,p-2025-031,"The Hyperspectral ACE Algorithm
+האלגוריתם ההיפרספקטרלי - ACE",Rotman.Stanley;Rotman.Stanley,ACE hyperspectral algorithm,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-007,p-2025-010,"Multi-pixel target detection in hyperspectral imagery
+זיהוי מטרות מרובות פיקסלים בתמונות היפרספקטרליות",Rotman.Stanley;Rotman.Stanley,Hyperspectral target detection,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-008,p-2025-057,"Hyperspectral target detection - Via Reggio
+a",Rotman.Stanley;Rotman.Stanley,Hyperspectral target detection,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-018,p-2025-098,"Design and maintenance of swarm-based network
+תכנון ותחזוקה של רשת מבוססת נחיל רחפנים",Segal.Michael;Segal.Michael,"swarm of drones, machine learning, dynamic network",,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-020,p-2025-116,"Improvement of GPS precision in automotive scenarios
+שיפור דיוק GPS בתרחישים של תנועת רכבים",Segal.Michael;Segal.Michael,"GPS measurement, location precision, automotive",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-022,p-2025-017,"design of advanced optical fibers
+תכנון סיבים אופטיים מתקדמים",Sivan.Yonatan;Sivan.Yonatan,"optical fibers, electro-optics, nanophotonics, simulations",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-024,p-2025-001,"Deep learning of Newborns and infants' brains diffuse optica
+למידה עמוקה לטומוגרפיה של מוח תינוקות באמצעות קרינה אור מפוז",Arnon.Shlomi;Arnon.Shlomi,"A.I, Deep learning, NN",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-026,p-2025-065,"Deep learning and DOT to detect breast cancer
+למידה עמוקה ן DOT לגילוי סרטן השד",Arnon.Shlomi;Arnon.Shlomi,Cancer scan - deep learning &image processing,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-028,p-2025-018,"Cancer scan project - new scanner
+פרויקט סורק סרטן סורק חדש",Arnon.Shlomi;Arnon.Shlomi,new scaner,,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-030,p-2025-002,"A.I and satellite communication and geolocation
+A.I ו בתקשורת לווינים וגיאו לוקציה",Arnon.Shlomi;Arnon.Shlomi,A.I and cyber security for satellite communication and geolocation,,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-034,p-2025-011,"QKD Quantum hacking attacks
+התקפות ופריצה למערכות הצפנה קוונטיות",Arnon.Shlomi,QKD Quantum hacking attacks,,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-036,p-2025-016,"AI-Aided Privacy Preserving Compression
+כיווץ ופרטיות מבוססי בינה מלאכותית",Shlezinger.Nir;Shlezinger.Nir,"machine learning, compression, privacy",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-038,p-2025-013,"Data-driven localization
+איכון מבוסס נתונים",Shlezinger.Nir;Shlezinger.Nir,"machine learning, array signal processing, localization",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-040,p-2025-014,"Data-Driven Lattices for Federated Learning
+שריגים מבוססי נתונים עבור למידה מבוזרת",Shlezinger.Nir,Federated learning Compression Lattice codes,,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-045,p-2025-005,"Modifying PlayStation for Amputee Soldiers
+התאמת מערכת הפלייסטיישן עבור חיילים קטועי גפיים",Arnon.Shlomi;Arnon.Shlomi;Levanon.Yafa;Levanon.Yafa,A I and deep learning,,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-046,p-2025-030,"Transportation monitoring using deep learning
+ניטור תחבורה באמצעות למידה עמוקה",Arnon.Shlomi;Arnon.Shlomi,deep learning synthesis method in,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-047,p-2025-003,"UWB-Guided Robotic Assistant for Injured Soldiers
+עוזר רובוטי מונחה UWB עבור חיילים פצועים",Arnon.Shlomi;Arnon.Shlomi;Levanon.Yafa;Levanon.Yafa,A I and deep learning,,Control Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-048,p-2025-026,"ML Decoder for Distorted and Interfered Satellite Links
+מפענח מבוסס למידת מכונה לקשרי לוויין עם עיוותים והפרעות",Permuter.Haim;Permuter.Haim,"MAchine learning, communication systems, Information theory",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-050,p-2025-153,"Color Event Cameras
+מצלמות אירועים צבעוניות",Stern.Adrian,"optical design, advanced camera, Event camera, PSF engineering, multichannel multiplexing, demultiplexing algorithms",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-053,p-2025-102,"Cross-Learning for Building Damage Classification
+אימון צולב והגדלת בסיס נתונים להערכת נזקים למבנה מאסונות טבע",Hadar.Ofer;Hadar.Ofer;Aviv.Omer;Aviv.Omer;Shmilovici .Armin;Shmilovici .Armin,"Comuter Vision and AI,Biulding damage assesment , Trasfer learning",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-059,p-2025-049,"Universal electronic interface between MEH and LIB
+ממשק אלקטרוני אוניברסלי בין קוצר אנרגיה מגנטית למצברי ליתיום",Kuperman.Alon,"dc-dc conversion, hardware, board design",,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-060,p-2025-068,"Electronic interface for PV-to-Hydrogen generator
+ממשק אלקטרוני בין תא שמש למחולל מימן",Kuperman.Alon;Kuperman.Alon,"Simulation, software, DSP, real time control.",,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-061,p-2025-075,"Magnetic Energy Harvester with Adjustable Series Capacitor
+קוצר אנרגיה מגנטית עם קבל טורי מתכוונן",Kuperman.Alon;Kuperman.Alon,TBD,,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-063,p-2025-078,"Reduced-ripple DC-DC converter
+ממיר DC-DC עם אדווה מופחתת",Kuperman.Alon,TBD,,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-064,p-2025-083,"Autonomous led lighting for aerial marker ball
+תאורת לד אוטונומית עבור כדור סימון אוירי",Kuperman.Alon;Kuperman.Alon,TBD,,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-065,p-2025-086,"Single-input dual-output power electronics converter
+ממיר אלקטרוני בעל כניסה אחת ויציאה כפולה",Kuperman.Alon,TBD,,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-067,p-2025-020,"Encrypted VC Traffic Classification for QoE Monitoring
+סיווג תעבורת שיחות וידאו מוצפנות לצורך ניטור חווית השימוש",Birman.Raz;Birman.Raz;Sidorov.Michael;Sidorov.Michael;Hadar.Ofer;Hadar.Ofer,"Zoom, Teams, WhatsApp, Video Conferencing, QoE, Encrypted traffic",,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-068,p-2025-036,"Monitoring the conservation of marine biodiversity with AI
+ניטור שימור המגוון הביולוגי הימי באמצעות AI",Birman.Raz;Birman.Raz;Hadar.Ofer;Hadar.Ofer,"Biodiversity, Marine Preservation, Object recognition and tracking",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-069,p-2025-019,"Attack and defense of Gen AI computer vision algorithms
+התקפה והגנה על אלגוריתמי ראייה ממוחשבת של AI Generative",Birman.Raz;Birman.Raz;Hadar.Ofer;Hadar.Ofer,"Generative AI, Adversarial attack, Computer vision",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-070,p-2025-006,"Characterization of biosensor based on field-effect device
+איפיון חשמלי של חיישן ביולוגי מבוסס התקן אפקט-שדה",Shalev.Gil;Shalev.Gil,"biosensing, field-effect",,Nano-Electronics and VLSI
+2025,Engineering,Electrical and Computer Engineering,s-2025-071,p-2025-106,"NN controlled PWM converter
+ממיר ממותג עם בקרת רשת עצבית",Ben-yaakov.Shmuel;Ben-yaakov.Shmuel,"Neural Network, Power converters; Switch mode converters",,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-072,p-2025-107,"Controlled capacitor based resonant converters
+ממיר תהודה מבוסס קבל מבוקר",Ben-yaakov.Shmuel;Ben-yaakov.Shmuel,power electronics;voltage dependent capacitor;variable capacitor;resonant converters,,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-073,p-2025-105,"Voltage sensor based on Qgate
+חיישן מתח מבוסס Qgate",Ben-yaakov.Shmuel;Ben-yaakov.Shmuel,Flux gate; Qgate; voltage sensor; nonlinear capcitor,,Electromagnetics and Microwaves
+2025,Engineering,Electrical and Computer Engineering,s-2025-075,p-2025-066,"Low-cost impedance analyzer
+מד אימפדנס",Gal Katziri.Matan,"Impedance analysis, hardware",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-076,p-2025-071,"ML assisted shape reconstruction of a flexible phased array
+שערוך צורה של מערך גמיש באמצעות למידת מכונה",Gal Katziri.Matan;Gal Katziri.Matan,"Machine learning, AI, ML, Phased-arrays, Antenna, Smart antennas",,Electromagnetics and Microwaves
+2025,Engineering,Electrical and Computer Engineering,s-2025-077,p-2025-079,"Measuring the position of fast-moving objects at microscale
+מדידה של תנועות מהירות בסקלה של מיקרונים",Gal Katziri.Matan;Gal Katziri.Matan,"Magnetic sensors, Hardware, MCU, Arduino",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-080,p-2025-055,"A Camera-base adaptive user-interface for Computer Games
+ממשק אדפטיבי מבוסס מצלמה למשחקי מחשב",Riklin Raviv.Tammy;Riklin Raviv.Tammy,Image Processing Computer Vision Camera Computer Game Interface Body gestures,,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-088,p-2025-094,"Laser-writing technology
+טכנולוגיית כתיבה בלייזר",Karabchevsky.Alina;Karabchevsky.Alina,experiment;programming,,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-090,p-2025-037,"Automation of spectral measurements
+אוטומציה של מערכות על שבב",Karabchevsky.Alina;Karabchevsky.Alina,labview;python;integrated circuits;systems;spectrum;automation,,Nano-Electronics and VLSI
+2025,Engineering,Electrical and Computer Engineering,s-2025-091,p-2025-025,"Beamforming with machine learning
+בימפורמינג עם מכונת למידה",Permuter.Haim,TBD,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-092,p-2025-032,"Encryption algorithms on an FPGA and Side Channels study.
+מימוש אלגוריתמי הצפנה על-גבי FPGA ומחקר ערוצי-צד (Side Chan)",Tel-zur.Guy;Tel-zur.Guy,"AES, AES128, AES192, AES256, FPGA, Verilog, TRNG, RNG, Random number generator. side channels.",,Nano-Electronics and VLSI
+2025,Engineering,Electrical and Computer Engineering,s-2025-100,p-2025-023,"Adversarial Patch Generation Using Conditional GAN
+יצירת מדבקות אדוורסריאליות באמצעות רשתות אדוורסריאליות גנרטי",Birman.Raz;Birman.Raz;Hadar.Ofer;Hadar.Ofer,"Adversarial Machine Learning, Conditional Generative Adversarial Networks (CGANs), Adversarial Patches, Security Testing, Robustness Evaluation.",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-101,p-2025-015,"Robotic Assistance with AI Vision for Amputees soldiers
+סיוע רובוטי עם ראיית בינה מלאכותית לחיילים קטועי גפיים",Arnon.Shlomi;Arnon.Shlomi;Levanon.Yafa;Levanon.Yafa,A I and deep learning,,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-102,p-2025-004,"Touch Mouse for Amputee Soldiers
+עכבר מגע לחיילים קטועי ידים",Arnon.Shlomi;Arnon.Shlomi;Levanon.Yafa;Levanon.Yafa,A I and deep learning,,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-103,p-2025-009,"Acceleration of DNN in a TFLM environment
+האצה של רשתות עצביות עמוקות בסביבת TFLM במעבד RISC",Greenberg.Shlomo;Greenberg.Shlomo;Manor.Erez;Manor.Erez,fpga;microcontroller;tflm;neural networks;ml;risc,,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-104,p-2025-050,"HW implementation of SNN in a TFLM environment on RISC
+מימוש בחומרה בשפת RTL של נוירון SNN בסביבת TFLM במעבד RISC",Greenberg.Shlomo;Greenberg.Shlomo;Manor.Erez;Manor.Erez,risc;microcontroller;fpga;neural networks;tflm;ml,,Nano-Electronics and VLSI
+2025,Engineering,Electrical and Computer Engineering,s-2025-105,p-2025-059,"SNN Implementation in a C-based TFLM environment on a RISC
+יישום רשתות SNN בסביבת TFLM מבוססת C במעבד RISC",Greenberg.Shlomo;Manor.Erez,ros;tflm;risc;neural networks;iot;fpga;ml,,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-106,p-2025-053,"Situational awareness detection based on EEG using Spiking Neural Networks
+זיהוי מודעות מצבית ורגשית מבוסס על מדידות EEG באמצעות לימוד מכונה ורשת עצבית SNN",Bensimon.Moshe;Bensimon.Moshe;Greenberg.Shlomo;Greenberg.Shlomo,eeg;snn;sdsp;אלגוריתמי למידה .;situational awareness;sctn,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-107,p-2025-054,"Drone detection based on event camera using SNN
+אלגוריתם לזיהוי רחפנים מבוסס מצלמת אירועים ורשת SNN",Bensimon.Moshe;Bensimon.Moshe;Greenberg.Shlomo;Greenberg.Shlomo,Drone detection;learning algorithms; event camera;snn;,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-108,p-2025-126,"Sound Localization and beamforming based on SNN.
+עיצוב אלומה ולוקליזציה של מקור קול מבוסס רשת SNN.",Bensimon.Moshe;Bensimon.Moshe;Greenberg.Shlomo;Greenberg.Shlomo,"beamforming; deep neural network (DNN); spiking neural network (SNN),GCC, sound localization.",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-110,p-2025-081,"Wide Output Voltage Range Flyback Converter
+ממיר FLYBACK עם תווך מתחי מוצא רחב",Peretz.Mor,"FLYBACK, Wide output, Analog, Digital",,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-114,p-2025-082,"High-Order Impedance Matching for Large-Scale Resonant Circ.
+תיאום עכבות מסדר גבוה בפריסות נרחבות של מעגלי תהודה",Peretz.Mor,"Impedance matching, Resonant circuits, analog design",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-115,p-2025-080,"Non-Linear Magnetics for Resonant Tuning
+מגנטיקה לא ליניארית לכוונון מעגלי תהודה",Peretz.Mor,"Magnetics, Resonant, Control, Analog, Power Electronics",,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-116,p-2025-033,"Implementing RISC-V Soft-core on an FPGA using open source t
+יישום ליבה רכה של מעבד RISC-V ברכיב FPGA בכלי קוד פתוח בלבד",Tel-zur.Guy,"RISC-V, FPGA, Soft core, open source, Verilog",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-118,p-2025-103,"Non-Intrusive, Cost-Effective Fish Biomass Estimation
+שיטה לא פולשנית וזולה לשערוך ביומסת דגים",Hadar.Ofer;Hadar.Ofer;Jamal.Alaa;Jamal.Alaa,"Precision Aquaculture, Fish Biomass Estimation, passive acoustics, Image Processing, Machine Learning.",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-120,p-2025-125,"Learning Algorithms for Cognitive Radio Communications
+אלגוריתמים לומדים למערכות תקשורת רדיו קוגניטיבי",Cohen.Kobi;Cohen.Kobi,"Learning algorithms, cognitive radio communication",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-121,p-2025-034,"Learning Algorithms for NOMA Communication Systems
+אלגוריתמים לומדים למערכות תקשורת נומה",Cohen.Kobi;Cohen.Kobi,"Learning algorithms, NOMA communication systems",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-122,p-2025-022,"AI-based Routing in Wireless Interference Networks
+ניתוב מבוסס AI ברשתות תקשורת עם הפרעות אלחוטיות",Cohen.Kobi;Cohen.Kobi,"Routing algorithm, machine learning",,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-125,p-2025-062,"Write My Book
+ספר לי סיפור",Vilenchik.Dan;Vilenchik.Dan,"LLMs, generative AI, books",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-127,p-2025-067,"MemeMend: Elevating Political Discourse
+MemeMend: משפרים את השיח הפוליטי",Vilenchik.Dan;Vilenchik.Dan,"hate speech detection, memes, XAI, generative AI",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-128,p-2025-052,"design of advanced optical fibers
+תכנון סיבים אופטיים מתקדמים",Sivan.Yonatan;Sivan.Yonatan,"electro-optic, optical fibers, electromagnetism, numerical computations",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-132,p-2025-024,"High-Efficiency Pump Source for High-Power Holmium laser
+פיתוח מקור שאיבה יעיל ללייזר הולמיום בעוצמה גבוהה",Ishaaya.Amiel,"High power laser, Thulium doped fiber laser",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-134,p-2025-039,"Protecting object detection ML models from weather
+הגנה על זיהוי עצמים וסיווג מודלים של ML ממ״א",Birman.Raz;Birman.Raz;Hadar.Ofer;Hadar.Ofer;Agarwal.Shubham;Agarwal.Shubham,"YOLO, Weather, Fog, Rain, Low Light",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-135,p-2025-029,"Adversarial Threats to Compressed Large Language Models
+איומים יריבים על מודלי שפה דחוסים",Birman.Raz;Hadar.Ofer,"LLM Models, Adverserial Attacks, Compreesed Models",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-136,p-2025-035,"AI-based routing in network simulator
+ניתוב מבוסס בינה מלאכותית בסימולטור רשת",Cohen.Kobi;Cohen.Kobi,Routing,,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-137,p-2025-063,"Graph Signal Processing Tool for S&P 500 Analysis
+עיבוד אותות על גרפים לניתוח מדד S&P 500",Routtenberg.Tirza,"Graph Signal Processing, Blind Estimation",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-140,p-2025-047,"GCM farm pipe allocation policies modeling and performance
+GCM farm pipe allocation policies modeling and performance",Avin.Chen;Avin.Chen;Basher.Uria;Basher.Uria;Rom.Noam;Rom.Noam,"GCM, modeling, pipe allocation, performance, simulation",,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-141,p-2025-046,"CHI HNF Implement and Trade-offs in Multi-Core Multi-Thread
+CHI HNF – מימוש ותיעדוף בחוות מעבדים עם ריבוי נימים",Permuter.Haim;Permuter.Haim;Basher.Uria;Basher.Uria,"HNF, CHI, coherency protocol, multi-core, multi-thread RISC-V core farm",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-142,p-2025-044,"PCIe Gen6 Pre-Silicon Bandwidth Testing
+בחינת רוחב הפס של מימוש פרוטוקול PCIe דור 6 בשלב קדם-סיליקון",Tel-zur.Guy;Tel-zur.Guy,"pcie, transaction layers, performance, simulation",,Nano-Electronics and VLSI
+2025,Engineering,Electrical and Computer Engineering,s-2025-143,p-2025-040,"Optimizing the Formal Verification of the Serdes UGL
+אופטימיזציית האימות הפורמלי לשכבת החיבור של ה-SerDes",Ben-Shimol.Yehuda;Ben-Shimol.Yehuda;Margulis.Adi;Margulis.Adi,"Formal Verification, SAT, RBV (Proprietary Higher level Verilog Language), Reductions & Abstractions, Chip Design, ASIC, Networking",,Nano-Electronics and VLSI
+2025,Engineering,Electrical and Computer Engineering,s-2025-144,p-2025-045,"Lightweight Area Implementation for Branch Prediction in Mul
+מימוש חיזוי קפיצות קטן בשטח במעבד RiscV מרובה תהליכונים",Tel-zur.Guy;Tel-zur.Guy;Margulis.Adi;Margulis.Adi;Basher.Uria;Basher.Uria,"RiscV, Multi-Thread, Branch-Prediction",,Nano-Electronics and VLSI
+2025,Engineering,Electrical and Computer Engineering,s-2025-145,p-2025-041,"non-fullerene based organic solar cells
+תאי שמש אורגניים שמבוססים על מולקולות לא פולרניות",Shikler.Rafi,"non-fullerene, organic solar cells, ternary blend",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-146,p-2025-042,"Microcontroller-controled Kelvin probe circuit
+מעגל גשש קלווין נשלט מיקרובקר",Shalish.Ilan;Shalish.Ilan,Photovoltaic effet; Kelvin probe; sensing; surface voltage;,,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-147,p-2025-051,"Implementation of quantum key distribution (QKD)
+יישום החלפת מפתחות קוונטים (QKD)",Greenberg.Shlomo;Greenberg.Shlomo,"Quantum Key Distribution (QKD), FPGA, Encryption",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-148,p-2025-060,"Implementation of Deep neural network on FPGA
+פיתוח ויישום של רשת עצבית מואצת בפלטפורמת FPGA",Greenberg.Shlomo;Greenberg.Shlomo,"FPGA, DNN, SNN, Neural network, RISC",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-149,p-2025-058,"Detecting human movements based on geophone sensor and SNN
+אלגוריתם לזיהוי תנועות אדם מבוסס סנסור גיאופוני ורשת SNN",Greenberg.Shlomo;Greenberg.Shlomo,"SNN, Geophone sensor, human movements detection",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-150,p-2025-056,"Image Processing Camera Interface for PC Games
+עיבוד תמונה עבור ממשק מצלמה עבור משחקי מחשב",Riklin Raviv.Tammy;Riklin Raviv.Tammy,"Image Processing, computer games, camera-based interface",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-152,p-2025-099,"Design of a BMS for an Electric Racing Car Battery
+תכנון BMS לסוללת רכב מרוצים חשמלי",Bilik.Igal;Bilik.Igal,BMS,,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-154,p-2025-095,"STM-F7 CODE VCU + SUBVCU
+STM-F7 CODE VCU + SUBVCU",Bilik.Igal;Bilik.Igal,STM-F7 VCU SUBVCU,,Control Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-155,p-2025-097,"sensor fusion
+היתוך מידע מחיישני רכב",Bilik.Igal,sensor fusion Lidar camera BGR,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-157,p-2025-096,"Drone radar
+מכמ לרכפנים",Bilik.Igal;Bilik.Igal,drone;senssing;uav;radar,,Electromagnetics and Microwaves
+2025,Engineering,Electrical and Computer Engineering,s-2025-158,p-2025-061,"Simulation of SNN neural network in NEF shell
+סימולציה ומימוש של רשת עצבית SNN במעטפת NEF",Greenberg.Shlomo;Greenberg.Shlomo,"SNN, FPGA, NEF, NENGO",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-159,p-2025-070,"Deep Learning-based Timestamping for ENF Signals
+אימות חתימת זמן מבוססת למידה עמוקה של אותות ENF",Routtenberg.Tirza,Graph Signal Processing,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-160,p-2025-069,"Camera interface to computer games via Image processing
+ממשק מצלמה עבור משחקי מחשב באמצעות עיבוד תמונה",Riklin Raviv.Tammy;Riklin Raviv.Tammy,"Camera, Image Processing, computer games, user interaction",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-161,p-2025-074,"CalcCracker: Cracking Calculus Challenges with AI
+חדו״א בחדווה: למידת מכונה ללמידה עצמית",Vilenchik.Dan,"Self-Training Platform, Calculus, Large Language Models (LLMs), Personalized Exercises, Motivational Strategies.",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-162,p-2025-104,"Diffusion model hacking with evolutionary algorithm using bl
+פריצת מודל דיפוזיה באמצעות אלגוריתם אבולוציוני בשיטת קופסה ש",Hadar.Ofer;Hadar.Ofer;Shmueli.Shachar;Shmueli.Shachar,"black box, diffusion model, adversary attack",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-163,p-2025-084,"Fast instrumentation amplifier
+מגבר מיכשור מהיר",Gal Katziri.Matan;Gal Katziri.Matan,,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-164,p-2025-093,"Processing line implementation in HLS
+מימוש קו עיבוד ב-HLS",Riklin Raviv.Tammy;Riklin Raviv.Tammy,"HLS, HDL Coder",,Nano-Electronics and VLSI
+2025,Engineering,Electrical and Computer Engineering,s-2025-165,p-2025-091,"Implementation of DSP algorithm on Versal AI Engines
+הטמעת אלגוריתם DSP על מנועי Versal AI",Dabora.Ron;Dabora.Ron,"AI, VERSAL-FPGA, XILINX",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-171,p-2025-087,"Streamline recording and decoding infrastructure for RF chan
+ייעול תשתיות הקלטה ופענוח לערוצי RF בפרויקטים מבוססי RFSOC",Gal Katziri.Matan;Gal Katziri.Matan,"RF, RFSOC",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-172,p-2025-092,"Beam optimization in PA radars given faulty elements
+אופטימיזציה של אלומה במכ""מי PA בהינתן אלמנטים תקולים",Bilik.Igal,Phased Array,,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-173,p-2025-088,"Panoramic view image
+תמונת מבט על פנורמית",Riklin Raviv.Tammy;Riklin Raviv.Tammy,"panorama, camera",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-174,p-2025-100,"Target detection in hyperspectral images
+a",Rotman.Stanley;Rotman.Stanley,"hyperspectral, target detection",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-175,p-2025-111,"In-Network Computing for ML Acceleration
+מנגנוני עיבוד תוך-רשתי להאצת חישובי למידת מכונה",Scalosub.Gabriel;Scalosub.Gabriel,"In-network computing; data center networks, distributed ML",,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-176,p-2025-112,"Micro-architectural amplification of side-channel attacks
+הגברה מבוססת מיקרו-ארכיטקטורה של התקפות ערוצי-צד",Scalosub.Gabriel,"Side-channel attacks, micro-architectural attacks, fingerprinting, cache attacks",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-177,p-2025-128,"DLB
+DLB",Gurewitz.Omer;Gurewitz.Omer,DLB,,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-178,p-2025-122,"Semantic Segmentation models for off-road Teleoperation
+מודלים לסגמנטציה סמנטית עבור טלאופרציה של רובוט בתנאי שטח",Dror.Itai;Hadar.Ofer,"off-road teleoperation, semantic segmentation, vision transformers, deep learning",,Control Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-179,p-2025-118,"The cyber attack on car
+התקפת סייבר של מכונית",Segal.Michael;Segal.Michael,"cyber attack, car, CAN bus",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-180,p-2025-109,"Studying the effectiveness of hybrid video compression
+חקר יעילות דחיסת ווידאו היברידית לצרכי ניהוג מרחוק",Dror.Itai;Dror.Itai;Hadar.Ofer;Hadar.Ofer,": remote driving, autonomous vehicle, semantic mapping using AI tools, autonomous driving simulator, video compression, observers’ experiment",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-181,p-2025-123,"Shadow Walk
+הליכה בצל",Gurewitz.Omer;Gurewitz.Omer,TBD,,Control Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-182,p-2025-117,"Enhancing liquid crystal tunable filters performance
+הגברת הביצועים של מסנננים גביש נוזלי מתכווננים",Abdulhalim.Ibrahim;Abdulhalim.Ibrahim,"liquid crystal tunable filters, spectral imaging, electrooptic devices",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-183,p-2025-114,"AI Assisted Fourier transform liquid crystal spectrometer
+ספקטרומטר פורייה טרנספורם מגביש נוזל מוגבר עם בינה מלאכותית",Abdulhalim.Ibrahim;Abdulhalim.Ibrahim,"liquid crystal devices, Fourier Transform Spectrometer, Spectral Imaging",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-184,p-2025-110,"Hybrid volume integral equation and many body problem solver
+פותרן משולב למשוואות אינטגרליות ובעיות מרובות גופים",Brick.Yaniv,"acoustic scattering, integral equations, fast methods, acoustic metamaterials",,Electromagnetics and Microwaves
+2025,Engineering,Electrical and Computer Engineering,s-2025-185,p-2025-108,"Adversarial Attacks on Tabular Data: LLMs vs. Classical ML
+התקפות אדברסריאליות על מידע טבלאי : מודל שפה מול מודל קלאסי",Hadar.Ofer;Hadar.Ofer;Kazoom.Roie;Kazoom.Roie,"Large Language Models, Adversarial Attacks, Model Vulnerabilities, Model Inversion, Data Poisoning, Prompt Injection, AI Security.",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-186,p-2025-113,"Combined plasmonic and electrochemical biosensor
+ביוחיישן פלסמוני ואלקטרוכימי משולב",Abdulhalim.Ibrahim;Abdulhalim.Ibrahim,"biosensors, SPR, electrochemical",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-187,p-2025-120,"Synthetic Communication Traffic Generator for ML Jobs
+מייצר תעבורת תקשורת סינטטית עבור חישובי למידת מכונה",Avin.Chen;Avin.Chen,"ML, data centers, trace, trafic generator",,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-189,p-2025-119,"Automotive Cognitive Radar for Urban Scenarios
+מכמ קוגניטיבי לפעולה בסביבה עירונית",Bilik.Igal,"radar, source localization, cognitive radar",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-190,p-2025-121,"Developing AI Agent For Smart Homes
+פיתוח סוכן בינה מלאכותית לבתים חכמים",Avin.Chen,"chatbot, LLM, smart house",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-191,p-2025-127,"Camera-based Man-machine interface for rehabilitation
+ממשק אדם-מכונה מבוסס מצלמה לשיקום",Riklin Raviv.Tammy;Riklin Raviv.Tammy,Image Processing Man-Machine Interface Rehabilitation Action Recognition,,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-192,p-2025-124,"SimuDrone: An OMNeT++-Based Simulator for Autonomous Drones
+סימולטור מבוסס OMNeT++ לרשת רחפנים אוטונומית",Gurewitz.Omer;Gurewitz.Omer,OMNeT++- Drones,,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-193,p-2025-129,"RL-Based MAC Protocols for WSN
+פרוטוקול גישה לערוץ מבוסס RL לרשתות חיישנים",Gurewitz.Omer;Gurewitz.Omer,Reinforcement learning MAC protocols Wireless Sensor Networks (WSN),,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-194,p-2025-130,"Faster liquid crystal devices with dual frequency operation
+התקני גביש נוזל יותר מהירים מופעלים במוד דו תדרי",Abdulhalim.Ibrahim,"liquid crystal devices, fast modulators, electrooptics, driving schemes",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-195,p-2025-131,"Miniature driver for liquid crystal devices
+דרייבר זעיר להתקני גביש נוזלי",Abdulhalim.Ibrahim,"liquid crystal devices, function generators, electrooptic devices and systems",,Photonics and Electro-Optics
+2025,Engineering,Electrical and Computer Engineering,s-2025-196,p-2025-137,"TestBed for Satellite Emulation
+ראה אנגלית",Segal.Michael,cyber-attacks,,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-199,p-2025-132,"clock Tree Power Optimization by on a High Frequency system
+ייעול צריכת הספק במערכת בעלת תדר גבוה ע""י מציאת מיקום אידיאל",Gal Katziri.Matan;Bar-David.Netanel,"Clock-Tree, Dynamic Power-Optimization, Design Synthesis, Power Artist/PTPX, Fusion Compiler",,Nano-Electronics and VLSI
+2025,Engineering,Electrical and Computer Engineering,s-2025-200,p-2025-135,"Telemetry System For Formula Racing Team
+מערכת טלמטריה לרכב מירוץ",Bilik.Igal;Bilik.Igal,"Telemtry, BGR team",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-201,p-2025-144,"BMI Prediction From Brain MRI Scans Using Deep Learning
+חיזוי BMI מסריקות MRI של המוח על ידי למידה עמוקה",Riklin Raviv.Tammy;Riklin Raviv.Tammy,Generative AI Deep Neural Networks Medical Imaging Enhancement,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-202,p-2025-138,"Predictive Modeling of Water Quality Parameters with ML
+שיטה לחיזוי איכות מים בבריכות דגים בשימוש בלמידה מכוננה",Hadar.Ofer;Hadar.Ofer;Jamal.Alaa;Jamal.Alaa,"Water Quality, Machine Learning, Precision Agricalture .",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-204,p-2025-139,"Flyback Converter
+ממיר FLYBACK",Peretz.Mor,"Flyback, AC to DC",,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-205,p-2025-140,"Impedance Matching for Resonant Circuits
+תיאום עכבות במעגלי תהודה",Peretz.Mor,"Impedance, Resonance",,Electromagnetics and Microwaves
+2025,Engineering,Electrical and Computer Engineering,s-2025-206,p-2025-141,"Application of Non-Linear Magnetics
+יישום מגנטיקה לא ליניארית",Peretz.Mor,"Non-Linear, Application",,Electromagnetics and Microwaves
+2025,Engineering,Electrical and Computer Engineering,s-2025-207,p-2025-142,"Class-D GaN Based Audio Amplifier
+מגבר שמע CLASS-D מבוסס GAN",Peretz.Mor,"Class D, Audio, Amplifier.",,Power Systems and Energy Conversion
+2025,Engineering,Electrical and Computer Engineering,s-2025-210,p-2025-143,"Capacity of optical wireless communication channels
+קיבולת של ערוצי תקשורת אלחוטיים אופטיים",Derevyanko.Stanislav,"Signal processing, communications, information theory",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-211,p-2025-150,"Geometric shaping in the nonlinear phase noise channel
+עיצוב גיאומטרי בערוץ רעש הפאזה הלא ליניארית",Derevyanko.Stanislav;Derevyanko.Stanislav,"Information theory, nonlinear fiber optics, optimization",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-213,p-2025-147,"Man-Machine-Camera Interactive system
+מערכת אינטראקטיבית מבוססת אדם-מכונה-מצלמה",Riklin Raviv.Tammy,"image Processing, Interactive System, Man-Machine Interface",,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-214,p-2025-146,"Real time emulation of fusion reactor parameters variation
+הדמיית שינוי פרמטרים של כור היתוך בזמן אמת",Kuperman.Alon,TBD,,Control Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-215,p-2025-148,"Adaptive Calibration of Zero IF Modulator/Demodulator
+Adaptive Calibration of Zero IF Modulator/Demodulator",Gal Katziri.Matan;Gal Katziri.Matan,"Adaptive Calibration, IF, Modulator, Demodulator",,Communications and Transmission Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-216,p-2025-151,"Leveraging Visual Question Answering Models for Adversarial
+שימוש במודלים של מענה לשאלות חזותיות לזיהוי התקפות יריבות",Hadar.Ofer;Hadar.Ofer,"Visual Question Answering (VQA), Adversarial Attacks, Visual Data, Semantic Understanding, Anomalies Detection, Image Recognition, Robustness, Adversarial Perturbations, Textual Modalities, Standard Datasets",,Computer and Hardware Systems
+2025,Engineering,Electrical and Computer Engineering,s-2025-218,p-2025-149,"Drones over cellular
+רחפנים מעל רשת סלולארית",Gurewitz.Omer,"Drones, Cellular network",,Computer Networks and Cloud Engineering
+2025,Engineering,Electrical and Computer Engineering,s-2025-220,p-2025-152,"Analyzing SAR Imagery
+a",Rotman.Stanley,New Project,,Signal Processing
+2025,Engineering,Electrical and Computer Engineering,s-2025-221,p-2025-154,"Radar Classification using Deep Learning Networks
+סיווג מכ""ם באמצעות Deep Learning Networks",Tabrikian.Joseph;Bilik.Igal,drone;senssing;uav;radar,,Signal Processing

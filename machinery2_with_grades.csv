@@ -1,0 +1,89 @@
+﻿מספר קורס,שם קורס,"נק""ז",קורסי חובת מעבר,2025A,2025B,2024 A,2024 B
+20119711,"חדו""א 1 להנדסה",5.0,,73.47,60.0,84.0,80.0
+20119321,אלגברה ליניארית להנדסה,4.5,,73.89,81.68,84.0,84.0
+20411571,כימיה בסיסית להנדסה,4.5,,69.96,Label Not Found,84.0,80.0
+20411593,כימיה בסיסית - הדגמות,0.5,,76.55,Label Not Found,84.0,80.0
+36211163,מבוא להנדסת מכונות,1.5,,85.09,Label Not Found,84.0,70.0
+36211011,גרפיקה הנדסית,5.0,,75.41,Label Not Found,84.0,Empty PDF / Image
+36010011,הכרת הספרייה,,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+90055001,לומדה למניעת הטרדה מינית,0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+20119721,"חדו""א 2 להנדסה",5.0,20119711,Label Not Found,74.23,Empty PDF / Image,84.0
+36212232,תכנות למהנדסי מכונות,4.0,,Label Not Found,83.28,Empty PDF / Image,84.0
+15315051,אנגלית מתקדמים2 (טכנולוגיה)*,2.0,15315041,82.4,85.09,84.0,84.0
+36211143,מעבדה לגרפיקה ממוחשבת מעשית,2.0,36211011,Label Not Found,90.39,Empty PDF / Image,84.0
+36212181,תכונות מכאניות של חומרים,4.0,,Label Not Found,75.96,Empty PDF / Image,84.0
+36211061,סטאטיקה,4.0,,Label Not Found,77.04,Empty PDF / Image,84.0
+20119771,"חדו""א 3 להנדס' מכונות",4.0,"20119721, 20119321",74.78,Label Not Found,84.0,Empty PDF / Image
+20311491,פיסיקה 2ב,3.5,36211061,61.96,62.08,80.0,80.0
+36212221,דינמיקה,5.0,36211061,76.13,Label Not Found,80.0,60.0
+36212241,תרמודינמיקה,6.0,,78.97,Label Not Found,84.0,75.0
+36212161,טכנולוגיות הייצור,3.5,36212181,73.41,Label Not Found,84.0,85.0
+20119471,משוואות דיפרנציאליות חלקיות להנדסת מכונות,2.5,20119771,Label Not Found,83.48,Empty PDF / Image,84.0
+36213401,מערכות ליניאריות,3.5,20119321,Label Not Found,75.36,Empty PDF / Image,80.0
+36212151,מכשור ומדידות,2.5,,Label Not Found,77.98,Empty PDF / Image,80.0
+36212121,חוזק חומרים,6.0,"20119321, 20119771, 36211061",Label Not Found,83.33,Empty PDF / Image,84.0
+36212331,תורת הזרימה,6.0,"20119771, 36212241",Label Not Found,69.39,Empty PDF / Image,80.0
+36212173,סדנא לתוכנות מחשב הנדסיות,1.0,,Label Not Found,82.97,Empty PDF / Image,84.0
+36211153,מעבדה להנדסת מכונות1,2.0,"36212151, 36212121, 36212241",86.31,Label Not Found,84.0,80.0
+36212242,תיכון מכונות,6.0,"36212121, 36211011",84.53,Label Not Found,84.0,70.0
+36213471,מערכות בקרה,6.0,36213401,83.02,Label Not Found,84.0,80.0
+36213261,מעבר חום,6.0,36212331,70.06,Label Not Found,84.0,80.0
+36211133,מעבדה להנדסת מכונות2,2.0,"36212331, 36213261, 36213471",Label Not Found,90.06,Empty PDF / Image,84.0
+36214791,תורת התנודות,3.5,36212221,Label Not Found,77.22,Empty PDF / Image,84.0
+36213321,תורת המכונות,3.5,36211061,Label Not Found,80.59,Empty PDF / Image,80.0
+36213341,שיטות נומריות בהנדסה,4.0,"20119721, 36212232",Label Not Found,73.51,Empty PDF / Image,80.0
+36214663,פרויקט בתיכון מכונות,2.5,36212242,Label Not Found,93.57,Empty PDF / Image,84.0
+36213071,שיטות סטטיסטיות בהנדסה*,4.0,,Label Not Found,81.84,Empty PDF / Image,84.0
+36214503,פרויקט הנדסי1,3.0,,90.46,96.09,84.0,85.0
+36212191,מבוא להנדסת חשמל למכונות,4.0,"20119771, 20311491",81.46,Label Not Found,84.0,75.0
+36214201,מיקרו-מחשב במערכות מכניות,3.5,"20212232, 36213471",88.95,Label Not Found,80.0,Empty PDF / Image
+36214383,זרימה צמיגה,3.0,36212331,Label Not Found,79.0,Empty PDF / Image,75.0
+36214451,מכניקת זורמים שימושית,3.0,36212331,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36213111,מבוא לתורת האלסטיות,3.0,36212121,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36215811,טריבולוגיה,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214701,תיכון תרמי,3.0,36213261,Label Not Found,Label Not Found,80.0,Empty PDF / Image
+36214861,אנרגיה סולרית,3.0,36213261,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36213461,תיכון מכונות בעזרת אלמנטים סופיים,3.0,36213091,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36114151,מערכות הספק1,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36513491,בחירת חומרים,3.0,36212181,93.4,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36514471,התמצקות וריתוך,3.0,36213261,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+37414106,תחמושת ונפיצים - עקרונות בטיחות ואפקטים פיזיקליים,2.5,37414104,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214913,ניהול הנדסי,3.0,,91.53,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214452,שיטות אופטימיזציה לתכן,3.0,,Label Not Found,88.5,Empty PDF / Image,Empty PDF / Image
+36214574,חשמל וחוקי בטיחות ברכב חשמלי,3.0,,79.78,Label Not Found,80.0,Empty PDF / Image
+36214291,דינמיקה ובקרה של כלי רכב,3.0,"36212221, 36213471",Label Not Found,Label Not Found,85.0,Empty PDF / Image
+36215732,מבוא לבקרה ליניארית מודרנית,3.5,36213471,Label Not Found,Label Not Found,Empty PDF / Image,80.0
+36214242,תכנון ובנייה של מערכות בקרה שימושיות,3.0,36213471,Label Not Found,91.0,Empty PDF / Image,Empty PDF / Image
+36213601,מבוא לעיבוד שבבי,3.5,36211133,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214111,מבוא לטכנ' של חלקיקים ואבקות,3.0,36212331,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214705,מבוא לתיב''מ הנדסי,3.0,36212242,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36114161,מערכות הספק2,3.0,36114151,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36114581,הנע חשמלי,3.0,,Label Not Found,73.92,Empty PDF / Image,55.0
+36114071,מבוא להנדסת מתח גבוה,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+37414118,אירועים חריגים 3 - מבוא לניהול אירועים חריגים,2.5,36213071,Label Not Found,88.71,Empty PDF / Image,80.0
+37414104,אירועים חריגים 2 - מבוא למיגון מבנים,2.5,36214791,Label Not Found,83.18,80.0,80.0
+37414105,שדרוג מיגון מבנים,2.5,37414104,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36512011,תורת החומרים2,3.5,36212181,Label Not Found,74.71,Empty PDF / Image,80.0
+36514791,חומרים קרמיים,3.0,36212181,78.25,Label Not Found,80.0,Empty PDF / Image
+36215442,מבוא לתורת הנקעים,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214493,הפיסיקה של האופטיקה השימושית,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36224494,מבוא לתכנות מקבילי,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214381,זרימה דחיסה,3.0,"36212331, 36212241",90.04,Label Not Found,65.0,Empty PDF / Image
+36215521,מבוא לתורת הקליפות והלוחות,3.0,36212121,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214641,תורת חוזק מתקדמת,3.0,36212121,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36213091,מבוא לאנליזת אלמנט סופי,3.0,36212121,Label Not Found,92.77,Empty PDF / Image,75.0
+36215491,מבוא לניתור בריאות מבנים,3.0,36212121,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214541,מיזוג אויר וקירור,3.0,"36213261, 36212121",Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36215271,ניתוח תרמי מערכות אלקטרוניות,3.0,36213261,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36213641,מעבר מסה,3.0,36213261,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214282,תיכון אנליזה ובניית מבנים מחומרים מרוכבים,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214334,מבוא להנדסת חלל ולוויינים,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214422,מבוא למע' אלקטרו-מכאניות זעירות,3.0,,80.47,Label Not Found,80.0,Empty PDF / Image
+36214754,דינמיקה ואוירודינמיקה של כלי טייס,3.0,,83.13,Label Not Found,80.0,Empty PDF / Image
+36214292,קריאוגניקה ניצול גזים ומקררים קריאוגניים,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214866,עקרונות הזרימה הדו-פאזית,3.0,,Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214951,מקורות אנרגיה בלתי קונבנציונליים,3.0,36213261,Label Not Found,94.77,Empty PDF / Image,85.0
+36214231,קינמטיקה ודינמיקה של רובוטים,3.0,36212221,Label Not Found,93.97,Empty PDF / Image,Empty PDF / Image
+36214071,מכניקה של חומרים מרוכבים,3.0,"36212111, 36212121",92.33,Label Not Found,Empty PDF / Image,Empty PDF / Image
+36214461,תרמודינמיקה של מערכות כוח וחום,3.0,36212241,Label Not Found,Label Not Found,Empty PDF / Image,80.0
+36216051,דינמיקת מבנים,3.0,"36212121, 36212221",Label Not Found,Label Not Found,Empty PDF / Image,Empty PDF / Image

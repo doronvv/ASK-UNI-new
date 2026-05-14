@@ -1,0 +1,155 @@
+﻿מספר קורס,שם קורס,"נק""ז",קורסי חובת מעבר,2025A,2025B,2024A,2024B,2023A,2023B,2022A,2022B
+20119671,חשבון דיפרנציאלי להנדסת חשמל,5.0,,74.4,72.18,82.13,63.45,67.95,53.89,71.81,68.62
+36111081,מבוא מתמטי למהנדסים,2.5,,80.25,Label Not Found,81.82,77.79,79.61,Label Not Found,80.66,Label Not Found
+20311371,פיזיקה 1 - הנדסת חשמל,3.5,20119671 36111081 50050006,73.68,67.45,83.41,88.25,71.62,Label Not Found,72.36,Label Not Found
+20119511,חשמל 1 אלגברה ליניארית להנדסת,3.5,,70.91,69.9,80.04,73.82,68.29,63.39,70.03,62.77
+20116201,מתמטיקה דיסקרטית,3.5,,75.58,Label Not Found,81.36,Label Not Found,67.23,Label Not Found,68.62,Label Not Found
+15315051,אנגלית מתקדמים ב (1 ),2.0,,82.4,85.09,80.48,79.79,77.64,75.14,78.19,77.75
+90055001,למניעת הטרדה מיני ת לומדה להכרת החוק והנהלים,0.0,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36010011,הכרת הספריה,0.0,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36113231,מערכות ספרתיות להנדסת חשמל ומחשבים,3.5,20116201,Label Not Found,87.2,Label Not Found,81.79,Label Not Found,75.29,Label Not Found,74.92
+20119681,חשבון אינטגרלי ומשוואות דיפרנציאליות רגילות להנדסת חשמל,5.0,20119521 20119671 20119511,Label Not Found,88.59,Label Not Found,75.12,Label Not Found,74.5,Label Not Found,73.45
+20119521,אלגברה ליניארית להנדסת חשמל 2,2.5,20119511,Label Not Found,79.63,Label Not Found,78.95,Label Not Found,75.47,Label Not Found,74.56
+20311471,פיזיקה 2 א,3.5,20311371 20119671 36111081,Label Not Found,83.84,Label Not Found,86.88,Label Not Found,76.41,Label Not Found,69.52
+37111601,יסודות מדעי המחשב,5.0,,68.14,73.55,Label Not Found,73.44,Label Not Found,74.48,Label Not Found,75.6
+20119631,"חדו""א וקטורי להנדסת חשמל",5.0,20119681 20119521,78.91,78.42,74.24,75.85,76.25,68.9,75.29,75.58
+20119901,אנליזת פוריה להנדסת חשמל,3.5,20119631 20119681 20119521,73.53,73.11,76.02,74.24,71.93,Label Not Found,67.05,Label Not Found
+36113201,מבוא למחשבים להנדסת חשמל ומחשבים,4.5,37111601 36113231,79.97,77.92,76.18,76.59,77.29,Label Not Found,75.07,Label Not Found
+20312391,פיסיקה 3א,3.5,20119631 20311471 20119681 36111081,75.01,69.05,76.06,81.29,72.86,Label Not Found,72.28,Label Not Found
+36111021,מבוא להנדסת חשמל,5.0,20119521 20119681 20119671 20311371 20311471,65.81,65.74,72.47,72.37,64.04,67.41,62.67,64.52
+36112011,מבוא למערכות ליניאריות,3.5,20110071 36111021 20119901,69.66,73.28,79.12,83.75,75.48,65.31,77.53,65.46
+36112171,מבוא להתקני מוליכים למחצה,4.5,20312391 36111021,Label Not Found,80.99,Label Not Found,85.39,Label Not Found,82.02,78.65,79.69
+20110071,יסודות תורת הפונקציות המרוכבות,3.5,20119631,Label Not Found,71.03,Label Not Found,77.55,Label Not Found,68.17,Label Not Found,76.6
+36112251,מבוא לשיטות חישוביות,3.5,20119681 37111601 20119521,80.86,92.38,82.0,92.51,75.12,95.71,Label Not Found,79.2
+36112063,מעבדת מבוא בחשמל,1.5,36111021,Label Not Found,92.69,Label Not Found,87.1,Label Not Found,88.17,Label Not Found,86.68
+36113011,שדות אלקטרומגנטיים,4.0,20311471 20119631,Label Not Found,69.2,Label Not Found,75.43,Label Not Found,66.54,Label Not Found,71.4
+20119831,תורת ההסתברות להנדסת חשמל,3.5,20119521 20119681,73.78,86.83,81.68,88.53,76.21,86.79,73.66,77.18
+36113321,מבוא לעיבוד אותות,4.0,36112011,76.57,81.05,87.31,76.11,71.32,70.92,71.47,68.7
+36113061,מבוא לתהליכים אקראיים,4.0,36112011 20119831 20110071 20119521,75.26,76.71,68.67,75.33,75.25,75.42,74.78,71.28
+36113661,אנלוגיים מבוא למעגלים אלקטרונים,3.5,36113093 36112063 36112171 36112011,86.54,84.65,90.93,85.8,88.13,Label Not Found,83.98,Label Not Found
+36113093,מעבדת מעגלים אנאלוגיים,2.0,36113661 36112063 36112011 36112171,93.58,91.64,87.17,86.38,89.78,Label Not Found,88.13,Label Not Found
+36111061,סדנת כתיבה אקדמי ת,0.5,15315051,89.44,88.88,90.92,89.67,91.05,89.03,87.36,85.53
+36113021,מעגלים אלקטרוניים ספרתיים,3.5,36112171,76.51,75.59,83.65,86.86,74.13,73.74,72.53,70.98
+36113031,הספק ואנרגי ה אלקטרוניקת,3.5,36112011,,,,,67.06,Label Not Found,70.17,Label Not Found
+36113651,וגלי ם לאלקטרומגנטיות מבוא,3.5,36113011 36111021 20119901,77.45,Label Not Found,89.24,Label Not Found,81.23,Label Not Found,78.34,Label Not Found
+36113581,מבוא לבקרה,3.5,36112011,82.7,85.62,Label Not Found,88.24,76.23,77.86,75.04,78.62
+36113221,17001102 12591102 11021163 13891102 חובת מעבר : מקצוע צמוד . 16031163–,3.5,,78.46,80.46,84.27,87.43,82.78,80.99,76.26,77.86
+36114781,עיבוד ספרתי של אותות,3.5,36113321 36113061,Label Not Found,78.56,Label Not Found,81.55,74.68,87.42,79.19,78.55
+36113681,פיזיקה של התקני מוליכים למחצה,3.5,36112171,71.1,Label Not Found,79.95,Label Not Found,74.98,Label Not Found,79.15,74.2
+37110341,מבנה נתונים,3.5,20116201 37111601,78.9,80.18,96.28,83.04,81.19,80.05,88.98,80.08
+36111071,לפוטואלקטרוניק ה מבוא,3.5,36113011,80.13,81.79,82.74,78.72,54.65,78.11,77.53,75.93
+37110291,מחשבי ם מבוא לרשתות,3.5,20119831,77.09,77.25,79.88,84.98,77.84,81.01,Label Not Found,78.47
+36113043,מתקדמ ת מעבדת מעגלים אלקטרוניים,2.0,36113671 36113661 36113093,Label Not Found,94.95,Label Not Found,90.0,Label Not Found,88.36,Label Not Found,86.85
+36113053,מעבדה להמרת אנרגיה,2.0,36113031,Label Not Found,87.45,Label Not Found,87.38,Label Not Found,90.7,Label Not Found,82.52
+36114383,מעבדה לאלקטרואופטיקה,2.0,36111071,94.0,95.5,93.6,94.67,89.67,89.0,92.2,90.38
+36114513,מעבדה לבקרה,2.0,36113581,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,96.0
+36114623,מעבדה לתקשורת,2.0,36113221,92.81,92.32,91.82,90.85,,,,
+36114693,מתקדמת ומאיצי חומר ה מעבדת ארכיטקטורת מעבדים,2.0,,Label Not Found,88.61,Label Not Found,89.66,Label Not Found,86.33,Label Not Found,86.75
+36114710,מעבדת מיקרוגלים ואנטנו ת,2.0,36114591 36114051,Label Not Found,95.8,Label Not Found,Label Not Found,Label Not Found,91.0,Label Not Found,Label Not Found
+36114883,מעבדה לעיבוד אותות ותמונות,2.0,36113321,90.5,94.0,96.5,85.8,82.56,78.33,90.38,89.06
+36112413,מעבדה ברשתות מחשבים,2.0,37110291 36113201,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36126381,למידת מכונה ותורת המידע,,,Label Not Found,81.97,Label Not Found,84.89,Label Not Found,78.77,Label Not Found,77.49
+36114491,התפשטות גלים בערוצי תקשורת,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114901,תקשורת רשתות מעל השכבה הפיזית,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36113901,תקשורת אופטית אלחוטית,,,95.44,Label Not Found,88.14,Label Not Found,86.13,Label Not Found,84.52,Label Not Found
+36114061,תכנון מעגלי תקשורת,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114591,אנטנות וקרינה,,,63.78,Label Not Found,75.17,Label Not Found,70.63,Label Not Found,80.67,Label Not Found
+36122210,יסודות האופטימיזציה,,,78.54,Label Not Found,81.49,82.09,Label Not Found,Label Not Found,Label Not Found,76.42
+36114701,תקשורת אופטית,,,80.14,Label Not Found,84.08,Label Not Found,81.3,Label Not Found,79.77,Label Not Found
+36126451,תורת השערוך,,,Label Not Found,67.11,Label Not Found,78.24,62.28,Label Not Found,Label Not Found,Label Not Found
+36114711,בטיחות רשתות,,,85.72,85.15,91.02,86.46,83.87,Label Not Found,85.68,Label Not Found
+36114911,רשתות תקשורת,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,81.75
+36114971,תקשורת ספרתית בערוצי רדיו,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114011,תכנון מערכות שידו ר-קליטה אלחוטיות,,,Label Not Found,89.07,Label Not Found,90.89,Label Not Found,86.2,Label Not Found,81.62
+36120330,נושאים נבחרים בתקשורת רשתות,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,88.0
+36125861,קידוד למערכות מאולצות,,,Label Not Found,Label Not Found,Label Not Found,98.75,Label Not Found,Label Not Found,Label Not Found,90.28
+36122260,מבוא ללמידה עמוקה,,,Label Not Found,88.82,Label Not Found,Label Not Found,91.89,Label Not Found,92.73,Label Not Found
+36125931,תקשורת ניידת ולוינית,,,Label Not Found,92.0,Label Not Found,89.26,Label Not Found,89.73,Label Not Found,91.41
+36125571,רשתות תקשורת אופטיות,,,93.97,Label Not Found,92.45,Label Not Found,93.26,Label Not Found,Label Not Found,Label Not Found
+36122290,"הסתברות דיסקרטית לאינפורמציה, ביג דאטה ולמידת מכונה",,,Label Not Found,Label Not Found,88.4,Label Not Found,92.55,Label Not Found,95.35,Label Not Found
+36125901,תקשורת ספרתית אלחוטית,,,90.04,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36126251,תורת הקידוד,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,80.0,87.95,Label Not Found
+36126461,סדרות ספרתיות,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,82.0,Label Not Found,Label Not Found,Label Not Found
+36125981,קודים אקראיים בתקשורת,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37121814,תורת המידע לרשתות,,,Label Not Found,89.25,91.67,Label Not Found,88.8,Label Not Found,85.88,Label Not Found
+37110401,אבטחת מידע ונתונים,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,71.92
+36125691,אשכול ולמידה ממוחשבת בלתי מודרכת,,,Label Not Found,Label Not Found,Label Not Found,94.35,Label Not Found,94.13,Label Not Found,91.15
+36121160,למידה עמוקה בביולוגיה חישובית,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37111241,דחיסת מולטימדיה,,,91.54,Label Not Found,92.05,Label Not Found,93.37,Label Not Found,Label Not Found,92.36
+36113621,מבוא לעיבוד מקבילי,,,86.09,82.95,86.03,84.04,89.11,84.76,85.56,86.56
+36113261,מבוא לאלקטרוניקה תעשייתית,,,73.22,Label Not Found,91.67,Label Not Found,73.88,Label Not Found,Label Not Found,75.63
+36114561,ממירי CD-CD,,,77.91,Label Not Found,85.58,Label Not Found,76.57,Label Not Found,75.82,Label Not Found
+36114581,הינע חשמלי,,,Label Not Found,73.92,Label Not Found,74.67,Label Not Found,84.7,Label Not Found,81.39
+36114731,בקרה ליניארי ת,,,Label Not Found,Label Not Found,82.0,Label Not Found,Label Not Found,Label Not Found,Label Not Found,72.5
+36113671,מעגלים אלקטרוניים אנאלוגיים,,,Label Not Found,69.65,Label Not Found,79.51,Label Not Found,75.98,Label Not Found,79.4
+36114191,מבנה מחשבים ספרתיים,,,Label Not Found,85.94,Label Not Found,90.92,Label Not Found,85.86,Label Not Found,87.06
+36122250,בקרה לא ליניארית,,,Label Not Found,72.15,Label Not Found,70.65,Label Not Found,94.36,Label Not Found,73.86
+36113701,מעגלים משולבים ומבוא ל-VLSI,,,Label Not Found,82.91,Label Not Found,85.25,Label Not Found,83.6,Label Not Found,83.57
+36114051,מבוא למיקרוגלים,,,Label Not Found,66.1,Label Not Found,74.43,Label Not Found,80.0,Label Not Found,79.67
+36114621,התפשטות ופיזור גלים,,,81.85,Label Not Found,84.11,Label Not Found,82.56,Label Not Found,Label Not Found,Label Not Found
+36113091,תכנון בסיסי של מעגלי RFIC,,,Label Not Found,Label Not Found,96.52,Label Not Found,93.71,Label Not Found,Label Not Found,93.14
+36113041,מעגלי מיקרוגלים,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36111035,מקורות של קרינת מיקרוגל,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36120726,מבוא לאקוסטיקה,,,Label Not Found,Label Not Found,Label Not Found,92.54,88.91,Label Not Found,Label Not Found,Label Not Found
+36125781,אלקטרומגנטיות מתקדמת,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,89.25
+36125481,למיקרוגלים ואופטיקה,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36121130,"מערכות מכ""מ",,,Label Not Found,98.5,Label Not Found,Label Not Found,Label Not Found,92.15,Label Not Found,95.56
+36114830,מעבר לטרנזיסטור SOMC: מהתקנים קוונטים דרך פלסטיק מוליך,,,Label Not Found,83.09,Label Not Found,78.07,Label Not Found,76.88,Label Not Found,78.77
+36114903,"מעבדת מכשור, התקנים ומעגלים",,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36113751,תכנון VLSI,,,98.46,Label Not Found,Label Not Found,97.63,87.03,Label Not Found,88.68,Label Not Found
+36121051,טכנולוגיות ואקום במיקרואלקטרוניקה,,,87.83,Label Not Found,88.2,Label Not Found,89.2,Label Not Found,85.63,Label Not Found
+36120926,מוליכים למחצה אורגניים ושימושיהם,,,Label Not Found,Label Not Found,Label Not Found,89.1,Label Not Found,92.27,Label Not Found,Label Not Found
+36125961,"המרה פוטו -וולטאית, מסיליקון לתאי שמש אורגניים",,,Label Not Found,Label Not Found,93.33,Label Not Found,95.86,Label Not Found,Label Not Found,Label Not Found
+36126281,אופטימיזציה,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114201,אדריכלו ת יחיד ת עיבוד מרכזית - תיאוריה,,,Label Not Found,81.6,Label Not Found,91.56,Label Not Found,84.82,Label Not Found,85.54
+37111663,תכנות מערכות,,,77.28,79.69,74.07,83.62,80.21,76.73,72.65,Label Not Found
+37111631,מערכות הפעלה,,,72.48,Label Not Found,86.43,Label Not Found,80.03,Label Not Found,80.87,Label Not Found
+36113611,תכן ספרתי וסינטזה לוגית,,,86.24,Label Not Found,80.13,Label Not Found,82.67,Label Not Found,89.38,Label Not Found
+36113811,תכנות מונחה עצמים,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114691,חישוב מקביל י ומבוזר,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114761,מבוא לדימות ביורפואי,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114840,אינטרנט של חפצים,,,Label Not Found,Label Not Found,93.95,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36113731,עיבוד אותות סטטיסטי,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114751,מבוא לעיבוד ספרתי של תמונות,,,86.16,Label Not Found,88.31,89.3,89.59,Label Not Found,90.98,Label Not Found
+36114651,אותות ביואלקטריים,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,89.83,Label Not Found,86.15,Label Not Found
+20118011,סטטיסטיקה מתמטית 1,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114281,הנדסת אינפרה אדום,,,Label Not Found,79.8,Label Not Found,88.63,Label Not Found,78.92,Label Not Found,83.65
+36113911,הנדסת לייזרים,,,84.33,Label Not Found,Label Not Found,82.08,Label Not Found,76.57,Label Not Found,Label Not Found
+36114991,אופטיקת פורייה,,,71.0,Label Not Found,92.13,Label Not Found,86.75,Label Not Found,82.71,Label Not Found
+36113781,גלאי הדמאה ב - VLSI,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37112413,מעבדת מבוא לרשתות מחשבים,,,93.46,Label Not Found,96.71,Label Not Found,91.3,Label Not Found,Label Not Found,88.61
+37110301,אלגוריתמים מבוזרים,,,Label Not Found,82.6,Label Not Found,85.48,Label Not Found,84.66,Label Not Found,89.14
+37111711,מבוא לסימולציה וסטטיסטיקה ברשתות,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,87.5
+37111411,תכן רשתות: תורת התורים,,,87.25,Label Not Found,64.17,Label Not Found,78.29,Label Not Found,88.83,Label Not Found
+37111301,רשתות מהירות ומיתוג,,,Label Not Found,80.45,Label Not Found,86.14,Label Not Found,74.13,Label Not Found,75.27
+37112321,מחשוב ענן ווירטואליזציה,,,Label Not Found,Label Not Found,Label Not Found,87.15,Label Not Found,88.78,Label Not Found,82.29
+38110112,תכנות פונקציונאלי במערכות מקבילות ומבוזרות,,,Label Not Found,96.5,Label Not Found,92.0,Label Not Found,89.4,Label Not Found,94.25
+37120205,עקרונות בהנדסת מערכות תקשורת,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37120231,תכנון וניתוח פרוטוקולים,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37120301,אלגוריתמיקה ברשתות,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,92.96,Label Not Found
+37120311,אלגוריתמים ברשתות חיישנים,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37120331,רשתות חברתיות,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,87.73,Label Not Found,Label Not Found
+37120401,אבטחת רשתות תקשורת,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37120252,לימוד מכונה ברשתות ומערכות תקשור ת,,,Label Not Found,Label Not Found,90.13,Label Not Found,89.18,Label Not Found,91.5,Label Not Found
+37121641,תורת המשחקים ברשתות תקשור ת,,,82.27,Label Not Found,81.47,Label Not Found,82.73,Label Not Found,Label Not Found,Label Not Found
+36114041,מבוא לתכנון ISLV ספרתי,3.0,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114111,רכיבים אלקטרונים פסיביים,3.0,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36114071,מבוא להנדסת מתח גבוה,3.0,36113031,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+36126291,תמונות נושאים נבחרים בעיבוד ספרתי של,3.0,,89.42,Label Not Found,87.63,Label Not Found,Label Not Found,86.15,Label Not Found,85.21
+36122120,עיבוד אותות שמע,3.0,36113061 36113321,Label Not Found,Label Not Found,90.13,Label Not Found,Label Not Found,Label Not Found,87.52,Label Not Found
+36122130,משתנים נושאים באנליזה סטטיסטית מרובת,3.0,,Label Not Found,Label Not Found,Label Not Found,87.92,Label Not Found,Label Not Found,Label Not Found,90.29
+36122230,תורת המטריצות,3.0,20119521,Label Not Found,Label Not Found,Label Not Found,80.0,Label Not Found,Label Not Found,78.67,Label Not Found
+36123061,תורת המידע רבת משתמשים 2,3.0,36125981,Label Not Found,99.71,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,97.0
+36122061,תורת המידע רבת משתמשים,3.0,,Label Not Found,Label Not Found,Label Not Found,99.33,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37110281,תכן רשתות מחשבים,3.0,37110291,Label Not Found,82.97,Label Not Found,85.52,80.83,79.36,80.71,Label Not Found
+37110342,תכנון אלגוריתמים,3.5,37110341,72.21,Label Not Found,79.71,Label Not Found,69.42,Label Not Found,67.05,Label Not Found
+37110351,*תורת הגרפים ואלגוריתמים,4.0,20116201,Label Not Found,71.87,Label Not Found,82.0,Label Not Found,71.94,Label Not Found,75.38
+37111311,תכן לוגי,3.0,36113201,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37120241,פרוטוקולי גישה אקראית,3.0,37110291,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37120321,רשתות אד הוק אוטונומיות,3.0,37110301,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
+37121221,האינטרנט שידור אותות שמע וחוזי על רשת,3.0,37111241 37110291,Label Not Found,92.47,Label Not Found,93.05,Label Not Found,91.92,Label Not Found,Label Not Found
+37121261,נושאים נבחרים בתקשורת תמונה ווידאו,3.0,37111241,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,88.57,Label Not Found
+37121721,הסקה סטטיסטית וכריית נתונים,3.0,20119831,Label Not Found,Label Not Found,Label Not Found,Label Not Found,92.33,Label Not Found,90.11,Label Not Found
+36113131,מערכות ספרתיות למדעי המחש ב,3.5,,77.22,Label Not Found,82.38,Label Not Found,81.03,Label Not Found,74.75,Label Not Found
+36113301,מבוא למחשבים למדעי המחש ב,3.5,36113131,97.0,79.56,92.83,86.55,80.92,81.17,78.0,79.5
+37113111,תכן לוגי,,,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found,Label Not Found
