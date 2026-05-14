@@ -1,937 +1,374 @@
 """
-BGU Manager - Student Portal
-Similar to bgumanager.com - Flask + ChromaDB + Gemini
+BGUManager.py
+=============
+בוט BGU – ממשק ווב (Streamlit) + Google Gemini + ChromaDB.
 """
-from flask import Flask, render_template, request, jsonify
-import pandas as pd
-import os
-import json
-import warnings
-import secrets
+
+import re as _re_links
+import sys
+from pathlib import Path
+import streamlit.components.v1 as _st_components
+
 import chromadb
 import google.generativeai as genai
+import pandas as pd
+import streamlit as st
 
-warnings.filterwarnings("ignore")
-os.environ["GRPC_VERBOSITY"] = "ERROR"
+# --- שליפת מפתח API מאובטחת ---
+try:
+    GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+except (FileNotFoundError, KeyError):
+    # מפתח גיבוי להרצה לוקאלית על המחשב שלך (הכנס את המפתח שלך כאן במקום 'חסוי')
+    GOOGLE_API_KEY = "חסוי"
 
-# ==================== Config ====================
-BASE_PATH = r"C:\Users\doron\PycharmProjects\PythonProject3\.venv"
-GOOGLE_API_KEY = "AIzaSyDQPbz2phAK4YorWWJvwuwqgWrvM0G0t4o"
-SERVER_TOKEN = secrets.token_hex(16)  # מתחדש עם כל הפעלת שרת – מאפס credentials
-BAD_VALS = {'nan','none','no data','error','label not found','no grade found',
-            "no 'average' found in text","no 'average' found",'empty pdf / image',
-            'server error','','n/a'}
+MODEL_NAME = "gemini-1.5-flash"  # תוקן למודל קיים ויציב
 
-# ==================== Data Sources (with labels) ====================
-DATA_SOURCES = {
-    "grades": {
-        "label": "ציונים להנדסת חשמל ומחשבים",
-        "file": os.path.join(BASE_PATH, "grades.csv"),
-        "icon": "📊",
-        "desc": "ממוצעי ציונים בקורסי הנדסת חשמל ומחשבים",
-        "keywords": ["ציון", "ממוצע", "קורס", "סמסטר", "חשמל", "מחשבים", "2025", "2024", "2023"],
-    },
-    "machinery2": {
-        "label": "ציונים להנדסת מכונות",
-        "file": os.path.join(BASE_PATH, "downloads", "machinery2_with_grades.csv"),
-        "icon": "🔧",
-        "desc": "ממוצעי ציונים בקורסי הנדסת מכונות",
-        "keywords": ["מכונות", "מכונה", "מכונאות", "machinery"],
-    },
-    "all_courses": {
-        "label": "ציונים",
-        "file": os.path.join(BASE_PATH, "downloads", "g_all_courses_with_grades.csv"),
-        "icon": "📈",
-        "desc": "ציונים ממוצעים לכל הקורסים באוניברסיטה",
-        "keywords": ["קורסים", "כל הקורסים", "נקודות זכות", 'נק"ז'],
-    },
-    "admission": {
-        "label": "תנאי קבלה",
-        "file": os.path.join(BASE_PATH, "bgu_admission.csv"),
-        "icon": "📋",
-        "desc": "תנאי קבלה לכל המחלקות",
-        "keywords": ["קבלה", "תנאי", "כניסה", "פסיכומטרי", "בגרות", "סכם", "מינימום", "להתקבל"],
-    },
-    "projects": {
-        "label": "פרויקט גמר להנדסת חשמל",
-        "file": os.path.join(BASE_PATH, "Projects_Classified.csv"),
-        "icon": "🔬",
-        "desc": "פרויקטי גמר בהנדסת חשמל ומחשבים",
-        "keywords": ["פרויקט", "גמר", "מנחה", "פרויקטים", "adviser", "specialization"],
-    },
-    "scholarships": {
-        "label": "מלגות",
-        "file": os.path.join(BASE_PATH, "bgu_scholarships_new_3.csv"),
-        "icon": "🎓",
-        "desc": "מלגות לסטודנטים בבן גוריון",
-        "keywords": ["מלגה", "מלגות", "זכאות", "מילואים", "חרבות ברזל"],
-    },
-    "army": {
-        "label": "מילואים וזכויות",
-        "file": os.path.join(BASE_PATH, "army_results.json"),
-        "icon": "🪖",
-        "desc": "זכויות סטודנטים משרתי מילואים",
-        "keywords": ["מילואים", "צבא", "חרבות ברזל", "זכויות", "שירות"],
-    },
-    "people": {
-        "label": "אנשי סגל",
-        "file": os.path.join(BASE_PATH, "..", "data", "people_of_bgu.csv"),
-        "icon": "👥",
-        "desc": "אנשי סגל, חוקרים ועובדים באוניברסיטת בן גוריון",
-        "keywords": ["סגל", "מרצה", "פרופסור", "דוקטור", "חוקר", "מנחה", "עובד", "staff"],
-    },
-    "partner_knowledge": {
-        "label": "מידע כללי BGU",
-        "file": os.path.join(BASE_PATH, "downloads", "bgu_partner_knowledge.csv"),
-        "icon": "🏫",
-        "desc": "מידע כללי על האוניברסיטה – מזכירות, הרשמה, תוכניות, שירותים",
-        "keywords": ["מזכירות", "הרשמה", "תוכנית", "שירות", "פקולטה", "מחלקה", "לוח שנה",
-                     "תקנון", "נוהל", "בחינה", "אתר", "קשר", "אוניברסיטה", "כללי"],
-    },
-}
+# --- תיקון נתיבים (הוצאה מתיקיית ה-.venv) ---
+DATA_DIR      = Path(__file__).parent / "data"
+CHROMA_DIR    = Path(__file__).parent / "chroma_db_storage"
+COLLECTION    = "bgu_knowledge"
+GRADUATES_CSV = DATA_DIR / "graduates_summary.csv" # תוקן
+CRAWL_LOG     = Path(__file__).parent / "crawl_log.txt"
 
-NOT_FOUND_PHRASES = [
-    "לא מצאתי", "לא נמצא", "אין מידע", "לא קיים", "לא נמצאו",
-    "אין לי מידע", "לא עולה", "לא מופיע", "לא ברשותי", "לא כלול",
-    "לא זמין", "לא מצוי", "אין נתון",
-]
+_csv_cache: dict[str, pd.DataFrame] = {}
 
-def detect_sources(question: str) -> list:
-    """מזהה מילות מפתח ומחזיר רשימת מקורות רלוונטיים."""
-    q = question.lower()
-    matched = [key for key, src in DATA_SOURCES.items()
-               if any(kw.lower() in q for kw in src["keywords"])]
-    return matched if matched else list(DATA_SOURCES.keys())
 
-app = Flask(__name__,
-            template_folder=os.path.join(BASE_PATH, "templates"),
-            static_folder=os.path.join(BASE_PATH, "static"))
+# ── נתונים ───────────────────────────────────────────────────────────────────
 
-# ==================== Data Loading ====================
-def safe_csv(path):
-    if not os.path.exists(path):
-        print(f"  [MISSING] {os.path.basename(path)}")
-        return pd.DataFrame()
-    for enc in ['utf-8', 'utf-8-sig', 'windows-1255']:
+@st.cache_data
+def load_graduates() -> pd.DataFrame | None:
+    if not GRADUATES_CSV.exists():
+        return None
+    for enc in ("utf-8-sig", "utf-8", "cp1255", "latin-1"):
+        try:
+            df = pd.read_csv(GRADUATES_CSV, encoding=enc)
+            df["שנה"] = pd.to_numeric(df["שנה"], errors="coerce").astype("Int64")
+            df["מספר_סטודנטים"] = pd.to_numeric(df["מספר_סטודנטים"], errors="coerce").fillna(0).astype(int)
+            return df
+        except Exception:
+            continue
+    return None
+
+
+def _load_csv(name: str) -> pd.DataFrame | None:
+    if name in _csv_cache:
+        return _csv_cache[name]
+    path = DATA_DIR / f"{name}.csv"
+    if not path.exists():
+        return None
+    for enc in ("utf-8-sig", "cp1255", "cp1252", "latin-1"):
         try:
             df = pd.read_csv(path, encoding=enc)
-            print(f"  [OK] {os.path.basename(path)}: {len(df)} rows")
+            _csv_cache[name] = df
             return df
-        except UnicodeDecodeError:
+        except Exception:
             continue
-        except Exception as e:
-            print(f"  [ERROR] {os.path.basename(path)}: {e}")
-            return pd.DataFrame()
-    return pd.DataFrame()
-
-def load_all_grades():
-    """
-    ממזג את כל קבצי הציונים:
-    - grades.csv
-    - g_all_courses_with_grades.csv
-    - machinery2_with_grades.csv
-    - management_grades_extracted.csv
-    מנרמל שמות עמודות, מסיר כפילויות לפי מספר קורס,
-    ממיין לפי מספר קורס ואז עמודות מהשנה הכי חדשה לישנה.
-    """
-    import re
-
-    GRADE_FILES = [
-        (os.path.join(BASE_PATH, "grades.csv"), None),
-        (os.path.join(BASE_PATH, "downloads", "g_all_courses_with_grades.csv"), None),
-        (os.path.join(BASE_PATH, "downloads", "machinery2_with_grades.csv"), None),
-        (os.path.join(BASE_PATH, "management_grades_extracted.csv"), {
-            'Course_Number': 'מספר קורס',
-            'Course_Name':   'שם קורס',
-            'Prerequisites': 'קורסי חובת מעבר',
-        }),
-    ]
-
-    def norm_sem(col):
-        """'2025 A' -> '2025A'"""
-        return re.sub(r'(\d{4})\s+([AB])', r'\1\2', str(col).strip())
-
-    def is_grade_col(col):
-        return bool(re.match(r'\d{4}[AB]', norm_sem(col)))
-
-    def sem_sort_key(col):
-        m = re.match(r'(\d{4})([AB])', col)
-        if m:
-            return (-int(m.group(1)), 0 if m.group(2) == 'B' else 1)
-        return (0, 0)
-
-    FIXED = ['מספר קורס', 'שם קורס', 'נק"ז', 'קורסי חובת מעבר']
-
-    all_grade_cols = set()
-    dfs_loaded = []
-
-    for path, rename_map in GRADE_FILES:
-        df = safe_csv(path)
-        if df.empty:
-            continue
-        if rename_map:
-            df = df.rename(columns=rename_map)
-        # Normalize semester column names
-        df = df.rename(columns={c: norm_sem(c) for c in df.columns})
-        if 'מספר קורס' not in df.columns:
-            continue
-        df['מספר קורס'] = df['מספר קורס'].astype(str).str.strip()
-        for col in df.columns:
-            if is_grade_col(col):
-                all_grade_cols.add(col)
-        dfs_loaded.append(df)
-
-    if not dfs_loaded:
-        return pd.DataFrame(), []
-
-    sorted_grade_cols = sorted(all_grade_cols, key=sem_sort_key)
-
-    # Merge: course_num -> dict
-    merged = {}
-    for df in dfs_loaded:
-        df = df.fillna('')
-        for _, row in df.iterrows():
-            cnum = str(row.get('מספר קורס', '')).strip()
-            # Skip invalid rows
-            if not cnum or not re.match(r'^\d{5,}', cnum):
-                continue
-            if cnum not in merged:
-                merged[cnum] = {'מספר קורס': cnum,
-                                'שם קורס': '', 'נק"ז': '', 'קורסי חובת מעבר': ''}
-            rec = merged[cnum]
-            # Fill text fields if empty
-            for col in ['שם קורס', 'נק"ז', 'קורסי חובת מעבר']:
-                val = str(row.get(col, '')).strip()
-                if val and val.lower() not in BAD_VALS and not rec.get(col):
-                    rec[col] = val
-            # Fill grade fields (prefer existing non-empty)
-            for col in sorted_grade_cols:
-                val = str(row.get(col, '')).strip()
-                if val and val.lower() not in BAD_VALS and not rec.get(col):
-                    rec[col] = val
-
-    if not merged:
-        return pd.DataFrame(), []
-
-    result_df = pd.DataFrame(list(merged.values()))
-
-    # Sort by course number numerically
-    def num_key(n):
-        try: return int(re.sub(r'\D', '', str(n)))
-        except: return 999999999
-
-    result_df['_sort'] = result_df['מספר קורס'].apply(num_key)
-    result_df = result_df.sort_values('_sort').drop('_sort', axis=1).reset_index(drop=True)
-
-    # Column order: fixed + grade cols (newest first) + rest
-    final_cols = [c for c in FIXED if c in result_df.columns]
-    final_cols += [c for c in sorted_grade_cols if c in result_df.columns]
-    final_cols += [c for c in result_df.columns if c not in final_cols]
-    result_df = result_df[final_cols].fillna('')
-
-    print(f"  [MERGED] Courses total: {len(result_df)} | Grade cols: {sorted_grade_cols}")
-    return result_df, sorted_grade_cols
-
-
-print("\nLoading CSV data...")
-courses_df, GRADE_COLS = load_all_grades()
-admission_df         = safe_csv(os.path.join(BASE_PATH, "bgu_admission.csv"))
-admission_complete_df= safe_csv(os.path.join(BASE_PATH, "bgu_admission_complete.csv"))
-projects_df          = safe_csv(os.path.join(BASE_PATH, "Projects_Classified.csv"))
-scholarships_df      = safe_csv(os.path.join(BASE_PATH, "bgu_scholarships_new_3.csv"))
-
-# קבצים נפרדים לשימוש בצ'אט (נשלחים במלואם ל-Gemini כמו AskUni)
-grades_df       = safe_csv(os.path.join(BASE_PATH, "grades.csv"))
-machinery2_df   = safe_csv(os.path.join(BASE_PATH, "machinery2.csv"))
-all_courses_df  = safe_csv(os.path.join(BASE_PATH, "downloads", "g_all_courses_with_grades.csv"))
-
-# ==================== Army / Reserves Data ====================
-import json as _army_json
-
-def load_army_data():
-    path = os.path.join(BASE_PATH, "army_results.json")
-    if not os.path.exists(path):
-        print("  [INFO] army_results.json not found – run army.py first")
-        return pd.DataFrame()
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            records = _army_json.load(f)
-        df = pd.DataFrame(records)
-        print(f"  [OK] army_results.json: {len(df)} records")
-        return df
-    except Exception as e:
-        print(f"  [WARN] army_results.json load error: {e}")
-        return pd.DataFrame()
-
-army_df = load_army_data()
-
-people_df = safe_csv(os.path.join(BASE_PATH, "..", "data", "people_of_bgu.csv"))
-partner_knowledge_df = safe_csv(os.path.join(BASE_PATH, "downloads", "bgu_partner_knowledge.csv"))
-
-# מיפוי מקורות -> DataFrames (לשימוש בצ'אט עם שליחת CSV מלא כמו AskUni)
-SOURCE_DFS: dict = {}
-
-def _refresh_source_dfs():
-    SOURCE_DFS.update({
-        "grades":      grades_df,
-        "machinery2":  machinery2_df,
-        "all_courses": all_courses_df,
-        "admission":   admission_complete_df if not admission_complete_df.empty else admission_df,
-        "projects":    projects_df,
-        "scholarships":scholarships_df,
-        "army":        army_df,
-        "people":      people_df,
-        "partner_knowledge": partner_knowledge_df,
-    })
-
-_refresh_source_dfs()
-
-
-def build_csv_context(source_keys: list) -> str:
-    """שולח CSV מלא של כל מקור רלוונטי – זהה ל-AskUni.py."""
-    parts = []
-    for key in source_keys:
-        df = SOURCE_DFS.get(key)
-        if df is None or (hasattr(df, 'empty') and df.empty):
-            continue
-        src = DATA_SOURCES[key]
-        parts.append(
-            f"\n--- {src['icon']} {src['label']} ({src['desc']}) ---\n"
-            + df.to_csv(index=False)
-        )
-    return "\n".join(parts) if parts else "אין נתונים זמינים."
-
-
-# ==================== RAG עם דירוג ====================
-_RAG_N_RESULTS = 8    # כמה מסמכים לשלוף מ-ChromaDB
-_RAG_MIN_SCORE = 0.15 # סף מינימום רלוונטיות (1 - distance)
-
-
-def build_rag_context(query: str) -> str:
-    """
-    RAG עם דירוג – שולף את X המסמכים הרלוונטיים ביותר מ-ChromaDB.
-    ממיין לפי ציון רלוונטיות (גבוה = רלוונטי יותר).
-    """
-    if not collection:
-        # fallback: keyword search על כל הקבצים
-        return build_csv_context(list(DATA_SOURCES.keys()), query=query)
-
-    try:
-        res = collection.query(query_texts=[query], n_results=_RAG_N_RESULTS)
-        docs  = (res.get("documents")  or [[]])[0]
-        dists = (res.get("distances")  or [[]])[0]
-        metas = (res.get("metadatas")  or [[]])[0]
-
-        if not docs:
-            return "לא נמצאו תוצאות."
-
-        # מיון: הכי קרוב (distance קטן) = הכי רלוונטי
-        ranked = sorted(zip(docs, dists, metas), key=lambda x: x[1])
-
-        parts = []
-        for doc, dist, meta in ranked:
-            score = round(1 - dist, 3)
-            if score < _RAG_MIN_SCORE:
-                continue
-            doc_type = meta.get("type", "")
-            source   = meta.get("source", "")
-            parts.append(f"[רלוונטיות: {score}] [{doc_type}] [{source}]\n{doc}")
-
-        if not parts:
-            return "לא נמצאו תוצאות רלוונטיות."
-
-        result = "\n\n---\n".join(parts)
-        print(f"[RAG] {len(parts)} מסמכים, {len(result)} תווים")
-        return result
-
-    except Exception as e:
-        print(f"[RAG error] {e}")
-        return build_csv_context(list(DATA_SOURCES.keys()), query=query)
-
-
-# ==================== Gemini + ChromaDB ====================
-genai.configure(api_key=GOOGLE_API_KEY)
-gemini = genai.GenerativeModel('gemini-2.5-flash')
-
-# ChromaDB – נבנה ע"י ALL_CLAUDE.py
-_CHROMA_PATH = os.path.join(BASE_PATH, "..", "chroma_db_storage")
-_COLLECTION_NAME = "bgu_knowledge"
-
-collection = None
-try:
-    chroma_client = chromadb.PersistentClient(path=_CHROMA_PATH)
-    collection = chroma_client.get_collection(_COLLECTION_NAME)
-    print(f"  [OK] ChromaDB (ALL_CLAUDE): {collection.count()} records")
-except Exception as e:
-    print(f"  [WARN] ChromaDB לא נמצא – הרץ ALL_CLAUDE.py תחילה: {e}")
-
-# ==================== Helpers ====================
-def clean(v):
-    s = str(v).strip()
-    return '' if s.lower() in BAD_VALS else s
-
-def get_latest_grade(row):
-    for col in reversed(GRADE_COLS):
-        v = clean(str(row.get(col, '')))
-        if v:
-            return v, col
-    return '', ''
-
-def row_to_dict(row):
-    return {k: clean(v) for k, v in row.items()}
-
-# ==================== Routes ====================
-LIKES_FILE = os.path.join(BASE_PATH, 'likes.json')
-
-def _read_likes() -> int:
-    try:
-        with open(LIKES_FILE, 'r') as f:
-            return json.load(f).get('likes', 0)
-    except Exception:
-        return 0
-
-def _save_likes(n: int) -> None:
-    with open(LIKES_FILE, 'w') as f:
-        json.dump({'likes': n}, f)
-
-@app.route('/api/like', methods=['GET', 'POST'])
-def api_like():
-    if request.method == 'POST':
-        n = _read_likes() + 1
-        _save_likes(n)
-        return jsonify({'likes': n})
-    return jsonify({'likes': _read_likes()})
-
-
-@app.route('/')
-def index():
-    stats = {
-        'courses':      len(courses_df),
-        'admission':    len(admission_df),
-        'projects':     len(projects_df),
-        'scholarships': len(scholarships_df),
-        'ai_records':   collection.count() if collection else 0,
-        'grade_cols':   len(GRADE_COLS),
-    }
-    return render_template('bgu_manager.html', stats=stats, server_token=SERVER_TOKEN)
-
-# ---------- COURSES ----------
-@app.route('/api/courses')
-def api_courses():
-    q       = request.args.get('q', '').strip().lower()
-    num_q   = request.args.get('num', '').strip()
-    page    = max(1, int(request.args.get('page', 1)))
-    per_page = 20
-
-    if courses_df.empty:
-        return jsonify({'courses': [], 'total': 0})
-
-    df = courses_df.fillna('')
-    name_col = 'שם קורס' if 'שם קורס' in df.columns else df.columns[0]
-    num_col  = 'מספר קורס' if 'מספר קורס' in df.columns else None
-
-    if q:
-        mask = df[name_col].astype(str).str.lower().str.contains(q, na=False)
-        if num_col:
-            mask |= df[num_col].astype(str).str.lower().str.contains(q, na=False)
-        df = df[mask]
-    if num_q and num_col:
-        df = df[df[num_col].astype(str).str.contains(num_q, na=False)]
-
-    total = len(df)
-    chunk = df.iloc[(page-1)*per_page : page*per_page]
-
-    results = []
-    for _, row in chunk.iterrows():
-        grade, sem = get_latest_grade(row)
-        # Build grades dict: col -> value (only non-empty)
-        grades = {col: clean(str(row.get(col,''))) for col in GRADE_COLS if clean(str(row.get(col,'')))}
-        results.append({
-            'id':       clean(str(row.get('מספר קורס', ''))),
-            'name':     clean(str(row.get('שם קורס', ''))),
-            'credits':  clean(str(row.get('נק"ז', ''))),
-            'grade':    grade,
-            'semester': sem,
-            'grades':   grades,
-        })
-    return jsonify({'courses': results, 'total': total, 'page': page,
-                    'per_page': per_page, 'grade_cols': GRADE_COLS})
-
-@app.route('/api/courses/<course_id>')
-def api_course_detail(course_id):
-    if courses_df.empty:
-        return jsonify({'error': 'No data'}), 404
-    df = courses_df.fillna('')
-    if 'מספר קורס' not in df.columns:
-        return jsonify({'error': 'No course ID column'}), 404
-    row_df = df[df['מספר קורס'].astype(str) == course_id]
-    if row_df.empty:
-        return jsonify({'error': 'Not found'}), 404
-    row = row_df.iloc[0]
-    history = {col: clean(str(row.get(col,''))) for col in GRADE_COLS if clean(str(row.get(col,'')))}
-    return jsonify({
-        'id':      clean(str(row.get('מספר קורס',''))),
-        'name':    clean(str(row.get('שם קורס',''))),
-        'credits': clean(str(row.get('נק"ז',''))),
-        'prereqs': clean(str(row.get('קורסי חובת מעבר',''))),
-        'history': history,
-    })
-
-# ---------- ADMISSION ----------
-@app.route('/api/admission')
-def api_admission():
-    q = request.args.get('q', '').strip().lower()
-    if admission_df.empty:
-        return jsonify({'tracks': [], 'total': 0})
-    df = admission_df.fillna('')
-    name_col = 'שם_המסלול' if 'שם_המסלול' in df.columns else df.columns[0]
-    if q:
-        df = df[df[name_col].astype(str).str.lower().str.contains(q, na=False)]
-    results = []
-    for _, row in df.iterrows():
-        t = {
-            'name':    clean(str(row.get('שם_המסלול',''))),
-            'url':     clean(str(row.get('URL',''))),
-            'type':    clean(str(row.get('סוג_קבלה',''))),
-            'score':   clean(str(row.get('סכם',''))),
-            'psycho':  clean(str(row.get('פסיכומטרי',''))),
-            'bagrut':  clean(str(row.get('ממוצע_בגרות',''))),
-            'math':    clean(str(row.get('מתמטיקה',''))),
-            'english': clean(str(row.get('אנגלית',''))),
-            'physics': clean(str(row.get('פיסיקה',''))),
-            'eng_score': clean(str(row.get('סכם_הנדסה',''))),
-        }
-        if t['name']:
-            results.append(t)
-    return jsonify({'tracks': results, 'total': len(results)})
-
-def _proj_display_year(pid: str) -> str:
-    """גוזר שנת תצוגה מ-Project ID: p-2026-* → 2026, p-2025-* → 2025, אחר → 2000."""
-    s = str(pid).strip()
-    if s.startswith('p-2026'):
-        return '2026'
-    if s.startswith('p-2025'):
-        return '2025'
-    return '2000'
-
-
-# ---------- PROJECTS ----------
-@app.route('/api/reports/<folder>')
-def api_reports(folder):
-    allowed = {'PDR', 'preliminary', 'progress'}
-    if folder not in allowed:
-        return jsonify({'files': []})
-    path = os.path.join(app.static_folder, 'reports', folder)
-    os.makedirs(path, exist_ok=True)
-    files = sorted(f for f in os.listdir(path) if f.lower().endswith('.pdf'))
-    return jsonify({'files': files})
-
-
-@app.route('/api/projects')
-def api_projects():
-    q        = request.args.get('q', '').strip().lower()
-    track    = request.args.get('track', '').strip()
-    year     = request.args.get('year', '').strip()
-    page     = max(1, int(request.args.get('page', 1)))
-    per_page = 20
-
-    if projects_df.empty:
-        return jsonify({'projects': [], 'total': 0, 'tracks': [], 'years': []})
-
-    df = projects_df.fillna('').copy()
-    name_col       = next((c for c in df.columns if 'Project Name' in c or 'Name' in c), df.columns[0])
-    spec_col       = next((c for c in df.columns if 'Specialization' in c or 'תחום' in c), None)
-    supervisor_col = next((c for c in df.columns if 'Supervisor' in c or 'Adviser' in c or 'מנחה' in c), None)
-    pid_col        = next((c for c in df.columns if 'Project ID' in c), None)
-
-    # שנת תצוגה לפי Project ID
-    df['_display_year'] = df[pid_col].apply(_proj_display_year) if pid_col else '2000'
-
-    if q:
-        mask = df[name_col].astype(str).str.lower().str.contains(q, na=False)
-        if supervisor_col:
-            mask |= df[supervisor_col].astype(str).str.lower().str.contains(q, na=False)
-        df = df[mask]
-    if track and spec_col:
-        df = df[df[spec_col].astype(str).str.contains(track, case=False, na=False)]
-    if year:
-        df = df[df['_display_year'] == year]
-
-    total = len(df)
-    chunk = df.iloc[(page-1)*per_page : page*per_page]
-
-    results = [{col: clean(str(row[col])) for col in df.columns} for _, row in chunk.iterrows()]
-
-    all_tracks = []
-    if spec_col:
-        all_tracks = sorted(set(v for v in projects_df[spec_col].dropna().unique() if v))
-
-    return jsonify({'projects': results, 'total': total, 'tracks': all_tracks,
-                    'years': ['2026', '2025', '2000'],
-                    'cols': {'name': name_col, 'spec': spec_col,
-                             'supervisor': supervisor_col}})
-
-# ---------- SCHOLARSHIPS ----------
-import json as _json
-
-def parse_schol_row(idx, row):
-    """Parse a scholarships row into a structured dict."""
-    raw_json = str(row.get('תוכן_נקי_JSON', '') or '')
-    parsed = {}
-    try:
-        parsed = _json.loads(raw_json) if raw_json.strip().startswith('{') else {}
-    except Exception:
-        pass
-    return {
-        '_idx': idx,
-        'name': clean(str(row.get('שם המלגה', '') or parsed.get('שם_המלגה', ''))),
-        'url':  clean(str(row.get('URL', ''))),
-        'desc':     parsed.get('תיאור_כללי', ''),
-        'target':   parsed.get('קהל_יעד', ''),
-        'eligibility': parsed.get('תנאי_זכאות', ''),
-        'amount':   parsed.get('סכום_המלגה', ''),
-        'dates':    parsed.get('תאריכי_הרשמה', ''),
-        'obligations': parsed.get('התחייבויות', ''),
-        'extra':    {k: v for k, v in parsed.items()
-                     if k not in ('שם_המלגה','תיאור_כללי','קהל_יעד','תנאי_זכאות',
-                                  'סכום_המלגה','תאריכי_הרשמה','התחייבויות')},
-    }
-
-@app.route('/api/scholarships')
-def api_scholarships():
-    q = request.args.get('q', '').strip().lower()
-    if scholarships_df.empty:
-        return jsonify({'scholarships': [], 'total': 0})
-    df = scholarships_df.fillna('')
-
-    # Search in all text (including JSON content)
-    if q:
-        mask = pd.Series([False]*len(df), index=df.index)
-        for col in df.columns:
-            mask |= df[col].astype(str).str.lower().str.contains(q, na=False, regex=False)
-        df = df[mask]
-
-    records = [parse_schol_row(i, row) for i, (_, row) in enumerate(df.head(100).iterrows())]
-    return jsonify({'scholarships': records, 'total': len(df)})
-
-
-@app.route('/api/scholarships/ask', methods=['POST'])
-def api_scholarships_ask():
-    """AI-powered scholarship search: describe what you need, get matched scholarships."""
-    data = request.get_json()
-    query = (data.get('query') or '').strip()
-    if not query:
-        return jsonify({'error': 'שאלה ריקה'}), 400
-    if scholarships_df.empty:
-        return jsonify({'error': 'אין נתוני מלגות'}), 500
-
-    # Build full context from all scholarships
-    all_schols = []
-    for i, (_, row) in enumerate(scholarships_df.fillna('').iterrows()):
-        s = parse_schol_row(i, row)
-        parts = [f"מלגה #{i+1}: {s['name']}"]
-        if s.get('url'):
-            parts.append(f"  URL: {s['url']}")
-        for field, label in [('desc','תיאור'), ('target','קהל יעד'),
-                              ('eligibility','תנאי זכאות'), ('amount','סכום'),
-                              ('dates','תאריכים'), ('obligations','התחייבויות')]:
-            if s.get(field):
-                parts.append(f"  {label}: {s[field][:300]}")
-        all_schols.append("\n".join(parts))
-
-    schols_text = "\n\n".join(all_schols)
-
-    prompt = f"""אתה יועץ אקדמי מומחה לסטודנטים באוניברסיטת בן גוריון.
-להלן רשימת כל המלגות הזמינות עם הפרטים שלהן:
-
-{schols_text}
-
----
-שאלת הסטודנט: {query}
-
-המשימה שלך:
-1. נתח את הצרכים של הסטודנט
-2. זהה את המלגות הכי מתאימות מתוך הרשימה לעיל
-3. ענה בעברית בצורה ברורה ומסודרת:
-   - פרט אילו מלגות מתאימות ולמה
-   - ציין את מספר המלגה (# מספר) בסוגריים בסוף שם כל מלגה
-   - הסבר בקצרה מדוע כל מלגה מתאימה לפרופיל שתואר
-   - ציין אם יש דרישות מיוחדות שצריך לשים לב אליהן
-   - אם למלגה יש URL – הוסף: 🔗 [לחץ כאן להגשה](URL)
-4. אם אין מלגה מתאימה – ציין זאת בכנות"""
-
-    try:
-        resp = gemini.generate_content(prompt)
-        answer = resp.text
-
-        # Extract scholarship numbers mentioned in the response to return matched cards
-        import re
-        mentioned_nums = [int(m)-1 for m in re.findall(r'#(\d+)', answer)
-                          if 0 <= int(m)-1 < len(scholarships_df)]
-        mentioned_names = re.findall(r'מלגת?\s+[\w\s״׳"\']+', answer)
-
-        matched = []
-        seen_idx = set()
-        for idx in mentioned_nums:
-            if idx not in seen_idx:
-                seen_idx.add(idx)
-                row = scholarships_df.fillna('').iloc[idx]
-                matched.append(parse_schol_row(idx, row))
-
-        return jsonify({'answer': answer, 'matched': matched})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
-# ---------- PEOPLE / STAFF ----------
-@app.route('/api/people')
-def api_people():
-    q        = request.args.get('q', '').strip().lower()
-    page     = max(1, int(request.args.get('page', 1)))
-    per_page = 30
-
-    if people_df.empty:
-        return jsonify({'people': [], 'total': 0})
-
-    df = people_df.fillna('')
-
-    if q:
-        mask = (
-            df['name'].astype(str).str.lower().str.contains(q, na=False) |
-            df['email'].astype(str).str.lower().str.contains(q, na=False) |
-            df['faculty'].astype(str).str.lower().str.contains(q, na=False)
-        )
-        df = df[mask]
-
-    total = len(df)
-    chunk = df.iloc[(page - 1) * per_page: page * per_page]
-    records = chunk.fillna('').to_dict(orient='records')
-    return jsonify({'people': records, 'total': total, 'page': page, 'per_page': per_page})
-
-
-# ---------- ARMY / RESERVES ----------
-@app.route('/api/army/results')
-def api_army_results():
-    if army_df.empty:
-        return jsonify({'results': [], 'total': 0})
-    records = army_df.fillna('').to_dict(orient='records')
-    return jsonify({'results': records, 'total': len(records)})
-
-
-@app.route('/api/army/ask', methods=['POST'])
-def api_army_ask():
-    data = request.get_json()
-    msg  = (data.get('message') or '').strip()
-    if not msg:
-        return jsonify({'error': 'שאלה ריקה'}), 400
-
-    # Build context from army data
-    context = ''
-    if not army_df.empty:
-        relevant = []
-        keywords = [w for w in msg.lower().split() if len(w) > 1]
-        for _, row in army_df.fillna('').iterrows():
-            text = str(row.get('text', '')) + str(row.get('title', ''))
-            if any(kw in text.lower() for kw in keywords):
-                relevant.append(f"כותרת: {row.get('title','')}\nמקור: {row.get('url','')}\n{str(row.get('text',''))[:1500]}")
-        if not relevant:
-            relevant = [f"כותרת: {r.get('title','')}\n{str(r.get('text',''))[:800]}"
-                        for r in army_df.fillna('').head(8).to_dict(orient='records')]
-        context = "\n\n---\n\n".join(relevant[:6])
-    else:
-        context = "אין נתוני מילואים זמינים. נא להריץ את army.py תחילה."
-
-    prompt = f"""אתה AskUni – עוזר אקדמי לסטודנטים של אוניברסיטת בן גוריון.
-אתה מתמחה בזכויות סטודנטים משרתי מילואים.
-
-מידע רלוונטי ממסד הנתונים:
-{context}
-
-חוקים:
-- ענה בעברית בלבד, בצורה ברורה ומסודרת
-- התבסס אך ורק על המידע שלמעלה
-- אם המידע לא קיים – ציין זאת במפורש
-- השתמש בנקודות/רשימות כשמתאים
-
-שאלת הסטודנט: {msg}"""
-
-    try:
-        resp = gemini.generate_content(prompt)
-        return jsonify({'answer': resp.text})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
-# ---------- SETTINGS ----------
-
-@app.route('/api/settings')
-def api_settings():
-    """מחזיר מידע על כל מקורות הנתונים הזמינים."""
-    result = []
-    df_map = {
-        'grades':      courses_df,
-        'admission':   admission_df,
-        'projects':    projects_df,
-        'scholarships': scholarships_df,
-        'army':        army_df,
-        'people':      people_df,
-        'machinery2':  pd.DataFrame(),  # נטען בתוך courses_df הממוזג
-        'all_courses': pd.DataFrame(),
-        'partner_knowledge': partner_knowledge_df,
-    }
-    for key, src in DATA_SOURCES.items():
-        df = df_map.get(key, pd.DataFrame())
-        loaded = not df.empty if key not in ('machinery2', 'all_courses') else os.path.exists(src['file'])
-        result.append({
-            'key':    key,
-            'label':  src['label'],
-            'icon':   src['icon'],
-            'desc':   src['desc'],
-            'file':   os.path.basename(src['file']),
-            'loaded': loaded,
-            'rows':   len(df) if not df.empty else None,
-        })
-    return jsonify({
-        'sources': result,
-        'chroma':  collection.count() if collection else 0,
-        'routing': 'smart – keyword detection + fallback to all sources',
-    })
-
-
-# ---------- AI CHAT ----------
-
-def df_keyword_search(df, query, label, max_rows=30):
-    """Search a DataFrame for rows matching any keyword in query. Returns (text_block, row_count)."""
-    if df.empty:
-        return '', 0
-    keywords = [w for w in query.lower().split() if len(w) > 1]
-    if not keywords:
-        return '', 0
-    df = df.fillna('').astype(str)
-    mask = pd.Series([False] * len(df), index=df.index)
-    for kw in keywords:
-        for col in df.columns:
-            mask |= df[col].str.lower().str.contains(kw, na=False, regex=False)
-    matched = df[mask].head(max_rows)
-    if matched.empty:
-        return '', 0
-    lines = [f"--- {label} ({len(matched)} שורות רלוונטיות) ---"]
-    for _, row in matched.iterrows():
-        parts = [f"{col}: {row[col]}" for col in df.columns if row[col].strip() and row[col].lower() not in BAD_VALS]
-        if parts:
-            lines.append(" | ".join(parts))
-    return "\n".join(lines), len(matched)
-
-
-@app.route('/api/chat', methods=['POST'])
-def api_chat():
-    """
-    צ'אט AI – שולח CSV מלא ל-Gemini (כמו AskUni) עם ניתוב חכם ו-fallback.
-    שלב 1: מזהה מילות מפתח → שולח רק את הקבצים הרלוונטיים במלואם.
-    שלב 2: אם לא נמצא → שולח את כל הקבצים.
-    """
-    data = request.get_json()
-    msg  = (data.get('message') or '').strip()
-    if not msg:
-        return jsonify({'error': 'הודעה ריקה'}), 400
-
-    sources_list = "\n".join(
-        f"  {s['icon']} {s['label']} – {s['desc']}"
-        for s in DATA_SOURCES.values()
+    return None
+
+
+# ── כלים ─────────────────────────────────────────────────────────────────────
+
+_S = genai.protos.Schema
+_T = genai.protos.Type
+
+TOOLS = [
+    genai.protos.Tool(
+        function_declarations=[
+            genai.protos.FunctionDeclaration(
+                name="search_forms",
+                description=(
+                    "חיפוש טפסים של האוניברסיטה לפי שם או נושא. "
+                    "השתמש כשהמשתמש שואל על טופס, מסמך, בקשה, הצהרה או אישור."
+                ),
+                parameters=_S(
+                    type=_T.OBJECT,
+                    properties={
+                        "query": _S(type=_T.STRING, description="שם הטופס או נושא החיפוש"),
+                    },
+                    required=["query"],
+                ),
+            ),
+            genai.protos.FunctionDeclaration(
+                name="query_dataframe",
+                description=(
+                    "שאילתת pandas – ממוצע, סינון, מיון, ספירה. "
+                    "עמודות ציון כניסה: סכם_הנדסה/סכם_כמותי/סכם. "
+                    "עמודות קורסים: 2025A/2025B/2024A/2024B."
+                ),
+                parameters=_S(
+                    type=_T.OBJECT,
+                    properties={
+                        "file_name": _S(
+                            type=_T.STRING,
+                            description=(
+                                "שם קובץ ללא .csv: "
+                                "bgu_admission, bgu_admission_requirements, bgu_admission_complete, "
+                                "g_all_courses_with_grades, grades, grades_machinery, machinery2_with_grades, "
+                                "bgu_scholarships_new_3, Projects_Classified, PROJECT_WEB1, "
+                                "army_results, courses_fixed, machinery, g_all_courses"
+                            ),
+                        ),
+                        "operation": _S(
+                            type=_T.STRING,
+                            description="ביטוי pandas עם df. לדוגמה: df[df['שם_המסלול'].str.contains('חשמל')]",
+                        ),
+                    },
+                    required=["file_name", "operation"],
+                ),
+            ),
+        ]
     )
+]
 
-    def make_prompt(context: str, is_fallback: bool = False) -> str:
-        fallback_note = "\n(חיפוש מורחב בכל מקורות המידע)\n" if is_fallback else ""
+SYSTEM_PROMPT = (
+    "אתה AskUni – עוזר מידע של אוניברסיטת בן גוריון. ענה תמיד בעברית.\n"
+    "כלל יסוד: ענה אך ורק על בסיס קטעי המידע שסופקו. אל תמציא עובדות.\n"
+    "קישורים: כל קישור שמופיע בקטע – כלול אותו בתשובה כ: 🔗 [תיאור](URL).\n"
+    "אי-ודאות: אם הקטעים לא מכסים את השאלה – כתוב 'לא נמצא מידע מספיק. פנה ל: https://www.bgu.ac.il' .\n"
+    "query_dataframe: לחישובים (ממוצע/סינון/מיון). עמודות ציון כניסה: סכם_הנדסה/סכם_כמותי/סכם.\n"
+    "search_forms: לשאלות על טופס/מסמך/בקשה/אישור."
+)
+
+
+# ── לוגיקה ───────────────────────────────────────────────────────────────────
+
+@st.cache_resource
+def load_chroma() -> chromadb.Collection:
+    client = chromadb.PersistentClient(path=str(CHROMA_DIR))
+    return client.get_collection(COLLECTION)
+
+
+_MAX_DOC_CHARS    = 500   
+_RAG_N            = 5     
+_MAX_PROMPT_CHARS = 3500  
+
+
+def _retrieve_context(col: chromadb.Collection, query: str) -> str:
+    try:
+        results = col.query(query_texts=[query], n_results=_RAG_N)
+    except Exception as e:
+        return f"**הקשר מ-ChromaDB:** שגיאת אחזור – {e}"
+
+    docs  = (results.get("documents") or [[]])[0]
+    metas = (results.get("metadatas") or [[]])[0]
+    dists = (results.get("distances") or [[]])[0]
+
+    if not docs:
         return (
-            "אתה AskUni – עוזר אקדמי חכם ואדיב לסטודנטים של אוניברסיטת בן גוריון בנגב.\n"
-            f"מקורות המידע שלך:\n{sources_list}\n{fallback_note}\n"
-            "הנחיות:\n"
-            "- ענה בעברית בלבד, בצורה ברורה ומסודרת\n"
-            "- ענה על סמך המידע בטבלאות בלבד\n"
-            "- אם שאלו על ציון, חפש לפי שם קורס או מספרו\n"
-            "- אם שאלו על תנאי קבלה, פרט את כל הדרישות\n"
-            "- אם שאלו על מלגות, זהה את המתאימות ביותר לפי הפרופיל\n"
-            "- אם המידע לא קיים – ציין זאת במפורש\n"
-            "- השתמש בנקודות/רשימות כשמתאים\n"
-            "- קישורים: אם בנתונים יש עמודת URL לאותה מלגה או מסלול קבלה – "
-            "הוסף בסוף הרלוונטי: 🔗 [לחץ כאן לפרטים נוספים](URL). "
-            "אם יש כמה מלגות/מסלולים, הוסף קישור לכל אחד מהם. אל תשמיט קישורים.\n\n"
-            f"נתונים:\n{context}\n\n"
-            f"שאלת המשתמש: {msg}"
+            "**הקשר מ-ChromaDB:** לא נמצאו תוצאות.\n"
+            "לפרטים פנה לאתר הרשמי: https://www.bgu.ac.il"
         )
 
+    parts = ["**קטעי מידע רלוונטיים מהמסד (BGU):**"]
+    for i, (doc, meta, dist) in enumerate(zip(docs, metas, dists), 1):
+        text = str(doc or "")[:_MAX_DOC_CHARS]
+        if len(str(doc or "")) > _MAX_DOC_CHARS:
+            text += "…"
+        url = (meta or {}).get("url", "") or ""
+        url_line = f"\nקישור: {url}" if url else ""
+        parts.append(
+            f"\n[קטע {i} | סוג: {(meta or {}).get('type', '')}]\n"
+            f"{text}{url_line}"
+        )
+    return "\n".join(parts)
+
+
+def run_search(col: chromadb.Collection, query: str, n: int, type_filter: str) -> str:
+    where = {"type": type_filter} if type_filter else None
     try:
-        # שלב 1: ניתוב חכם – שלח CSV מלא של מקורות ממוקדים (זהה ל-AskUni)
-        target_keys = detect_sources(msg)
-        is_all      = set(target_keys) == set(DATA_SOURCES.keys())
-
-        context1 = build_csv_context(target_keys)
-        resp1    = gemini.generate_content(make_prompt(context1))
-        answer   = resp1.text
-
-        # שלב 2: fallback – אם לא נמצא, שלח את כל הקבצים
-        used_fallback = False
-        if any(p in answer for p in NOT_FOUND_PHRASES) and not is_all:
-            context2  = build_csv_context(list(DATA_SOURCES.keys()))
-            resp2     = gemini.generate_content(make_prompt(context2, is_fallback=True))
-            answer    = resp2.text
-            used_fallback = True
-            target_keys   = list(DATA_SOURCES.keys())
-
-        return jsonify({
-            'answer':    answer,
-            'routed_to': [DATA_SOURCES[k]['label'] for k in target_keys if k in DATA_SOURCES],
-            'fallback':  used_fallback,
-            'has_data':  True,
-        })
+        results = col.query(query_texts=[query], n_results=n, where=where)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return f"שגיאת חיפוש: {e}"
+    docs  = (results.get("documents") or [[]])[0]
+    metas = (results.get("metadatas") or [[]])[0]
+    dists = (results.get("distances") or [[]])[0]
+    if not docs:
+        return "לא נמצאו תוצאות."
+    parts = []
+    for doc, meta, dist in zip(docs, metas, dists):
+        score = round(1 - dist, 3) if dist is not None else "?"
+        snippet = doc[:_MAX_DOC_CHARS] + ("…" if len(doc) > _MAX_DOC_CHARS else "")
+        parts.append(f"[רלוונטיות: {score}] [{meta.get('type', '')}]\n{snippet}")
+    return "\n\n---\n".join(parts)
 
-# ==================== Timetable (Course Schedule) ====================
-import re as _re
 
-_DAY_NAMES = {'א': 'ראשון', 'ב': 'שני', 'ג': 'שלישי', 'ד': 'רביעי', 'ה': 'חמישי'}
+def run_forms_search(query: str) -> str:
+    if not CRAWL_LOG.exists():
+        return "קובץ יומן הטפסים לא נמצא."
+    from urllib.parse import unquote as _unquote
+    keywords = [w.strip() for w in query.split() if len(w.strip()) > 1]
+    matches: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    with open(CRAWL_LOG, encoding="utf-8", errors="ignore") as f:
+        for line in f:
+            line = line.strip()
+            if not line.startswith("PDF:"):
+                continue
+            arrow = line.find(" -> ")
+            if arrow == -1:
+                continue
+            url = line[4:arrow].strip()
+            url = _re_links.sub(r':443', '', url)
+            raw = url.split('/')[-1]
+            if raw.lower().endswith('.pdf'):
+                raw = raw[:-4]
+            name = _unquote(raw).replace('-', ' ').replace('_', ' ').strip()
+            if not name or name in seen:
+                continue
+            seen.add(name)
+            name_lower = name.lower()
+            if any(kw in name_lower for kw in keywords):
+                matches.append((name, url))
+    if not matches:
+        return f"לא נמצאו טפסים התואמים ל: {query}"
+    lines = [f"נמצאו {len(matches)} טפסים רלוונטיים:"]
+    for name, url in matches[:8]:
+        lines.append(f"• {name}: {url}")
+    return "\n".join(lines)
 
 
-def _parse_time_slots(times_text: str) -> list:
-    """'ג 12:00-14:00' → [{day, day_name, start, end}, ...]"""
+def run_query(file_name: str, operation: str) -> str:
+    df = _load_csv(file_name)
+    if df is None:
+        available = sorted(p.stem for p in DATA_DIR.glob("*.csv"))
+        return f"קובץ '{file_name}' לא קיים. זמינים: {available}"
+    df = df.copy()
+    try:
+        result = eval(operation, {"df": df, "pd": pd})  # noqa: S307
+        if isinstance(result, pd.DataFrame):
+            cap = 60
+            prefix = f"[מציג {cap} מתוך {len(result)} שורות]\n" if len(result) > cap else ""
+            return prefix + result.head(cap).to_string(index=False)
+        if isinstance(result, pd.Series):
+            return result.to_string()
+        return str(result)
+    except Exception as exc:
+        return f"שגיאה: {exc}"
+
+
+def _dispatch(fn_name: str, fn_args: dict) -> str:
+    if fn_name == "search_forms":
+        return run_forms_search(fn_args.get("query", ""))
+    if fn_name == "query_dataframe":
+        fname = fn_args.get("file_name", "")
+        return run_query(fname, fn_args.get("operation", ""))
+    return f"כלי לא מוכר: {fn_name}"
+
+
+def _compress(text: str) -> str:
+    import re as _re
+    text = _re.sub(r'[ \t]+', ' ', text)
+    text = _re.sub(r'\n{3,}', '\n\n', text)
+    return text.strip()
+
+
+_RETRY_WAITS = [5, 15, 30]  
+
+
+def _is_rate_limit(err: Exception) -> bool:
+    s = str(err)
+    return "429" in s or "quota" in s.lower() or "rate" in s.lower()
+
+
+def ask_gemini(col: chromadb.Collection, user_text: str,
+               model: genai.GenerativeModel) -> str:
+    import time as _time
+
+    rag_context = _retrieve_context(col, user_text)
+
+    prompt = _compress(f"{rag_context}\n\n---\nשאלת המשתמש: {user_text}")
+    if len(prompt) > _MAX_PROMPT_CHARS:
+        prompt = (prompt[:_MAX_PROMPT_CHARS]
+                  + "\n\n[חתוך. ענה על בסיס המידע הקיים.]")
+
+    last_err: Exception | None = None
+    for attempt, wait in enumerate([0] + _RETRY_WAITS):
+        if wait:
+            _time.sleep(wait)
+        try:
+            chat = model.start_chat()
+            response = chat.send_message(prompt)
+
+            while True:
+                fn_calls = [p.function_call for p in response.parts
+                            if p.function_call.name]
+                if not fn_calls:
+                    break
+                tool_parts = []
+                for fc in fn_calls:
+                    result = _dispatch(fc.name, dict(fc.args))
+                    tool_parts.append(
+                        genai.protos.Part(
+                            function_response=genai.protos.FunctionResponse(
+                                name=fc.name,
+                                response={"result": result},
+                            )
+                        )
+                    )
+                response = chat.send_message(tool_parts)
+
+            try:
+                return response.text
+            except Exception:
+                return "".join(p.text for p in response.parts if p.text)
+
+        except Exception as e:
+            last_err = e
+            if not _is_rate_limit(e):
+                raise  
+            
+    raise last_err  # type: ignore
+
+
+# ── מערכת שעות – Selenium ─────────────────────────────────────────────
+
+import re as _re_tt
+
+_DAY_NAMES_TT = {'א': 'ראשון', 'ב': 'שני', 'ג': 'שלישי', 'ד': 'רביעי', 'ה': 'חמישי'}
+_BGU_START    = "https://bgu4u.bgu.ac.il/pls/scwp/!app.gate?app=ann"
+_BGU_FORM     = "https://bgu4u.bgu.ac.il/pls/scwp/!app.ann?lang=he"
+
+
+def _parse_time_slots_tt(txt: str) -> list:
     slots = []
-    if not times_text:
+    if not txt:
         return slots
-    pattern = r'([אבגדה](?:[,\s]*[אבגדה])*)\s+(\d{1,2}:\d{2})\s*[-–]\s*(\d{1,2}:\d{2})'
-    for m in _re.finditer(pattern, times_text):
-        days  = _re.findall(r'[אבגדה]', m.group(1))
+    for m in _re_tt.finditer(
+            r'([אבגדה](?:[,\s]*[אבגדה])*)\s+(\d{1,2}:\d{2})\s*[-–]\s*(\d{1,2}:\d{2})', txt):
+        days  = _re_tt.findall(r'[אבגדה]', m.group(1))
         start = m.group(2).zfill(5)
         end   = m.group(3).zfill(5)
-        for day in days:
-            slots.append({'day': day, 'day_name': _DAY_NAMES.get(day, day),
+        for d in days:
+            slots.append({'day': d, 'day_name': _DAY_NAMES_TT.get(d, d),
                           'start': start, 'end': end})
     return slots
 
 
-def _scrape_timetable(department: str, degree: str, course_num: str,
-                      year: str, semester: str) -> dict:
-    """Selenium visible browser – scrapes BGU course schedule (mirrors Course_file.py)."""
+def _scrape_timetable_visible(department: str, degree: str, course_num: str,
+                               year: str, semester: str) -> dict:
     from selenium import webdriver
     from selenium.webdriver.common.by import By
     from selenium.webdriver.support.ui import Select
     from selenium.webdriver.chrome.options import Options
-    import time as _time
-    import re as _re2
-
-    BGU_URL  = "https://bgu4u.bgu.ac.il/pls/scwp/!app.gate?app=ann"
-    BGU_FORM = "https://bgu4u.bgu.ac.il/pls/scwp/!app.ann?lang=he"
+    import time as _t
+    import re as _r
 
     opts = Options()
     opts.add_argument("--window-size=1280,900")
     opts.add_argument("--disable-infobars")
     opts.add_experimental_option("excludeSwitches", ["enable-logging"])
-
+    
+    # --- הוספת Headless כדי שיעבוד בענן (Streamlit Cloud) ---
+    opts.add_argument("--headless")
+    opts.add_argument("--no-sandbox")
+    opts.add_argument("--disable-dev-shm-usage")
+    opts.add_argument("--disable-gpu")
+    
     driver = webdriver.Chrome(options=opts)
 
-    def _try_select(sel_el, *values):
-        sel = Select(sel_el)
-        for v in values:
+    def _try_sel(el, *vals):
+        sel = Select(el)
+        for v in vals:
             try: sel.select_by_value(v); return True
             except Exception: pass
             for opt in sel.options:
@@ -942,127 +379,96 @@ def _scrape_timetable(department: str, degree: str, course_num: str,
                         except Exception: pass
         return False
 
-    def _fill(field_id, value):
-        for loc in [(By.ID, field_id), (By.NAME, field_id)]:
+    def _fill(fid, val):
+        for loc in [(By.ID, fid), (By.NAME, fid)]:
             try:
                 el = driver.find_element(*loc)
                 if el.tag_name.lower() == "select":
-                    return _try_select(el, value)
-                el.clear(); el.send_keys(value); return True
-            except Exception:
-                pass
+                    return _try_sel(el, val)
+                el.clear(); el.send_keys(val); return True
+            except Exception: pass
         return False
 
-    def _switch_best_frame():
+    def _best_frame():
         driver.switch_to.default_content()
-        best_n, best_idx = len(driver.find_elements(By.TAG_NAME, "select")), None
-        frames = (driver.find_elements(By.TAG_NAME, "iframe") +
-                  driver.find_elements(By.TAG_NAME, "frame"))
-        for idx, fr in enumerate(frames):
+        best_n, best_i = len(driver.find_elements(By.TAG_NAME, "select")), None
+        frs = (driver.find_elements(By.TAG_NAME, "iframe") +
+               driver.find_elements(By.TAG_NAME, "frame"))
+        for i, fr in enumerate(frs):
             try:
                 driver.switch_to.frame(fr)
                 n = len(driver.find_elements(By.TAG_NAME, "select"))
                 driver.switch_to.default_content()
-                if n > best_n:
-                    best_n, best_idx = n, idx
-            except Exception:
-                driver.switch_to.default_content()
-        if best_idx is not None:
-            frames = (driver.find_elements(By.TAG_NAME, "iframe") +
-                      driver.find_elements(By.TAG_NAME, "frame"))
-            driver.switch_to.frame(frames[best_idx])
+                if n > best_n: best_n, best_i = n, i
+            except Exception: driver.switch_to.default_content()
+        if best_i is not None:
+            frs = (driver.find_elements(By.TAG_NAME, "iframe") +
+                   driver.find_elements(By.TAG_NAME, "frame"))
+            driver.switch_to.frame(frs[best_i])
 
-    def _switch_main_frame():
+    def _main_frame():
         driver.switch_to.default_content()
-        try:
-            driver.switch_to.frame("main")
-        except Exception:
-            pass
+        try: driver.switch_to.frame("main")
+        except Exception: pass
 
-    def _click_advanced():
+    def _click_adv():
         try:
-            clicked = driver.execute_script("""
-                var keywords = ['מורחב','morch','adv','Advanced'];
-                var tags = ['a','input','button','area','img','span','div','td'];
-                for (var t=0; t<tags.length; t++) {
-                    var els = document.getElementsByTagName(tags[t]);
-                    for (var i=0; i<els.length; i++) {
-                        var e = els[i];
-                        var hay = (e.textContent||'') + (e.value||'') +
-                                  (e.alt||'') + (e.title||'') +
-                                  (e.href||'') + (e.src||'') + (e.name||'');
-                        for (var k=0; k<keywords.length; k++) {
-                            if (hay.indexOf(keywords[k]) !== -1) {
-                                e.click(); return true;
-                            }
-                        }
+            ok = driver.execute_script("""
+                var kw=['מורחב','morch','adv','Advanced'];
+                var tags=['a','input','button','area','img','span','div','td'];
+                for(var t=0;t<tags.length;t++){
+                    var els=document.getElementsByTagName(tags[t]);
+                    for(var i=0;i<els.length;i++){
+                        var e=els[i];
+                        var h=(e.textContent||'')+(e.value||'')+(e.alt||'')+(e.title||'')+(e.href||'')+(e.src||'');
+                        for(var k=0;k<kw.length;k++)if(h.indexOf(kw[k])!==-1){e.click();return true;}
                     }
-                }
-                return false;
+                }return false;
             """)
-            if clicked:
-                return True
-        except Exception:
-            pass
-        xpaths = [
-            "//*[contains(text(),'חיפוש מורחב')]",
-            "//*[contains(@alt,'מורחב') or contains(@title,'מורחב')]",
-            "//a[contains(@href,'morch') or contains(@href,'adv')]",
-            "//input[contains(@value,'מורחב') or contains(@src,'morch')]",
-            "//area[contains(@href,'morch') or contains(@alt,'מורחב')]",
-        ]
-        for xp in xpaths:
+            if ok: return True
+        except Exception: pass
+        for xp in ["//*[contains(text(),'חיפוש מורחב')]",
+                   "//a[contains(@href,'morch') or contains(@href,'adv')]",
+                   "//area[contains(@href,'morch') or contains(@alt,'מורחב')]"]:
             try:
-                el = driver.find_element(By.XPATH, xp)
-                driver.execute_script("arguments[0].click();", el)
+                driver.execute_script("arguments[0].click();",
+                                      driver.find_element(By.XPATH, xp))
                 return True
-            except Exception:
-                pass
+            except Exception: pass
         return False
 
     try:
-        # ── 1. פתח אתר ──────────────────────────────────────────────────────
-        driver.get(BGU_URL)
-        _time.sleep(2)
+        driver.get(_BGU_START)
+        _t.sleep(2)
 
-        # ── 2. לחץ חיפוש מורחב (או נווט ישירות לטופס) ──────────────────────
-        found_form = _click_advanced()
-
-        if not found_form:
-            frames = (driver.find_elements(By.TAG_NAME, "iframe") +
-                      driver.find_elements(By.TAG_NAME, "frame"))
-            for fr in frames:
+        found = _click_adv()
+        if not found:
+            frs = (driver.find_elements(By.TAG_NAME, "iframe") +
+                   driver.find_elements(By.TAG_NAME, "frame"))
+            for fr in frs:
                 try:
                     driver.switch_to.frame(fr)
-                    if _click_advanced():
-                        found_form = True
-                        break
+                    if _click_adv(): found = True; break
                     driver.switch_to.default_content()
-                except Exception:
-                    driver.switch_to.default_content()
+                except Exception: driver.switch_to.default_content()
 
-        if not found_form:
+        if not found:
             driver.switch_to.default_content()
-            for url_try in [BGU_FORM,
-                            "https://bgu4u.bgu.ac.il/pls/scwp/!ann.search_adv",
-                            "https://bgu4u.bgu.ac.il/pls/scwp/!app.gate?app=ann&p_type=adv"]:
-                driver.get(url_try)
-                _time.sleep(2)
+            for url in [_BGU_FORM,
+                        "https://bgu4u.bgu.ac.il/pls/scwp/!ann.search_adv"]:
+                driver.get(url); _t.sleep(2)
                 if (driver.find_elements(By.ID, "on_course") or
                         len(driver.find_elements(By.TAG_NAME, "select")) >= 2):
-                    found_form = True
-                    break
+                    found = True; break
 
-        if not found_form:
+        if not found:
             raise RuntimeError("לא נמצא טופס חיפוש")
 
-        _time.sleep(2)
+        _t.sleep(2)
         driver.switch_to.default_content()
 
-        # ── 3. עבור ל-frame הטופס ───────────────────────────────────────────
-        _switch_best_frame()
+        _best_frame()
 
-        # ── 4. מלא שדות ─────────────────────────────────────────────────────
         _fill("on_course_department",   department)
         _fill("on_course_degree_level", degree)
         _fill("on_course",              course_num)
@@ -1074,34 +480,30 @@ def _scrape_timetable(department: str, degree: str, course_num: str,
             try: sem_el = driver.find_element(*loc); break
             except Exception: pass
         if sem_el:
-            _try_select(sem_el, *sem_map.get(semester, [semester]))
+            _try_sel(sem_el, *sem_map.get(semester, [semester]))
 
-        # ── 5. לחץ חפש ──────────────────────────────────────────────────────
-        search_clicked = False
-        for attempt in ["id", "js", "xpath"]:
+        clicked = False
+        for att in ["id", "js", "xpath"]:
             try:
-                if attempt == "id":
+                if att == "id":
                     btn = driver.find_element(By.ID, "GOPAGE2")
                     driver.execute_script("arguments[0].click();", btn)
-                elif attempt == "js":
+                elif att == "js":
                     driver.execute_script("goPage(2, true);")
                 else:
                     btn = driver.find_element(By.XPATH,
                         "//input[@value='חפש'] | "
                         "//input[@type='button' and contains(@value,'חפש')]")
                     driver.execute_script("arguments[0].click();", btn)
-                search_clicked = True
-                break
-            except Exception:
-                pass
+                clicked = True; break
+            except Exception: pass
 
-        if not search_clicked:
+        if not clicked:
             raise RuntimeError("לא נמצא כפתור חיפוש")
 
-        _time.sleep(3)
-        _switch_main_frame()
+        _t.sleep(3)
+        _main_frame()
 
-        # ── 6. תוצאות – לחץ על הקישור הכחול ────────────────────────────────
         links = driver.find_elements(By.CSS_SELECTOR, "#courseTable tbody a")
         if not links:
             skip = {"Languages", "תפריט", "חזור", "עזרה", "logout"}
@@ -1109,188 +511,841 @@ def _scrape_timetable(department: str, degree: str, course_num: str,
                      if a.text.strip() and not any(s in a.text for s in skip)]
 
         if not links:
-            _time.sleep(5)
+            _t.sleep(5); driver.quit()
             return {"course_name": f"{department}.{degree}.{course_num}",
                     "schedule": [], "error": "לא נמצאו תוצאות"}
 
         course_name = links[0].text.strip()
         driver.execute_script("arguments[0].click();", links[0])
-        _time.sleep(3)
-        _switch_main_frame()
+        _t.sleep(3)
+        driver.switch_to.default_content()
+        try: driver.switch_to.frame("main")
+        except Exception: pass
 
-        # ── 7. סרוק טבלת שעות ───────────────────────────────────────────────
-        # מבנה עמודות: 0=קבוצה, 1=סוג, 2=מרצה, 3=תא מאוחד(זמני+מקום+אופן)
         schedule = []
         for table in driver.find_elements(By.CSS_SELECTOR, "table.dataTable"):
             rows = table.find_elements(By.TAG_NAME, "tr")
-            if len(rows) < 2:
-                continue
+            if len(rows) < 2: continue
             hdrs = [th.text.strip() for th in rows[0].find_elements(By.TAG_NAME, "th")]
-            if "סוג" not in hdrs and "מרצה" not in hdrs:
-                continue
+            if "סוג" not in hdrs and "מרצה" not in hdrs: continue
             for row in rows[1:]:
                 cells = row.find_elements(By.TAG_NAME, "td")
-                if len(cells) < 4:
-                    continue
+                if len(cells) < 4: continue
                 combined = cells[3].text.strip()
-                if not combined:
-                    continue
-
-                t_m = _re2.search(
-                    r'יום\s+[אבגדה]\s+\d{1,2}:\d{2}\s*[-–]\s*\d{1,2}:\d{2}',
-                    combined)
+                if not combined: continue
+                t_m = _r.search(
+                    r'יום\s+[אבגדה]\s+\d{1,2}:\d{2}\s*[-–]\s*\d{1,2}:\d{2}', combined)
                 times_raw = t_m.group(0) if t_m else ""
-
-                loc_m = _re2.search(r'מקום לימוד:\s*(.*?)(?:\n|אופן|$)',
-                                    combined, _re2.DOTALL)
+                loc_m = _r.search(r'מקום לימוד:\s*(.*?)(?:\n|אופן|$)', combined, _r.DOTALL)
                 location = loc_m.group(1).strip() if loc_m else ""
-
-                met_m = _re2.search(r'אופן לימוד:\s*(.*?)$',
-                                    combined, _re2.MULTILINE)
+                met_m = _r.search(r'אופן לימוד:\s*(.*?)$', combined, _r.MULTILINE)
                 method = met_m.group(1).strip() if met_m else ""
-
                 schedule.append({
                     "type":      cells[1].text.strip() if len(cells) > 1 else "",
                     "lecturer":  cells[2].text.strip() if len(cells) > 2 else "",
-                    "times":     _parse_time_slots(times_raw),
+                    "times":     _parse_time_slots_tt(times_raw),
                     "times_raw": times_raw,
                     "location":  location,
                     "method":    method,
                 })
 
-        _time.sleep(5)
+        _t.sleep(5)
         return {"course_name": course_name, "schedule": schedule}
 
     except Exception:
-        _time.sleep(8)
+        _t.sleep(8)
         raise
     finally:
         driver.quit()
 
 
-@app.route('/api/timetable/search', methods=['POST'])
-def api_timetable_search():
-    data     = request.get_json() or {}
-    year     = str(data.get('year', '')).strip()
-    semester = str(data.get('semester', '')).strip()
+# ── ממשק Streamlit ───────────────────────────────────────────────────────────
 
-    # JS שולח שדות נפרדים: department / degree / course_num
-    # או שדה אחד: course_id בפורמט "361.1.3581"
-    department = str(data.get('department', '')).strip()
-    degree     = str(data.get('degree', '')).strip()
-    course_num = str(data.get('course_num', '')).strip()
+FACULTY_IMAGE = Path(__file__).parent / "אנשי סגל.png" # תוקן להשתמש בתיקייה הראשית
 
-    if not (department and degree and course_num):
-        # נסה פורמט מאוחד: course_id = "361.1.3581"
-        course_id = str(data.get('course_id', '')).strip()
-        parts = course_id.replace(" ", "").split(".")
-        if len(parts) != 3 or not all(p.isdigit() for p in parts):
-            return jsonify({'error': 'פורמט שגוי. דוגמה: 361.1.3581'}), 400
-        department, degree, course_num = parts
-
-    if not all([year, semester]):
-        return jsonify({'error': 'נא למלא שנה וסמסטר'}), 400
-
-    course_id = f"{department}.{degree}.{course_num}"
-
-    try:
-        result = _scrape_timetable(department, degree, course_num, year, semester)
-        result['course_id'] = course_id
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+TOPICS = [
+    ("🎓", "קבלה",     "ציוני כניסה ודרישות קבלה"),
+    ("📊", "ציונים",   "ממוצעי קורסים וציוני סיום"),
+    ("💰", "מלגות",    "מלגות זמינות ותנאי קבלה"),
+    ("🔬", "פרויקטים", "פרויקטי גמר ומחקר"),
+    ("📚", "קורסים",   "מידע על קורסים"),
+    ("🪖", "מילואים",  "זכויות משרתי מילואים"),
+]
 
 
-# ==================== Portal Login ====================
-@app.route('/api/portal-login', methods=['POST'])
-def api_portal_login():
-    import sys, pathlib
-    sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
-    data     = request.get_json() or {}
-    username = (data.get('username') or '').strip()
-    password = (data.get('password') or '').strip()
-    idnum    = (data.get('idnum')    or '').strip()
-    if not username or not password or not idnum:
-        return jsonify({'success': False, 'error': 'חסרים פרטים'}), 400
-    try:
-        from PORTAL import login as portal_login
-        success = portal_login(username, password, idnum)
-        return jsonify({'success': success})
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+def _grades_nav_ui() -> None:
+    gdf = load_graduates()
+    if gdf is None or gdf.empty:
+        st.warning("אין נתונים. נא לוודא שקובץ graduates_summary.csv נמצא בתיקיית data.")
+        return
 
+    view = st.session_state.get("grade_view", "depts")
 
-# ==================== Graduates API ====================
-@app.route('/api/graduates')
-def api_graduates():
-    dept = request.args.get('dept', '').strip()
-    year = request.args.get('year', '').strip()
-    csv_path = os.path.join(BASE_PATH, 'downloads', 'Graduates', 'graduates_summary.csv')
-    if not os.path.exists(csv_path):
-        return jsonify({'rows': [], 'error': 'CSV not found'})
-    try:
-        df = pd.read_csv(csv_path, encoding='utf-8-sig')
-        df['שנה'] = pd.to_numeric(df['שנה'], errors='coerce')
-        df['מספר_סטודנטים'] = pd.to_numeric(df['מספר_סטודנטים'], errors='coerce').fillna(0).astype(int)
-        filtered = df[
-            (df['מחלקה'] == dept) &
-            (df['שנה'] == int(year)) &
-            (df['טווח_ציונים'] != 'לא זמין')
+    if view == "depts":
+        st.markdown("### בחר תואר")
+        depts = sorted(gdf["מחלקה"].dropna().unique().tolist())
+        for row_start in range(0, len(depts), 3):
+            row_depts = depts[row_start:row_start + 3]
+            cols = st.columns(3)
+            for j, dept in enumerate(row_depts):
+                with cols[j]:
+                    if st.button(dept, key=f"gd_{dept}", use_container_width=True):
+                        st.session_state["grade_dept_nav"] = dept
+                        st.session_state["grade_view"] = "years"
+                        st.rerun()
+
+    elif view == "years":
+        dept = st.session_state.get("grade_dept_nav", "")
+        if st.button("← חזור לרשימת תארים", key="grade_back_depts"):
+            st.session_state["grade_view"] = "depts"
+            st.rerun()
+        st.markdown(f"### {dept}")
+        st.markdown("בחר שנה:")
+        yr_cols = st.columns(4)
+        for i, yr in enumerate([2024, 2023, 2022, 2021]):
+            with yr_cols[i]:
+                if st.button(str(yr), key=f"gyr_{yr}",
+                             use_container_width=True, type="primary"):
+                    st.session_state["grade_year_nav"] = yr
+                    st.session_state["grade_view"] = "table"
+                    st.rerun()
+
+    elif view == "table":
+        dept = st.session_state.get("grade_dept_nav", "")
+        year = st.session_state.get("grade_year_nav")
+
+        if st.button("← חזור לשנים", key="grade_back_years"):
+            st.session_state["grade_view"] = "years"
+            st.rerun()
+
+        st.markdown(f"### {dept} – {year}")
+
+        filtered = gdf[
+            (gdf["מחלקה"] == dept) &
+            (gdf["שנה"]   == year) &
+            (gdf["טווח_ציונים"] != "לא זמין")
         ].copy()
-        filtered['_s'] = filtered['טווח_ציונים'].apply(
-            lambda x: int(str(x).split('-')[0]) if '-' in str(x) else 0
+
+        if filtered.empty:
+            st.info("אין נתונים לתואר ושנה אלו.")
+        else:
+            filtered["_s"] = filtered["טווח_ציונים"].apply(
+                lambda x: int(str(x).split("-")[0]) if "-" in str(x) else 0
+            )
+            filtered = filtered.sort_values(by="_s")
+            chart_df = filtered[["טווח_ציונים", "מספר_סטודנטים"]].set_index("טווח_ציונים")
+            st.bar_chart(chart_df, y="מספר_סטודנטים", height=400)
+            st.dataframe(
+                filtered[["טווח_ציונים", "מספר_סטודנטים"]].reset_index(drop=True),
+                use_container_width=True, hide_index=True,
+            )
+
+        st.markdown("**החלף שנה:**")
+        yr_cols = st.columns(4)
+        for i, yr in enumerate([2024, 2023, 2022, 2021]):
+            with yr_cols[i]:
+                btn_type = "primary" if yr == year else "secondary"
+                if st.button(str(yr), key=f"gyrb_{yr}",
+                             use_container_width=True, type=btn_type):
+                    st.session_state["grade_year_nav"] = yr
+                    st.rerun()
+
+
+def _render_answer(answer: str) -> None:
+    def _link_html(label: str, url: str) -> str:
+        return (
+            f'<span style="display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap">'
+            f'<a href="{url}" target="_blank" '
+            f'style="color:#e8973a;font-weight:700;text-decoration:none">{label}</a>'
+            f'<button data-copy="{url}" '
+            f'style="background:#f5f6fa;border:1px solid #e0e0e0;border-radius:6px;'
+            f'padding:2px 8px;font-size:11px;cursor:pointer;font-family:inherit;'
+            f'transition:background .15s" '
+            f'onclick="var u=this.getAttribute(\'data-copy\');'
+            f'navigator.clipboard.writeText(u);'
+            f'var b=this;b.textContent=\'✓ הועתק\';'
+            f'setTimeout(function(){{b.textContent=\'📋 העתק\';}},1500)">'
+            f'📋 העתק</button>'
+            f'</span>'
         )
-        filtered = filtered.sort_values('_s')
-        rows = [{'range': r['טווח_ציונים'], 'count': int(r['מספר_סטודנטים'])}
-                for _, r in filtered.iterrows()]
-        return jsonify({'rows': rows})
-    except Exception as e:
-        return jsonify({'rows': [], 'error': str(e)})
+
+    links: list[str] = []
+
+    def _store(label: str, url: str) -> str:
+        links.append(_link_html(label, url))
+        return f'\x00LINK{len(links)-1}\x00'
+
+    html = answer
+    html = _re_links.sub(
+        r'\[([^\]]+)\]\((https?://[^)\s]+)\)',
+        lambda m: _store(m.group(1), m.group(2)),
+        html,
+    )
+    html = _re_links.sub(
+        r'(?<![=("\'`>])(https?://[^\s<>"\')\]]+)',
+        lambda m: _store(m.group(0), m.group(0)),
+        html,
+    )
+    html = _re_links.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', html)
+    html = html.replace('\n', '<br>')
+    html = _re_links.sub(r'\x00LINK(\d+)\x00', lambda m: links[int(m.group(1))], html)
+
+    lines = answer.count('\n')
+    height = max(80, lines * 22 + 60)
+    _st_components.html(
+        f'<div style="font-family:\'Segoe UI\',Arial,sans-serif;font-size:14px;'
+        f'line-height:1.75;direction:rtl;text-align:right;color:#333;padding:4px 0">'
+        f'{html}</div>',
+        height=height,
+        scrolling=False,
+    )
 
 
-# ---------- FORMS ----------
-@app.route('/api/forms')
-def api_forms():
-    import re as _re_forms
-    from urllib.parse import unquote as _unquote
+def run_ui() -> None:
+    st.set_page_config(page_title="עוזר BGU", layout="wide", page_icon="🎓")
 
-    q = request.args.get('q', '').strip().lower()
-    log_path = os.path.join(os.path.dirname(BASE_PATH), 'crawl_log.txt')
+    st.markdown("""
+    <style>
+        .stApp { direction: rtl; text-align: right; }
+        .stChatMessage { direction: rtl; text-align: right; }
+        .stChatInput textarea { direction: rtl; text-align: right; }
+        p, h1, h2, h3, li { text-align: right; direction: rtl; }
+        .topic-btn { width: 100%; margin-bottom: 4px; }
+    </style>
+    """, unsafe_allow_html=True)
 
-    forms = []
-    seen_names = set()
+    with st.sidebar:
+        st.markdown("## 👥 אנשי סגל")
+        if FACULTY_IMAGE.exists():
+            st.image(str(FACULTY_IMAGE), use_container_width=True)
+        st.caption("חוקרים, מרצים ועובדים באוניברסיטת בן גוריון")
+        if st.button("שאל על אנשי סגל", key="btn_people", use_container_width=True):
+            st.session_state.pending = "ספר לי על אנשי הסגל באוניברסיטת בן גוריון"
 
-    if os.path.exists(log_path):
-        with open(log_path, 'r', encoding='utf-8') as f:
-            for line in f:
-                line = line.strip()
-                if not line.startswith('PDF:'):
-                    continue
-                arrow = line.find(' -> ')
-                if arrow == -1:
-                    continue
-                url = line[4:arrow].strip()
-                url = _re_forms.sub(r':443', '', url)
-                raw_name = url.split('/')[-1]
-                if raw_name.lower().endswith('.pdf'):
-                    raw_name = raw_name[:-4]
-                name = _unquote(raw_name).replace('-', ' ').replace('_', ' ').strip()
-                if not name or name in seen_names:
-                    continue
-                seen_names.add(name)
-                forms.append({'name': name, 'url': url})
+        st.divider()
+        st.markdown("### נושאים נוספים")
+        TOPIC_LINKS = {
+            "מלגות":  [("לינק לאתר הרשמי של המלגות", "https://www.bgu.ac.il/welcome/ba/scholarship-lobby/")],
+            "מילואים": [("אתר המילואים הרשמי", "https://www.bgu.ac.il/u/academic-affairs/dekanat/miluim/")],
+            "קבלה":   [("תנאי קבלה", "https://www.bgu.ac.il/welcome/ba/reception-section-lobby/?semesters=012027")],
+        }
+        for icon, label, desc in TOPICS:
+            with st.expander(f"{icon} {label}"):
+                st.caption(desc)
+                for link_text, link_url in TOPIC_LINKS.get(label, []):
+                    st.markdown(f"[{link_text}]({link_url})")
+                if st.button(f"שאל על {label}", key=f"btn_{label}", use_container_width=True):
+                    st.session_state.pending = f"ספר לי על {label} באוניברסיטת בן גוריון"
 
-    if q:
-        forms = [f for f in forms if q in f['name'].lower()]
+    st.title("🎓 עוזר אוניברסיטת בן גוריון")
 
-    return jsonify({'forms': forms[:60], 'total': len(forms)})
+    with st.expander("📊 ציוני סוף תארים", expanded=False):
+        _grades_nav_ui()
+
+    tab_chat, tab_tt, tab_portal = st.tabs(
+        ["💬 שיחה", "🕐 מערכת שעות", "🔐 פורטל"]
+    )
+
+    with tab_chat:
+        try:
+            col = load_chroma()
+        except Exception as e:
+            st.error(f"ChromaDB לא נמצא – ודא שהתיקייה chroma_db_storage קיימת במקביל לקובץ זה.\n\n{e}")
+            st.stop()
+
+        if "messages" not in st.session_state:
+            st.session_state.messages = []
+        if "pending" not in st.session_state:
+            st.session_state.pending = ""
+
+        if "gemini_model" not in st.session_state:
+            genai.configure(api_key=GOOGLE_API_KEY)
+            st.session_state.gemini_model = genai.GenerativeModel(
+                model_name=MODEL_NAME,
+                tools=TOOLS,
+                system_instruction=SYSTEM_PROMPT,
+            )
+
+        if st.button("🗑️ נקה שיחה", key="clear_chat"):
+            st.session_state.messages = []
+            st.rerun()
+
+        for msg in st.session_state.messages:
+            with st.chat_message(msg["role"]):
+                if msg["role"] == "assistant":
+                    _render_answer(msg["content"])
+                else:
+                    st.markdown(msg["content"])
+
+        _st_components.html("""
+<script>
+(function() {
+    const FULL = "שאל שאלה על BGU...";
+    let idx = 0, growing = true;
+
+    function getInput() {
+        return document.querySelector('[data-testid="stChatInput"] textarea')
+            || document.querySelector('textarea[placeholder]');
+    }
+
+    function tick() {
+        const el = getInput();
+        if (!el) { setTimeout(tick, 150); return; }
+
+        if (growing) {
+            idx++;
+            if (idx >= FULL.length) { growing = false; setTimeout(tick, 1800); return; }
+        } else {
+            idx--;
+            if (idx <= 0) { growing = true; setTimeout(tick, 500); return; }
+        }
+        el.setAttribute("placeholder", FULL.substring(0, idx));
+        setTimeout(tick, growing ? 90 : 45);
+    }
+    setTimeout(tick, 400);
+})();
+</script>
+""", height=0)
+        pending = st.session_state.pop("pending", "")
+        prompt = st.chat_input("שאל שאלה על BGU...") or pending
+        if prompt:
+            with st.chat_message("user"):
+                st.markdown(prompt)
+            st.session_state.messages.append({"role": "user", "content": prompt})
+
+            with st.chat_message("assistant"):
+                with st.spinner("מחפש..."):
+                    try:
+                        answer = ask_gemini(col, prompt, st.session_state.gemini_model)
+                    except Exception as e:
+                        err = str(e)
+                        if "quota" in err.lower() or "429" in err:
+                            answer = "⚠️ הגעת למגבלת השימוש ב-Gemini. המתן כמה שניות ונסה שוב."
+                        else:
+                            answer = f"⚠️ שגיאה: {err}"
+                _render_answer(answer)
+
+            st.session_state.messages.append({"role": "assistant", "content": answer})
+
+    with tab_tt:
+        st.subheader("חיפוש מערכת שעות קורס")
+        st.caption("ימלא את הטופס, ילחץ חפש ויביא את שעות הקורס.")
+
+        _st_components.html("""
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: transparent; direction: rtl; }
+
+  .demo-wrap {
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+    border: 1px solid #c5d3f0;
+    border-radius: 12px;
+    padding: 14px 18px 16px;
+    margin-bottom: 6px;
+  }
+  .demo-title {
+    font-size: 13px;
+    color: #3c4f7c;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+  }
+  .fields-row {
+    display: flex;
+    gap: 18px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  .field-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .field-label {
+    font-size: 11px;
+    color: #5f6d8a;
+    margin-bottom: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .fake-input {
+    min-width: 72px;
+    padding: 7px 12px;
+    border: 2px solid #b0c0e8;
+    border-radius: 8px;
+    background: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a2a5e;
+    min-height: 42px;
+    line-height: 1.3;
+    transition: border-color 0.3s;
+    display: flex;
+    align-items: center;
+  }
+  .fake-input.active {
+    border-color: #4169e1;
+    box-shadow: 0 0 0 3px rgba(65,105,225,0.15);
+  }
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 22px;
+    background: #4169e1;
+    margin-right: 1px;
+    vertical-align: middle;
+    border-radius: 1px;
+    animation: blink 0.6s step-end infinite;
+  }
+  .cursor.hidden { display: none; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .dot-sep {
+    font-size: 22px;
+    font-weight: 700;
+    color: #4169e1;
+    padding-bottom: 8px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .dot-sep.show { opacity: 1; }
+
+  .status-line {
+    font-size: 11px;
+    color: #7a8ab0;
+    margin-top: 10px;
+    min-height: 16px;
+  }
+</style>
+</head>
+<body>
+<div class="demo-wrap">
+  <div class="demo-title">🖊 דוגמה – כך ממלאים מספר קורס (מחלקה.תואר.קורס):</div>
+  <div class="fields-row">
+
+    <div class="field-box">
+      <span class="field-label">מחלקה</span>
+      <div class="fake-input" id="box-dept">
+        <span id="txt-dept"></span><span class="cursor hidden" id="cur-dept"></span>
+      </div>
+    </div>
+
+    <div class="dot-sep" id="dot1">.</div>
+
+    <div class="field-box">
+      <span class="field-label">תואר</span>
+      <div class="fake-input" id="box-deg">
+        <span id="txt-deg"></span><span class="cursor hidden" id="cur-deg"></span>
+      </div>
+    </div>
+
+    <div class="dot-sep" id="dot2">.</div>
+
+    <div class="field-box">
+      <span class="field-label">מספר קורס</span>
+      <div class="fake-input" id="box-cnum" style="min-width:100px;">
+        <span id="txt-cnum"></span><span class="cursor hidden" id="cur-cnum"></span>
+      </div>
+    </div>
+
+  </div>
+  <div class="status-line" id="status-line"></div>
+</div>
+
+<script>
+var DEPT  = "361";
+var DEG   = "1";
+var CNUM  = "3581";
+var CHAR_DELAY   = 100;
+var FIELD_GAP    = 500;
+var PAUSE_FULL   = 10000;
+var CLEAR_PAUSE  = 400;
+
+var fields = [
+  { txt: "txt-dept",  cur: "cur-dept",  box: "box-dept",  dot: null,   value: DEPT },
+  { txt: "txt-deg",   cur: "cur-deg",   box: "box-deg",   dot: "dot1", value: DEG  },
+  { txt: "txt-cnum",  cur: "cur-cnum",  box: "box-cnum",  dot: "dot2", value: CNUM }
+];
+
+function $(id){ return document.getElementById(id); }
+
+function clearAll() {
+  fields.forEach(function(f){
+    $(f.txt).textContent = "";
+    $(f.cur).classList.add("hidden");
+    $(f.box).classList.remove("active");
+    if(f.dot) $(f.dot).classList.remove("show");
+  });
+  $("status-line").textContent = "";
+}
+
+function typeField(fi, ci, onDone) {
+  var f = fields[fi];
+  var box = $(f.box);
+  var txt = $(f.txt);
+  var cur = $(f.cur);
+
+  if(ci === 0) {
+    if(f.dot) $(f.dot).classList.add("show");
+    box.classList.add("active");
+    cur.classList.remove("hidden");
+    txt.textContent = "";
+  }
+
+  if(ci >= f.value.length) {
+    cur.classList.add("hidden");
+    box.classList.remove("active");
+    setTimeout(function(){ onDone(); }, FIELD_GAP);
+    return;
+  }
+
+  txt.textContent += f.value[ci];
+  setTimeout(function(){ typeField(fi, ci+1, onDone); }, CHAR_DELAY);
+}
+
+function typeAll(fi, cb) {
+  if(fi >= fields.length){ cb(); return; }
+  typeField(fi, 0, function(){ typeAll(fi+1, cb); });
+}
+
+function startCountdown(sec) {
+  if(sec <= 0){ $("status-line").textContent = ""; return; }
+  $("status-line").textContent = "סבב חדש עוד " + sec + " שניות...";
+  setTimeout(function(){ startCountdown(sec-1); }, 1000);
+}
+
+function loop() {
+  clearAll();
+  setTimeout(function(){
+    typeAll(0, function(){
+      $("status-line").textContent = "✓  361.1.3581";
+      startCountdown(10);
+      setTimeout(function(){
+        loop();
+      }, PAUSE_FULL + CLEAR_PAUSE);
+    });
+  }, 300);
+}
+
+loop();
+</script>
+</body>
+</html>
+""", height=0)
+
+        _qp   = st.query_params
+        _dept = _qp.get("dept",  "")
+        _deg  = _qp.get("deg",   "")
+        _cnum = _qp.get("cnum",  "")
+        _year = _qp.get("yr",    "2026")
+        _sem  = _qp.get("sem",   "1")
+        _sid  = _qp.get("sid",   "")
+
+        _sem_disp  = {"1": "א'", "2": "ב'", "3": "קיץ"}.get(_sem, "א'")
+        _pre       = "true" if _sid else "false"
+
+        _st_components.html(f"""<!DOCTYPE html>
+<html lang="he" dir="rtl"><head><meta charset="UTF-8"><style>
+*{{box-sizing:border-box;margin:0;padding:0;}}
+body{{font-family:system-ui,sans-serif;background:transparent;padding:8px 2px 6px;}}
+.card{{background:#fff;border-radius:14px;padding:1.3rem 1.6rem;
+       box-shadow:0 2px 14px rgba(0,0,0,0.08);}}
+h2{{font-size:19px;font-weight:600;margin-bottom:3px;}}
+.sub{{font-size:13px;color:#888;margin-bottom:1.3rem;}}
+.row{{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;}}
+.add-btn{{display:flex;align-items:center;gap:8px;background:#f5a623;color:#fff;
+          border:none;border-radius:10px;padding:10px 18px;font-size:15px;
+          font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s;}}
+.add-btn:hover{{background:#e0941a;}}
+.fgrp{{display:flex;align-items:flex-end;gap:6px;flex-direction:row-reverse;}}
+.fw{{display:flex;flex-direction:column;align-items:center;gap:4px;}}
+.fl{{font-size:12px;color:#999;white-space:nowrap;}}
+.ti{{text-align:center;border:1.5px solid #ddd;border-radius:8px;
+     padding:7px 8px;font-size:15px;font-weight:500;color:#222;
+     background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;
+     caret-color:#f5a623;}}
+.ti.active{{border-color:#4f8ef7;box-shadow:0 0 0 3px rgba(79,142,247,.15);}}
+.ti:focus{{border-color:#4f8ef7;box-shadow:0 0 0 3px rgba(79,142,247,.15);}}
+.sep{{font-size:14px;color:#bbb;padding-bottom:9px;}}
+.dash{{font-size:19px;color:#bbb;padding-bottom:8px;}}
+.ctrl{{margin-top:1rem;display:flex;align-items:center;gap:14px;}}
+#tog{{font-size:13px;color:#555;background:none;border:1px solid #ddd;
+      border-radius:8px;padding:6px 14px;cursor:pointer;}}
+#tog:hover{{background:#f5f5f5;}}
+.stat{{font-size:13px;color:#888;display:flex;align-items:center;gap:6px;}}
+.dot{{width:8px;height:8px;border-radius:50%;transition:background .3s;}}
+.dot.typing{{background:#4f8ef7;animation:pulse .8s ease-in-out infinite;}}
+.dot.waiting{{background:#f5a623;}}
+.dot.stopped{{background:#ccc;}}
+@keyframes pulse{{0%,100%{{opacity:1}}50%{{opacity:.3}}}}
+.err{{font-size:12px;color:#e53e3e;margin-top:8px;min-height:16px;}}
+.cyc-bar{{margin-top:14px;padding-top:10px;border-top:2px solid #f0f0f0;}}
+.cyc-track{{position:relative;height:10px;background:#ebebeb;border-radius:5px;margin:0 4px;}}
+.cyc-fill{{height:100%;width:0%;background:linear-gradient(90deg,#4f8ef7,#f5a623);border-radius:5px;}}
+.cyc-thumb{{position:absolute;top:-5px;left:0%;width:20px;height:20px;background:#fff;border:2.5px solid #4f8ef7;border-radius:50%;transform:translateX(-50%);box-shadow:0 1px 4px rgba(0,0,0,.15);}}
+.cyc-start{{position:absolute;left:0;top:-8px;width:4px;height:26px;background:#e53935;border-radius:2px;z-index:3;box-shadow:0 0 6px rgba(229,57,53,.5);}}
+.cyc-lbl{{display:flex;justify-content:space-between;font-size:10px;color:#bbb;margin-top:5px;padding:0 4px;}}
+.cyc-start-tip{{position:absolute;left:6px;top:-20px;font-size:9px;color:#e53935;font-weight:700;white-space:nowrap;}}
+</style></head><body>
+<div class="card">
+  <h2>🗓️ מערכת שעות</h2>
+  <p class="sub">בנה את מערכת השעות שלך – הוסף קורסים לפי מחלקה, תואר ומספר</p>
+  <div class="row">
+    <button class="add-btn" id="btn-add">
+      <span style="font-size:20px;font-weight:400">+</span> הוסף קורס
+    </button>
+    <div class="fgrp">
+      <div class="fw"><span class="fl">שנה</span>
+        <input class="ti" id="f-year"     style="width:64px" maxlength="4" value="{_year}" autocomplete="off">
+      </div>
+      <div class="fw"><span class="fl">סמסטר</span>
+        <input class="ti" id="f-semester" style="width:54px" maxlength="3" value="{_sem_disp}" autocomplete="off">
+      </div>
+      <div class="dash">—</div>
+      <div class="fw">
+        <span class="fl">(מחלקה . תואר . קורס)</span>
+        <div style="display:flex;align-items:flex-end;gap:4px">
+          <input class="ti" id="f-dept"   style="width:64px" maxlength="5" inputmode="numeric" value="{_dept}" autocomplete="off">
+          <div class="sep">.</div>
+          <input class="ti" id="f-degree" style="width:40px" maxlength="2" inputmode="numeric" value="{_deg}"  autocomplete="off">
+          <div class="sep">.</div>
+          <input class="ti" id="f-course" style="width:52px" maxlength="6" inputmode="numeric" value="{_cnum}" autocomplete="off">
+        </div>
+      </div>
+      <div class="dash">—</div>
+      <div class="fw"><span class="fl">מספר קורס</span>
+        <input class="ti" id="f-num" style="width:64px" maxlength="6" inputmode="numeric" value="{_cnum}" autocomplete="off">
+      </div>
+    </div>
+  </div>
+  <div class="err" id="err-msg"></div>
+  <div class="ctrl">
+    <button id="tog" onclick="toggle()">⏹ עצור</button>
+    <div class="stat">
+      <div class="dot typing" id="sdot"></div>
+      <span id="stxt">מקליד...</span>
+    </div>
+  </div>
+  <div class="cyc-bar">
+    <div class="cyc-track">
+      <div class="cyc-fill" id="cyc-fill"></div>
+      <div class="cyc-thumb" id="cyc-thumb"></div>
+      <div class="cyc-start" title="תחילת מחזור">
+        <div class="cyc-start-tip">▶ התחלה</div>
+      </div>
+    </div>
+    <div class="cyc-lbl"><span style="color:#e53935;font-weight:700">|</span><span>◷ המתנה</span><span>↺ סיום</span></div>
+  </div>
+</div>
+<script>
+const CHAR_MS=100, PAUSE_MS=10000, CLEAR_MS=400;
+const TYPE_MS=(3+1+4)*CHAR_MS+2*80+400;
+const TOTAL_MS=TYPE_MS+PAUSE_MS+CLEAR_MS;
+var cycStartTime=null;
+(function rafLoop(){{
+  if(cycStartTime!==null&&running){{
+    var p=Math.min(99,(Date.now()-cycStartTime)/TOTAL_MS*100);
+    var fill=document.getElementById('cyc-fill');
+    var thumb=document.getElementById('cyc-thumb');
+    if(fill)fill.style.width=p+'%';
+    if(thumb)thumb.style.left=p+'%';
+  }}
+  requestAnimationFrame(rafLoop);
+}})();
+const FIELDS=[
+  {{id:'f-dept',    val:'361'}},
+  {{id:'f-degree',  val:'1'}},
+  {{id:'f-course',  val:'3581'}},
+];
+
+const owned=FIELDS.map(()=>{_pre});
+let running=true, timers=[];
+const sch=(fn,ms)=>timers.push(setTimeout(fn,ms));
+const cancAll=()=>{{timers.forEach(clearTimeout);timers=[];}};
+
+FIELDS.forEach((f,i)=>{{
+  const el=document.getElementById(f.id);
+  el.addEventListener('focus',()=>{{if(!owned[i]){{el.value='';owned[i]=true;}}}});
+  el.addEventListener('blur', ()=>{{if(!el.value.trim()) owned[i]=false;}});
+  el.addEventListener('input',()=>{{owned[i]=true;}});
+}});
+
+document.getElementById('f-num').addEventListener('input',function(){{
+  document.getElementById('f-course').value=this.value;
+}});
+document.getElementById('f-course').addEventListener('input',function(){{
+  document.getElementById('f-num').value=this.value;
+}});
+
+document.getElementById('btn-add').onclick=function(){{
+  const d=document.getElementById('f-dept').value.trim();
+  const g=document.getElementById('f-degree').value.trim();
+  const c=document.getElementById('f-course').value.trim();
+  const yr=document.getElementById('f-year').value.trim();
+  const sm_t=document.getElementById('f-semester').value.trim();
+  const err=document.getElementById('err-msg');
+  if(!d||!g||!c||!yr){{err.textContent='נא למלא את כל השדות';return;}}
+  if(!/^[0-9]+$/.test(d)||!/^[0-9]+$/.test(g)||!/^[0-9]+$/.test(c)){{
+    err.textContent='מחלקה, תואר וקורס חייבים להכיל ספרות בלבד';return;
+  }}
+  err.textContent='';
+  const smMap={{"א'":"1","ב'":"2","קיץ":"3"}};
+  const sm=smMap[sm_t]||"1";
+  window.parent.location.search='?dept='+d+'&deg='+g+'&cnum='+c+'&yr='+yr+'&sem='+sm+'&sid='+Date.now();
+}};
+
+function setStatus(m){{
+  document.getElementById('sdot').className='dot '+m;
+  document.getElementById('stxt').textContent=m==='typing'?'מקליד...':m==='waiting'?'ממתין...':'עצור';
+}}
+function clrFields(){{
+  FIELDS.forEach((f,i)=>{{if(!owned[i]){{const e=document.getElementById(f.id);e.value='';e.classList.remove('active');}}}});
+}}
+function typeField(fi,ci,done){{
+  if(!running)return;
+  const f=FIELDS[fi];
+  if(owned[fi]){{sch(done,50);return;}}
+  const el=document.getElementById(f.id);
+  if(ci===0)el.classList.add('active');
+  if(ci<=f.val.length){{
+    el.value=f.val.slice(0,ci);
+    sch(()=>typeField(fi,ci+1,done),CHAR_MS);
+  }}else{{
+    el.classList.remove('active');
+    sch(done,80);
+  }}
+}}
+function typeSeq(i,done){{
+  if(!running)return;
+  if(i>=FIELDS.length){{done();return;}}
+  typeField(i,0,()=>typeSeq(i+1,done));
+}}
+function cycle(){{
+  if(!running)return;
+  cycStartTime=Date.now();
+  var fill=document.getElementById('cyc-fill');
+  var thumb=document.getElementById('cyc-thumb');
+  if(fill)fill.style.width='0%';
+  if(thumb)thumb.style.left='0%';
+  setStatus('typing');
+  typeSeq(0,()=>{{
+    if(!running)return;
+    setStatus('waiting');
+    sch(()=>{{if(!running)return;clrFields();sch(cycle,CLEAR_MS);}},PAUSE_MS);
+  }});
+}}
+function toggle(){{
+  const b=document.getElementById('tog');
+  if(running){{running=false;cancAll();setStatus('stopped');b.textContent='▶ הפעל';cycStartTime=null;var f=document.getElementById('cyc-fill'),t=document.getElementById('cyc-thumb');if(f)f.style.width='0%';if(t)t.style.left='0%';}}
+  else{{running=true;b.textContent='⏹ עצור';clrFields();sch(cycle,200);}}
+}}
+cycle();
+</script></body></html>""", height=345)
+
+        if _sid and _sid != st.session_state.get("_tt_last_sid", "") and _dept and _deg and _cnum:
+            st.session_state["_tt_last_sid"] = _sid
+            with st.spinner("מחפש מערכת שעות ברקע..."):
+                try:
+                    result = _scrape_timetable_visible(_dept, _deg, _cnum, _year, _sem)
+                    st.session_state.tt_result = result
+                except Exception as exc:
+                    st.error(f"שגיאה: {exc}")
+                    st.session_state.tt_result = None
+
+        result = st.session_state.get("tt_result")
+        if result:
+            if "error" in result:
+                st.warning(result["error"])
+            else:
+                st.success(f"קורס: **{result.get('course_name', '')}**")
+                sched = result.get("schedule", [])
+                if not sched:
+                    st.info("לא נמצאו נתוני מערכת שעות בדף")
+                else:
+                    for i, s in enumerate(sched, 1):
+                        header = f"קבוצה {i}"
+                        if s.get("type"):     header += f" – {s['type']}"
+                        if s.get("lecturer"): header += f" | {s['lecturer']}"
+                        with st.expander(header, expanded=True):
+                            if s.get("times_raw"):
+                                st.write(f"**זמן:** {s['times_raw']}")
+                            if s.get("location"):
+                                st.write(f"**מקום:** {s['location']}")
+                            if s.get("method"):
+                                st.write(f"**אופן:** {s['method']}")
 
 
-# ==================== Main ====================
-if __name__ == '__main__':
-    print("\n" + "="*50)
-    print("  BGU Manager - Student Portal")
-    print("="*50)
-    print("  Open: http://localhost:5001")
-    print("="*50 + "\n")
-    app.run(debug=False, port=5001, host='0.0.0.0', threaded=True)
+    with tab_portal:
+        st.subheader("🔐 כניסה לפורטל BGU")
+
+        for _k, _v in [("portal_success",    None),
+                        ("portal_usr_filled", False),
+                        ("portal_pwd_filled", False),
+                        ("portal_id_filled",  False)]:
+            if _k not in st.session_state:
+                st.session_state[_k] = _v
+
+        def _icon_html(filled: bool, success=None) -> str:
+            if success is True:  return "<span style='color:green;font-size:22px'>✔</span>"
+            if success is False: return "<span style='color:red;font-size:22px'>✗</span>"
+            if filled:           return "<span style='font-size:22px'>←</span>"
+            return ""
+
+        def _show(filled: bool, success=None):
+            html = _icon_html(filled, success)
+            if html:
+                st.markdown(
+                    f"<div style='margin-top:32px;text-align:center'>{html}</div>",
+                    unsafe_allow_html=True)
+
+        with st.form("portal_login_form"):
+            c_usr, c_u_ic, c_pwd, c_p_ic, c_id, c_id_ic = st.columns(
+                [0.28, 0.05, 0.27, 0.05, 0.27, 0.08])
+
+            with c_usr:
+                usr_val = st.text_input("שם משתמש")
+            with c_u_ic:
+                _show(st.session_state.portal_usr_filled)
+
+            with c_pwd:
+                pwd_val = st.text_input("סיסמה", type="password")
+            with c_p_ic:
+                _show(st.session_state.portal_pwd_filled)
+
+            with c_id:
+                id_val = st.text_input('מספר ת"ז')
+            with c_id_ic:
+                _show(st.session_state.portal_id_filled, st.session_state.portal_success)
+
+            submitted = st.form_submit_button("כניסה לפורטל", type="primary",
+                                               use_container_width=True)
+
+        if submitted:
+            st.session_state.portal_usr_filled = bool(usr_val.strip())
+            st.session_state.portal_pwd_filled = bool(pwd_val.strip())
+            st.session_state.portal_id_filled  = bool(id_val.strip())
+
+            if not usr_val.strip() or not pwd_val.strip() or not id_val.strip():
+                st.warning("נא למלא את כל השדות")
+                st.session_state.portal_success = None
+            else:
+                with st.spinner("מתחבר לפורטל BGU…"):
+                    try:
+                        from PORTAL import login as _portal_login
+                        st.session_state.portal_success = _portal_login(
+                            usr_val.strip(), pwd_val.strip(), id_val.strip())
+                    except ImportError:
+                        st.error("שגיאה: הקובץ PORTAL.py חסר בסביבת השרת.")
+                    except Exception as _exc:
+                        st.session_state.portal_success = False
+                        st.error(f"שגיאה בכניסה לפורטל: {_exc}")
+            st.rerun()
+
+
+# ── נקודת כניסה ──────────────────────────────────────────────────────────────
+if __name__ == "__main__":
+    run_ui()
