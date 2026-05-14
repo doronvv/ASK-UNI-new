@@ -16,7 +16,7 @@ os.environ["GRPC_VERBOSITY"] = "ERROR"
 
 # ==================== Config ====================
 BASE_PATH = r"C:\Users\doron\PycharmProjects\PythonProject3\.venv"
-GOOGLE_API_KEY = AIzaSyDQPbz2phAK4YorWWJvwuwqgWrvM0G0t4o
+GOOGLE_API_KEY = "AIzaSyDQPbz2phAK4YorWWJvwuwqgWrvM0G0t4o"
 SERVER_TOKEN = secrets.token_hex(16)  # מתחדש עם כל הפעלת שרת – מאפס credentials
 BAD_VALS = {'nan','none','no data','error','label not found','no grade found',
             "no 'average' found in text","no 'average' found",'empty pdf / image',
