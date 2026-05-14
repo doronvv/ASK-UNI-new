@@ -1,0 +1,2630 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AskUni – פורטל הסטודנט</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --orange:#e8973a;--orange-light:#fdf3e7;--orange-dark:#c97a28;
+  --bg:#f5f6fa;--white:#fff;--sidebar:#2c3148;--sidebar-hover:#3d4263;
+  --text:#333;--text-light:#888;--border:#e8e8e8;
+  --shadow:0 2px 12px rgba(0,0,0,.08);--radius:12px;
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* ===== HEADER ===== */
+.header{height:56px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;box-shadow:var(--shadow);z-index:10}
+.header-logo{display:flex;align-items:center;gap:10px}
+.logo-circle{width:38px;height:38px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff}
+.logo-text{font-weight:700;font-size:18px;color:var(--text)}
+.logo-sub{font-size:11px;color:var(--text-light);margin-top:1px}
+.header-user{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-light)}
+.user-badge{background:var(--orange-light);color:var(--orange-dark);padding:5px 14px;border-radius:20px;font-weight:600;font-size:13px}
+.header-creds{display:flex;align-items:center;gap:8px;font-size:12px}
+.cred-label{color:var(--text-light);font-weight:600;white-space:nowrap}
+.cred-input{height:28px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;direction:rtl;background:#f8f9fa;color:var(--text);width:120px;outline:none;transition:border .15s}
+.cred-input:focus{border-color:var(--orange);background:#fff}
+.cred-toggle{background:none;border:none;cursor:pointer;font-size:14px;padding:0 2px;color:var(--text-light);line-height:1}
+.cred-field-wrap{display:inline-flex;align-items:center;justify-content:center;width:120px;height:28px}
+.cred-ok{color:#555;font-size:20px;font-weight:700;line-height:1;text-align:center}
+
+/* ===== TIMETABLE ===== */
+.tt-bar{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:14px;padding:14px 16px;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow)}
+.tt-bar-group{display:flex;flex-direction:column;gap:3px}
+.tt-label{font-size:11px;font-weight:700;color:var(--text-light);text-align:right}
+.tt-select{height:34px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;background:#f8f9fa;direction:rtl;outline:none}
+.tt-select:focus{border-color:var(--orange)}
+.tt-bar-sep{width:1px;height:36px;background:var(--border);align-self:center;margin:0 2px}
+.tt-course-row{display:flex;align-items:center;gap:4px}
+.tt-inp{height:34px;border:1px solid var(--border);border-radius:6px;font-size:14px;font-family:inherit;text-align:center;outline:none;transition:border .15s;background:#f8f9fa;direction:ltr}
+.tt-inp:focus{border-color:var(--orange);background:#fff}
+.tt-inp-dept{width:48px}.tt-inp-deg{width:30px}.tt-inp-kurs{width:56px}
+.tt-dot{font-weight:700;color:#aaa;font-size:16px;line-height:1}
+.tt-status{min-height:26px;padding:5px 12px;font-size:13px;border-radius:6px;margin-bottom:10px;transition:all .2s}
+.tt-status.loading{background:#fff3e0;color:#e65100}
+.tt-status.success{background:#e8f5e9;color:#2e7d32}
+.tt-status.error{background:#ffebee;color:#c62828}
+.tt-layout{display:flex;gap:14px;align-items:flex-start}
+.tt-grid-wrap{flex:1;overflow:auto;max-height:calc(100vh - 280px);border-radius:var(--radius);box-shadow:var(--shadow)}
+.tt-grid{border-collapse:collapse;width:100%;min-width:480px;background:var(--white)}
+.tt-grid thead th{position:sticky;top:0;z-index:2;background:#2c3148;color:#fff;padding:9px 6px;font-size:13px;text-align:center;border:1px solid rgba(255,255,255,.15);white-space:nowrap}
+.tt-th-time{position:sticky;left:0;z-index:3!important;width:56px}
+.tt-grid tbody td{border:1px solid #e8e8e8;height:36px;font-size:11px;text-align:center;vertical-align:middle;padding:0 4px;transition:background .15s;white-space:nowrap;overflow:hidden;max-width:90px;background-clip:padding-box}
+.tt-td-time{position:sticky;left:0;background:#f0f1f5!important;font-size:10px;font-weight:700;color:#888;z-index:1;border-right:2px solid #ddd}
+.tt-row-hour .tt-td-time{color:#555;font-size:11px}
+.tt-row-hour td{border-top:1px solid #ccc}
+.tt-sidebar{width:210px;flex-shrink:0}
+.tt-legend-title{font-weight:700;font-size:13px;margin-bottom:8px;color:var(--text);padding-bottom:6px;border-bottom:2px solid var(--border)}
+.tt-legend{display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 320px);overflow-y:auto}
+.tt-legend-item{display:flex;align-items:flex-start;gap:8px;padding:8px;background:var(--white);border-radius:8px;box-shadow:var(--shadow)}
+.tt-legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;margin-top:2px}
+.tt-legend-info{flex:1;min-width:0}
+.tt-legend-id{font-size:11px;font-weight:700;color:var(--text)}
+.tt-legend-name{font-size:10px;color:var(--text-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tt-legend-rm{background:none;border:none;cursor:pointer;color:#bbb;font-size:13px;padding:0;line-height:1;flex-shrink:0}
+.tt-legend-rm:hover{color:#c62828}
+.tt-empty{font-size:12px;color:var(--text-light);text-align:center;padding:16px 8px}
+
+/* ===== LAYOUT ===== */
+.layout{display:flex;flex:1;overflow:hidden}
+
+/* ===== SIDEBAR ===== */
+.sidebar{width:72px;background:var(--sidebar);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;flex-shrink:0;overflow:hidden;transition:width .25s}
+.sidebar:hover{width:200px}
+.nav-item{width:100%;display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;border-radius:0;transition:background .15s;color:#aab;white-space:nowrap;text-decoration:none}
+.nav-item:hover,.nav-item.active{background:var(--sidebar-hover);color:#fff}
+.nav-item.active{border-right:3px solid var(--orange)}
+.nav-icon{font-size:20px;flex-shrink:0;width:24px;text-align:center}
+.nav-label{font-size:13px;font-weight:500;opacity:0;transition:opacity .2s}
+.sidebar:hover .nav-label{opacity:1}
+.nav-sep{width:100%;height:3px;background:var(--orange);margin:10px 0;opacity:.85;border-radius:2px;box-shadow:0 0 6px rgba(232,151,58,.5)}
+
+/* ===== MAIN ===== */
+.main{flex:1;overflow-y:auto;padding:24px}
+
+/* ===== SECTION ===== */
+.section{display:none}
+.section.active{display:block}
+.page-title{font-size:22px;font-weight:700;margin-bottom:6px}
+.page-sub{font-size:14px;color:var(--text-light);margin-bottom:24px}
+
+/* ===== DASHBOARD ===== */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s,box-shadow .15s;border:1px solid var(--border)}
+.card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.card-icon{font-size:32px;margin-bottom:10px}
+.card-title{font-weight:700;font-size:15px;margin-bottom:4px}
+.card-desc{font-size:12px;color:var(--text-light);line-height:1.5}
+.card-count{margin-top:10px;font-size:20px;font-weight:700;color:var(--orange)}
+
+/* ===== SEARCH BAR ===== */
+.search-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.search-input{flex:1;min-width:200px;padding:10px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;outline:none;direction:rtl;font-family:inherit}
+.search-input:focus{border-color:var(--orange)}
+.btn{padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-family:inherit;font-weight:600;transition:background .15s}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-primary:hover{background:var(--orange-dark)}
+.btn-outline{background:#fff;color:var(--orange);border:1.5px solid var(--orange)}
+.btn-outline:hover{background:var(--orange-light)}
+
+/* ===== TABLE / RESULTS ===== */
+.results-info{font-size:13px;color:var(--text-light);margin-bottom:12px}
+.table-wrap{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{background:#f8f9fc;padding:12px 16px;text-align:right;font-size:13px;color:var(--text-light);font-weight:600;border-bottom:1px solid var(--border)}
+td{padding:11px 16px;font-size:14px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbff}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.badge-track{background:#e3f2fd;color:#1565c0}
+/* ===== GRADE COLORS ===== */
+.grade-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:700;min-width:42px;text-align:center}
+.grade-1{background:#1b5e20;color:#fff}        /* 90-100 ירוק כהה   */
+.grade-2{background:#388e3c;color:#fff}        /* 85-90  ירוק בינוני */
+.grade-3{background:#a5d6a7;color:#1b5e20}     /* 80-85  ירוק בהיר  */
+.grade-4{background:#fff9c4;color:#827717}     /* 75-80  צהוב בהיר  */
+.grade-5{background:#f9a825;color:#fff}        /* 70-75  צהוב כהה   */
+.grade-6{background:#ff8f00;color:#fff}        /* 65-70  כתום בהיר  */
+.grade-7{background:#e65100;color:#fff}        /* 60-65  כתום כהה   */
+.grade-8{background:#b71c1c;color:#fff}        /* 0-60   אדום        */
+.grade-link{color:var(--orange);cursor:pointer;font-weight:600}
+.grade-link:hover{text-decoration:underline}
+
+/* ===== PAGINATION ===== */
+.pagination{display:flex;gap:8px;margin-top:16px;justify-content:center}
+.page-btn{padding:6px 14px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:13px;background:#fff}
+.page-btn.active,.page-btn:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+/* ===== DETAIL PANEL ===== */
+.detail-panel{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+.detail-panel h3{font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text)}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.detail-item{background:#f8f9fc;border-radius:8px;padding:12px 14px}
+.detail-label{font-size:11px;color:var(--text-light);font-weight:600;margin-bottom:4px}
+.detail-value{font-size:16px;font-weight:700;color:var(--text)}
+.history-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.history-chip{background:var(--orange-light);color:var(--orange-dark);padding:4px 12px;border-radius:16px;font-size:13px;font-weight:600}
+.back-btn{margin-bottom:16px;display:inline-flex;align-items:center;gap:6px;color:var(--orange);cursor:pointer;font-weight:600;font-size:14px}
+.back-btn:hover{text-decoration:underline}
+
+/* ===== ADMISSION ===== */
+.track-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:12px;border-right:4px solid var(--orange)}
+.track-name{font-size:16px;font-weight:700;margin-bottom:10px}
+.track-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.track-item{background:#f8f9fc;border-radius:8px;padding:8px 12px;font-size:13px}
+.track-item-label{color:var(--text-light);font-size:11px;margin-bottom:2px}
+.track-item-val{font-weight:700;color:var(--text)}
+.track-url{margin-top:8px}
+.track-url a{color:var(--orange);font-size:13px;text-decoration:none}
+.track-url a:hover{text-decoration:underline}
+
+/* ===== SCHOLARSHIPS ===== */
+.schol-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:12px;cursor:pointer;transition:box-shadow .18s,transform .18s;border:2px solid transparent}
+.schol-card:hover{box-shadow:0 4px 20px rgba(232,151,58,.25);transform:translateY(-2px);border-color:var(--orange)}
+.schol-name{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--text)}
+.schol-body{font-size:13px;color:var(--text-light);line-height:1.6}
+.schol-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.schol-tag{background:var(--orange-light);color:var(--orange-dark);padding:3px 10px;border-radius:12px;font-size:12px}
+.schol-click-hint{font-size:11px;color:var(--orange);margin-top:8px;font-weight:600}
+
+/* ===== SCHOLARSHIP AI SEARCH ===== */
+.schol-ai-box{background:linear-gradient(135deg,#fff8f0,#fff3e0);border:1.5px solid var(--orange);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px}
+.schol-ai-label{font-size:14px;font-weight:700;color:var(--orange-dark);margin-bottom:10px}
+.schol-ai-row{display:flex;gap:10px;align-items:flex-end}
+#schol-ai-input{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;direction:rtl;resize:none;min-height:44px;max-height:120px;outline:none}
+#schol-ai-input:focus{border-color:var(--orange)}
+#schol-ai-btn{padding:10px 20px;background:var(--orange);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
+#schol-ai-btn:hover{background:var(--orange-dark)}
+#schol-ai-btn:disabled{background:#ccc;cursor:default}
+.schol-ai-status{font-size:12px;color:var(--text-light);min-height:18px;margin-top:8px;transition:opacity .3s}
+.schol-ai-answer{background:var(--white);border-radius:10px;padding:16px 18px;font-size:14px;line-height:1.75;color:var(--text);border:1px solid var(--border);margin-top:12px}
+.schol-ai-answer ul{padding-right:20px;margin-top:6px}
+.schol-ai-answer li{margin-bottom:4px}
+.schol-ai-matched-title{font-size:13px;font-weight:700;color:var(--orange-dark);margin:16px 0 8px;display:flex;align-items:center;gap:6px}
+.schol-ai-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:4px}
+
+/* ===== SCHOLARSHIP MODAL ===== */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--white);border-radius:16px;max-width:720px;width:calc(100% - 32px);max-height:88vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,.25);direction:rtl}
+.modal-header{position:sticky;top:0;background:var(--white);padding:20px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;z-index:1}
+.modal-title{font-size:19px;font-weight:800;color:var(--text);line-height:1.3}
+.modal-close{width:32px;height:32px;border:none;background:var(--bg);border-radius:50%;font-size:18px;cursor:pointer;color:var(--text-light);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--border)}
+.modal-body{padding:20px 24px 28px}
+.modal-section{margin-bottom:20px}
+.modal-section-title{font-size:13px;font-weight:700;color:var(--orange-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.modal-section-body{font-size:14px;color:var(--text);line-height:1.75;white-space:pre-line}
+.modal-url{display:inline-flex;align-items:center;gap:6px;color:var(--orange);font-weight:600;font-size:13px;text-decoration:none;padding:6px 14px;border:1.5px solid var(--orange);border-radius:8px;margin-top:4px}
+.modal-url:hover{background:var(--orange-light)}
+
+/* ===== AI CHAT ===== */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 56px - 48px - 80px);min-height:400px}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px 0;display:flex;flex-direction:column;gap:14px}
+.msg{display:flex;gap:10px;align-items:flex-start;max-width:88%;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.msg.user{align-self:flex-start;flex-direction:row-reverse}
+.msg.bot{align-self:flex-end}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.msg.user .av{background:var(--orange);color:#fff}
+.msg.bot .av{background:var(--sidebar);color:#fff}
+.bubble{padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.7;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.msg.user .bubble{background:var(--orange);color:#fff;border-top-right-radius:3px}
+.msg.bot  .bubble{background:var(--white);color:var(--text);border-top-left-radius:3px}
+.bubble strong{color:var(--orange-dark)}
+.md-link-wrap{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap;margin:2px 0}
+.md-link{color:var(--orange);font-weight:600;text-decoration:none}
+.md-link:hover{text-decoration:underline}
+.md-copy-btn{background:#f5f6fa;border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer;color:var(--text-light);transition:background .15s;white-space:nowrap;font-family:inherit}
+.md-copy-btn:hover{background:var(--orange-light);color:var(--orange-dark);border-color:var(--orange)}
+.msg.user .bubble strong{color:#ffe}
+.bubble ul,.bubble ol{padding-right:18px;margin-top:6px}
+.bubble li{margin-bottom:3px}
+.sources-bar{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.src-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.src-chip.grades    {background:#e3f2fd;color:#1565c0}
+.src-chip.admission {background:#f3e5f5;color:#6a1b9a}
+.src-chip.projects  {background:#e8f5e9;color:#2e7d32}
+.src-chip.scholarships{background:#fff3e0;color:#e65100}
+.src-chip.vector    {background:#fce4ec;color:#880e4f}
+.chat-input-row{display:flex;gap:10px;padding-top:12px;border-top:1px solid var(--border);align-items:flex-end}
+#chat-input{flex:1;padding:11px 16px;border:1.5px solid var(--border);border-radius:24px;font-size:14px;outline:none;direction:rtl;font-family:inherit;resize:none;max-height:100px;min-height:44px}
+#chat-input:focus{border-color:var(--orange)}
+#chat-send{width:44px;height:44px;background:var(--orange);border:none;border-radius:50%;color:#fff;font-size:18px;cursor:pointer;transition:background .15s;flex-shrink:0}
+#chat-send:hover{background:var(--orange-dark)}
+#chat-send:disabled{background:#ccc;cursor:default}
+.typing-dots span{display:inline-block;width:7px;height:7px;background:#aaa;border-radius:50%;margin:0 2px;animation:bounce 1s infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.search-status{font-size:12px;color:var(--text-light);margin-bottom:4px;text-align:center;min-height:16px;transition:opacity .3s}
+
+/* ===== FILTER SELECT ===== */
+select.search-input{appearance:none;background:#fff}
+
+/* ===== PROJECTS ===== */
+.year-group{margin-bottom:28px}
+.year-header{font-size:18px;font-weight:700;color:var(--sidebar);margin-bottom:12px;padding:8px 16px;background:var(--white);border-radius:10px;box-shadow:var(--shadow);border-right:4px solid var(--orange);display:flex;align-items:center;gap:10px}
+.year-count{font-size:13px;font-weight:400;color:var(--text-light)}
+.proj-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.proj-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;border:1px solid var(--border);transition:transform .15s,box-shadow .15s}
+.proj-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.year-tab-group{display:flex;gap:6px;flex-wrap:wrap}
+.year-tab{padding:8px 18px;border:1.5px solid var(--orange);border-radius:20px;background:#fff;color:var(--orange);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,color .15s}
+.year-tab:hover{background:var(--orange-light)}
+.year-tab.active{background:var(--orange);color:#fff}
+.proj-name{font-weight:700;font-size:14px;margin-bottom:8px;color:var(--text);line-height:1.4}
+.proj-meta{font-size:12px;color:var(--text-light);display:flex;flex-direction:column;gap:4px}
+.proj-meta span{display:flex;align-items:flex-start;gap:5px}
+.proj-spec{display:inline-block;margin-top:8px;padding:3px 10px;background:var(--orange-light);color:var(--orange-dark);border-radius:12px;font-size:11px;font-weight:600}
+
+/* ===== EMPTY STATE ===== */
+.empty{text-align:center;padding:48px 20px;color:var(--text-light)}
+.empty-icon{font-size:48px;margin-bottom:12px}
+
+/* ===== ASKUNI HERO ===== */
+.askuni-hero{background:linear-gradient(135deg,#2c3148,#3d4263);border-radius:var(--radius);padding:32px 28px 24px;margin-bottom:28px;text-align:center;box-shadow:0 4px 24px rgba(44,49,72,.25)}
+.askuni-logo-box{font-size:42px;font-weight:900;letter-spacing:4px;color:#fff;background:rgba(255,255,255,.08);border:2px solid rgba(232,151,58,.6);border-radius:14px;padding:14px 36px;display:inline-block;margin-bottom:22px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.askuni-search-wrap{display:flex;gap:10px;max-width:600px;margin:0 auto 18px}
+.askuni-input{flex:1;padding:13px 20px;border:2px solid rgba(255,255,255,.15);border-radius:30px;font-size:16px;font-family:inherit;background:rgba(255,255,255,.12);color:#fff;outline:none;direction:rtl}
+.askuni-input::placeholder{color:rgba(255,255,255,.55)}
+.askuni-input:focus{border-color:var(--orange)}
+.askuni-send{width:48px;height:48px;background:var(--orange);border:none;border-radius:50%;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0;transition:background .15s}
+.askuni-send:hover{background:var(--orange-dark)}
+.askuni-topics{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:6px}
+.topic-btn{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:8px 18px;font-size:14px;font-family:inherit;cursor:pointer;transition:all .15s;font-weight:600}
+.topic-btn:hover{background:var(--orange);border-color:var(--orange)}
+
+/* ===== COURSE AI BOX ===== */
+.course-ai-box{background:linear-gradient(135deg,#f8f9ff,#eef1ff);border:1.5px solid #c5cef8;border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
+.course-ai-label{font-size:14px;font-weight:700;color:#3d4263;margin-bottom:10px}
+.course-ai-row{display:flex;gap:10px;align-items:center}
+#course-ai-input{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;direction:rtl;outline:none}
+#course-ai-input:focus{border-color:var(--orange)}
+.course-ai-answer{background:#fff;border-radius:10px;padding:14px 16px;font-size:14px;line-height:1.75;color:var(--text);border:1px solid var(--border);margin-top:12px}
+
+/* ===== MAP ===== */
+.map-layout{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.map-main{flex:1;min-width:280px}
+.map-main img{width:100%;border-radius:var(--radius);box-shadow:var(--shadow)}
+.map-link{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:var(--orange);font-weight:700;font-size:14px;text-decoration:none;padding:9px 18px;border:1.5px solid var(--orange);border-radius:8px;transition:background .15s}
+.map-link:hover{background:var(--orange-light)}
+.map-side{width:260px;flex-shrink:0}
+.map2-panel{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);border-right:4px solid var(--orange);overflow:hidden}
+.map2-panel-title{background:var(--orange);color:#fff;padding:12px 16px;font-size:14px;font-weight:700}
+.map2-list{list-style:none;padding:10px 0;max-height:520px;overflow-y:auto}
+.map2-list li{padding:7px 16px;font-size:13px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:baseline}
+.map2-list li:last-child{border-bottom:none}
+.map2-list li:hover{background:#fdf3e7}
+.map2-num{font-weight:700;color:var(--orange);min-width:34px;flex-shrink:0}
+.map2-name{color:var(--text);direction:rtl}
+.map2-link{display:contents;text-decoration:none;color:inherit}
+.map2-link:hover .map2-num{text-decoration:underline;color:var(--orange-dark)}
+.map2-link:hover .map2-name{text-decoration:underline}
+.map2-pin{font-size:11px;color:#aaa;margin-right:auto;flex-shrink:0}
+.map2-list li:has(a):hover{background:#fff3e0;cursor:pointer}
+
+/* ===== ARMY / RESERVES ===== */
+.army-banner{position:relative;border-radius:var(--radius);overflow:hidden;margin-bottom:24px;max-height:260px}
+.army-banner img{width:100%;object-fit:cover;display:block;max-height:260px}
+.army-banner-overlay{position:absolute;inset:0;background:linear-gradient(to left,rgba(44,49,72,.85),rgba(44,49,72,.3));display:flex;align-items:center;padding:24px 32px}
+.army-banner-text{color:#fff}
+.army-banner-title{font-size:26px;font-weight:900;margin-bottom:6px}
+.army-banner-sub{font-size:14px;opacity:.85}
+.army-tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid var(--border)}
+.army-tab{padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--text-light);transition:all .15s;margin-bottom:-2px}
+.army-tab.active,.army-tab:hover{color:var(--orange);border-bottom-color:var(--orange)}
+.army-panel{display:none}
+.army-panel.active{display:block}
+.army-main-img{border-radius:var(--radius);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow);text-align:center;background:#fff}
+.army-main-img img{max-width:100%;display:block;margin:0 auto}
+.army-accordion{display:flex;justify-content:space-between;align-items:center;background:#4a6741;color:#fff;border-radius:10px;padding:14px 20px;cursor:pointer;font-size:15px;font-weight:700;margin-bottom:4px;transition:background .15s;user-select:none}
+.army-accordion:hover{background:#3d5836}
+.army-accordion-arrow{transition:transform .25s;font-size:13px}
+.army-update-body{display:none;padding:16px 0 8px;text-align:center}
+.army-update-body.open{display:block}
+.army-official-link{margin-top:20px;text-align:center}
+.army-link-btn{display:inline-flex;align-items:center;gap:8px;background:#4a6741;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:700;transition:background .15s}
+.army-link-btn:hover{background:#3d5836}
+.army-empty{text-align:center;padding:32px;color:var(--text-light)}
+.army-chat-box{background:linear-gradient(135deg,#2c3148,#3d4263);border-radius:var(--radius);padding:20px 24px}
+.army-chat-label{color:#fff;font-size:15px;font-weight:700;margin-bottom:14px}
+.army-chat-row{display:flex;gap:10px;align-items:flex-end}
+#army-input{flex:1;padding:12px 16px;border-radius:24px;border:none;font-size:14px;font-family:inherit;direction:rtl;outline:none;background:rgba(255,255,255,.12);color:#fff}
+#army-input::placeholder{color:rgba(255,255,255,.5)}
+#army-input:focus{background:rgba(255,255,255,.18)}
+#army-send{width:44px;height:44px;background:#4a6741;border:none;border-radius:50%;color:#fff;font-size:18px;cursor:pointer;flex-shrink:0}
+#army-send:hover{background:#3d5836}
+#army-send:disabled{background:#888;cursor:default}
+.army-chat-msgs{margin-top:16px;display:flex;flex-direction:column;gap:12px;max-height:400px;overflow-y:auto}
+.army-msg{padding:12px 16px;border-radius:12px;font-size:14px;line-height:1.7;max-width:88%}
+.army-msg.user{background:#4a6741;color:#fff;align-self:flex-start;border-top-right-radius:3px}
+.army-msg.bot{background:rgba(255,255,255,.12);color:#fff;align-self:flex-end;border-top-left-radius:3px}
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){.main{padding:16px}.cards-grid{grid-template-columns:1fr 1fr}.map-side{width:100%}.army-info-grid{grid-template-columns:1fr}}
+
+/* ===== SIDEBAR DRUM WHEEL ===== */
+.nav-item-fixed{flex-shrink:0;width:100%;border-bottom:2px solid #3d4263;margin-bottom:4px}
+.sidebar-inner{flex:1;overflow:hidden;width:100%;mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%)}
+.sidebar-track{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 0;width:100%;will-change:transform}
+.sidebar-track .nav-item,.sidebar-track .nav-sep{transform-origin:center;transition:border-color .15s,background .15s}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">
+    <div class="logo-circle">BGU</div>
+    <div>
+      <div class="logo-text">AskUni</div>
+      <div class="logo-sub">אוניברסיטת בן גוריון</div>
+    </div>
+  </div>
+
+  <div class="header-creds">
+    <label class="cred-label">שם משתמש:</label>
+    <div class="cred-field-wrap">
+      <input type="text" id="cred-username" class="cred-input" placeholder="שם משתמש"
+             onkeydown="credEnter(event,'username')">
+      <span id="cred-user-ok" class="cred-ok" style="display:none">←</span>
+    </div>
+    <label class="cred-label">סיסמה:</label>
+    <div class="cred-field-wrap">
+      <input type="password" id="cred-password" class="cred-input" placeholder="סיסמה"
+             onkeydown="credEnter(event,'password')">
+      <span id="cred-pass-ok" class="cred-ok" style="display:none">←</span>
+    </div>
+    <label class="cred-label">ת"ז:</label>
+    <div class="cred-field-wrap">
+      <input type="password" id="cred-idnum" class="cred-input" placeholder="ת״ז"
+             onkeydown="credEnter(event,'idnum')">
+      <span id="cred-id-ok" class="cred-ok" style="display:none"></span>
+    </div>
+    <button class="cred-toggle" onclick="toggleCredPwd()" id="cred-eye" title="הצג/הסתר סיסמה">👁</button>
+    <button class="cred-toggle" onclick="resetCreds()" title="אפס הכל">🔄</button>
+  </div>
+
+  <div class="header-user">
+    <span>פורטל סטודנטים</span>
+    <span class="user-badge">AskUni AI</span>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="nav-item nav-item-fixed active" data-nav-page="dashboard" onclick="go('dashboard')">
+      <span class="nav-icon">🏠</span><span class="nav-label">ראשי</span>
+    </div>
+    <div class="nav-item" data-nav-page="courses" onclick="go('courses')">
+      <span class="nav-icon">📊</span><span class="nav-label">ציונים</span>
+    </div>
+    <div class="nav-item" data-nav-page="admission" onclick="go('admission')">
+      <span class="nav-icon">🎓</span><span class="nav-label">תנאי קבלה</span>
+    </div>
+    <div class="nav-item" data-nav-page="projects" onclick="go('projects')">
+      <span class="nav-icon">🔬</span><span class="nav-label">פרויקטי גמר</span>
+    </div>
+    <div class="nav-item" data-nav-page="scholarships" onclick="go('scholarships')">
+      <span class="nav-icon">💰</span><span class="nav-label">מלגות</span>
+    </div>
+    <div class="nav-item" data-nav-page="map" onclick="go('map')">
+      <span class="nav-icon">🗺️</span><span class="nav-label">מפה</span>
+    </div>
+    <div class="nav-item" data-nav-page="army" onclick="go('army')">
+      <span class="nav-icon">🎖️</span><span class="nav-label">מילואים</span>
+    </div>
+    <div class="nav-item" data-nav-page="people" onclick="go('people')">
+      <span class="nav-icon">👥</span><span class="nav-label">אנשי סגל</span>
+    </div>
+    <div class="nav-item" data-nav-page="timetable" onclick="go('timetable')">
+      <span class="nav-icon">📅</span><span class="nav-label">מערכת שעות</span>
+    </div>
+    <div class="nav-item" data-nav-page="forms" onclick="go('forms')">
+      <span class="nav-icon">📋</span><span class="nav-label">טפסים</span>
+    </div>
+    <div class="nav-sep"></div>
+    <div class="nav-item" data-nav-page="chat" onclick="go('chat')">
+      <span class="nav-icon">🤖</span><span class="nav-label">AskUni AI</span>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <div class="section active" id="sec-dashboard">
+
+      <!-- ASKUNI HERO -->
+      <div class="askuni-hero" style="display:flex;align-items:center;gap:28px;text-align:right">
+        <!-- Robot side -->
+        <div style="flex-shrink:0;font-size:86px;line-height:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));user-select:none">🤖</div>
+        <!-- Content side -->
+        <div style="flex:1;text-align:center">
+          <div class="askuni-logo-box">AskUni</div>
+          <div class="askuni-search-wrap">
+            <input id="hero-input" class="askuni-input" type="text"
+                   placeholder="שאל שאלות"
+                   onkeydown="heroKey(event)">
+            <button class="askuni-send" onclick="heroSend()">➤</button>
+          </div>
+          <div class="askuni-topics">
+            <button class="topic-btn" onclick="go('courses')">📊 ציונים</button>
+            <button class="topic-btn" onclick="go('admission')">🎓 תנאי קבלה</button>
+            <button class="topic-btn" onclick="go('scholarships')">💰 מלגות</button>
+            <button class="topic-btn" onclick="go('projects')">🔬 פרויקט גמר בהנדסת חשמל</button>
+            <button class="topic-btn" onclick="go('map')">🗺️ מפה</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-title">ברוכים הבאים ל-AskUni</div>
+      <div class="page-sub">פורטל מידע אקדמי לסטודנטים של אוניברסיטת בן גוריון בנגב</div>
+      <div class="cards-grid">
+        <div class="card" onclick="go('courses')" style="position:relative;overflow:hidden;padding:0;min-height:160px">
+          <img src="/static/grades_card.jpg" alt="ציונים" style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.75">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(30,40,70,0.52)">
+            <div style="font-size:32px">📊</div>
+            <div style="font-weight:700;font-size:15px;color:#fff;margin-top:6px">ציונים</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:3px">חיפוש מתקדם בציוני הקורסים</div>
+          </div>
+        </div>
+        <div class="card" onclick="go('admission')" style="position:relative;overflow:hidden;padding:0;min-height:160px">
+          <img src="/static/admission_card.png" alt="תנאי קבלה" style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.75">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(30,60,40,0.52)">
+            <div style="font-size:32px">🎓</div>
+            <div style="font-weight:700;font-size:15px;color:#fff;margin-top:6px">תנאי קבלה</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:3px">תנאי קבלה לכל המסלולים</div>
+          </div>
+        </div>
+        <div class="card" onclick="go('projects')" style="position:relative;overflow:hidden;padding:0;min-height:160px">
+          <img src="/static/projects_card.png" alt="פרויקט גמר" style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.75">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(50,30,70,0.52)">
+            <div style="font-size:32px">🔬</div>
+            <div style="font-weight:700;font-size:15px;color:#fff;margin-top:6px">פרויקט גמר להנדסת חשמל</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:3px">ספר פרויקטים לפי שנה ותחום</div>
+          </div>
+        </div>
+        <div class="card" onclick="go('scholarships')" style="position:relative;overflow:hidden;padding:0;min-height:160px">
+          <img src="/static/scholarships_card.jpg" alt="מלגות" style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.75">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(70,55,20,0.52)">
+            <div style="font-size:32px">💰</div>
+            <div style="font-weight:700;font-size:15px;color:#fff;margin-top:6px">מלגות</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:3px">מלגות אפשריות ותנאי זכאות</div>
+          </div>
+        </div>
+        <div class="card" onclick="go('army')" style="position:relative;overflow:hidden;padding:0;min-height:160px">
+          <img src="/static/IDF.png" alt="מילואים" style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.75">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(44,72,44,0.55)">
+            <div style="font-size:32px">🎖️</div>
+            <div style="font-weight:700;font-size:15px;color:#fff;margin-top:6px">מילואים</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:3px">זכויות וזכאויות</div>
+          </div>
+        </div>
+        <div class="card" onclick="go('people')" style="position:relative;overflow:hidden;padding:0;min-height:160px">
+          <img src="/static/אנשי_סגל1.png" alt="אנשי סגל"
+               style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.75">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(44,49,72,0.45);gap:8px">
+            <div style="font-size:32px">👥</div>
+            <div style="font-weight:700;font-size:15px;color:#fff">אנשי סגל</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.85);text-align:center">חיפוש מרצים, חוקרים ועובדים</div>
+            <div id="people-count-badge" style="font-size:20px;font-weight:700;color:#ffd580"></div>
+          </div>
+        </div>
+        <div class="card" onclick="go('map')" style="position:relative;overflow:hidden;padding:0;min-height:160px">
+          <img src="/static/MAP.png" alt="מפת הקמפוס"
+               style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.75">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(44,49,72,0.45)">
+            <div style="font-size:32px">🗺️</div>
+            <div style="font-weight:700;font-size:15px;color:#fff;margin-top:6px">מפה</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:3px">מפת קמפוס BGU</div>
+          </div>
+        </div>
+        <div class="card" onclick="go('timetable')" style="position:relative;overflow:hidden;padding:0;min-height:160px">
+          <img src="/static/מערכת.png" alt="מערכת שעות" style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.8">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(26,54,93,0.52)">
+            <div style="font-size:32px">📅</div>
+            <div style="font-weight:700;font-size:15px;margin-top:6px;color:#fff">מערכת שעות</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:3px">בנה את המערכת שלך</div>
+          </div>
+        </div>
+        <div class="card" onclick="go('forms')" style="position:relative;overflow:hidden;padding:0;min-height:160px">
+          <img src="/static/טפסים1.png" alt="טפסים" style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.8">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(116,66,16,0.50)">
+            <div style="font-size:32px">📋</div>
+            <div style="font-weight:700;font-size:15px;margin-top:6px;color:#fff">טפסים</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:3px">טפסים ומסמכי BGU</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COURSES -->
+    <div class="section" id="sec-courses">
+      <div id="course-list-view">
+        <div class="page-title">📊 ציונים</div>
+        <div class="page-sub">חיפוש מתקדם בציוני הקורסים של אוניברסיטת בן גוריון</div>
+        <div class="search-row">
+          <input class="search-input" id="course-q" placeholder="שם קורס או מספר..." oninput="debounce(searchCourses,400)()">
+          <button class="btn btn-primary" onclick="searchCourses()">🔍 חפש</button>
+          <button class="btn btn-outline" onclick="clearCourses()">מחק</button>
+        </div>
+
+        <!-- AI Question Box -->
+        <div class="course-ai-box">
+          <div class="course-ai-label">🤖 שאל שאלה על קורסים</div>
+          <div class="course-ai-row">
+            <input id="course-ai-input" type="text"
+                   placeholder="שאל על שם קורס, מספר קורס, ציונים..."
+                   onkeydown="if(event.key==='Enter') courseAskAI()">
+            <button class="btn btn-primary" onclick="courseAskAI()">שאל ▸</button>
+          </div>
+          <div id="course-ai-result"></div>
+        </div>
+        <div style="margin-bottom:16px;font-size:13px">
+          🔗 לחיפוש קורסים במערכת הרשמית של BGU:
+          <a href="https://bgu4u.bgu.ac.il/pls/scwp/!app.gate?app=ann" target="_blank"
+             style="color:var(--orange);font-weight:600;text-decoration:none">
+            קובץ הקורסים הרשמי ←
+          </a>
+        </div>
+        <!-- תיקיית ציוני סוף תואר -->
+        <details id="grad-folder" style="margin-bottom:18px;border:1.5px solid var(--border);border-radius:10px;overflow:hidden">
+          <summary style="cursor:pointer;padding:13px 18px;background:var(--white);font-weight:700;font-size:15px;list-style:none;display:flex;align-items:center;gap:10px;user-select:none">
+            <span style="font-size:20px">📂</span> ציוני סוף תואר
+            <span style="margin-right:auto;font-size:12px;color:var(--text-light);font-weight:400">לחץ לפתיחה</span>
+          </summary>
+          <div style="padding:18px;border-top:1px solid var(--border);background:#fafafa">
+
+            <!-- שלב א: רשת תארים -->
+            <div id="cf-depts">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px" id="cf-dept-grid"></div>
+            </div>
+
+            <!-- שלב ב: שנים -->
+            <div id="cf-years" style="display:none">
+              <button class="btn btn-outline" onclick="cfBack('depts')" style="margin-bottom:12px">← חזור לרשימת תארים</button>
+              <h4 id="cf-dept-title" style="color:var(--orange);margin-bottom:12px"></h4>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <button class="btn btn-primary" style="font-size:16px;padding:12px 24px" onclick="cfSelectYear(2024)">2024</button>
+                <button class="btn btn-primary" style="font-size:16px;padding:12px 24px" onclick="cfSelectYear(2023)">2023</button>
+                <button class="btn btn-primary" style="font-size:16px;padding:12px 24px" onclick="cfSelectYear(2022)">2022</button>
+                <button class="btn btn-primary" style="font-size:16px;padding:12px 24px" onclick="cfSelectYear(2021)">2021</button>
+              </div>
+            </div>
+
+            <!-- שלב ג: גרף + טבלה -->
+            <div id="cf-table-view" style="display:none">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+                <button class="btn btn-outline" onclick="cfBack('years')">← חזור לשנים</button>
+                <strong id="cf-table-title" style="color:var(--orange)"></strong>
+                <div style="display:flex;gap:6px;margin-right:auto">
+                  <button class="btn btn-outline" id="cfyb2024" onclick="cfSelectYear(2024)">2024</button>
+                  <button class="btn btn-outline" id="cfyb2023" onclick="cfSelectYear(2023)">2023</button>
+                  <button class="btn btn-outline" id="cfyb2022" onclick="cfSelectYear(2022)">2022</button>
+                  <button class="btn btn-outline" id="cfyb2021" onclick="cfSelectYear(2021)">2021</button>
+                </div>
+              </div>
+              <div id="cf-chart-wrap" style="margin-bottom:18px"></div>
+              <table id="cf-data-table" style="width:100%;border-collapse:collapse;font-size:14px;direction:rtl"></table>
+            </div>
+
+          </div>
+        </details>
+
+        <div class="results-info" id="course-info"></div>
+        <div class="table-wrap" style="overflow-x:auto">
+          <table>
+            <thead id="courses-head">
+              <tr><th>מספר קורס</th><th>שם קורס</th><th>נק"ז</th><th>ממוצע אחרון</th><th>סמסטר</th></tr>
+            </thead>
+            <tbody id="courses-body"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="courses-pages"></div>
+      </div>
+      <div id="course-detail-view" style="display:none">
+        <div class="back-btn" onclick="showCourseList()">← חזרה לרשימה</div>
+        <div id="course-detail-content"></div>
+      </div>
+    </div>
+
+    <!-- ADMISSION -->
+    <div class="section" id="sec-admission">
+      <div style="position:relative;overflow:hidden;border-radius:var(--radius);margin-bottom:20px;min-height:130px;display:flex;align-items:center">
+        <img src="/static/admission_bg.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:rgba(15,18,35,0.55)"></div>
+        <div style="position:relative;padding:26px 28px">
+          <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">🎓 תנאי קבלה</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.82)">תנאי קבלה למסלולים שונים באוניברסיטת בן גוריון</div>
+        </div>
+      </div>
+      <div class="search-row">
+        <input class="search-input" id="adm-q" placeholder="חפש מסלול (הנדסת חשמל, רפואה...)" oninput="debounce(searchAdmission,400)()">
+        <button class="btn btn-primary" onclick="searchAdmission()">🔍 חפש</button>
+        <button class="btn btn-outline" onclick="clearAdmission()">מחק</button>
+      </div>
+      <div style="text-align:center;margin:16px 0">
+        <a href="https://www.bgu.ac.il/welcome/ba/reception-section-lobby/?semesters=012027" target="_blank" class="army-link-btn" style="background:#6a1b9a">
+          🔗 תנאי קבלה – האתר הרשמי של האוניברסיטה
+        </a>
+      </div>
+      <div class="results-info" id="adm-info"></div>
+      <div id="adm-results"></div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="section" id="sec-projects">
+      <div style="position:relative;overflow:hidden;border-radius:var(--radius);margin-bottom:20px;min-height:130px;display:flex;align-items:center">
+        <img src="/static/אתר_פרויקטים.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:rgba(15,18,35,0.62)"></div>
+        <div style="position:relative;padding:26px 28px">
+          <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">🔬 פרויקט גמר להנדסת חשמל</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.82)">ספר פרויקטים לפי שנה ותחום התמחות – הנדסת חשמל ומחשבים</div>
+        </div>
+      </div>
+      <div class="search-row">
+        <input class="search-input" id="proj-q" placeholder="חפש פרויקט, מנחה, מילות מפתח..." oninput="debounce(searchProjects,400)()">
+        <input type="hidden" id="proj-year" value="">
+        <select class="search-input" id="proj-track" style="max-width:220px" onchange="searchProjects()">
+          <option value="">כל התחומים</option>
+        </select>
+        <button class="btn btn-primary" onclick="searchProjects()">🔍 חפש</button>
+      </div>
+      <!-- טפסים -->
+      <div style="margin:22px 0 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow)">
+        <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          📄 טפסים
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a href="/static/PROJAKT.pdf" target="_blank"
+             style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--orange);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;transition:background .15s"
+             onmouseover="this.style.background='var(--orange-dark)'" onmouseout="this.style.background='var(--orange)'">
+            📥 הכנה לפרויקטים
+          </a>
+          <a href="/static/Final_project.pdf" target="_blank"
+             style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--orange);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;transition:background .15s"
+             onmouseover="this.style.background='var(--orange-dark)'" onmouseout="this.style.background='var(--orange)'">
+            📥 נוהל פרויקטים
+          </a>
+          <a href="/static/הוראות-חיבור-vpn.pdf" target="_blank"
+             style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--orange);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;transition:background .15s"
+             onmouseover="this.style.background='var(--orange-dark)'" onmouseout="this.style.background='var(--orange)'">
+            🔒 הוראות חיבור VPN
+          </a>
+          <a href="/static/הנחיות לאישור תעודת VPN.pdf" target="_blank"
+             style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--orange);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;transition:background .15s"
+             onmouseover="this.style.background='var(--orange-dark)'" onmouseout="this.style.background='var(--orange)'">
+            🔒 אישור תעודת VPN
+          </a>
+        </div>
+      </div>
+
+      <!-- קישורים (accordion) -->
+      <div style="margin:0 0 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow)">
+        <div onclick="toggleLinks()" style="font-size:16px;font-weight:700;color:var(--text);display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none">
+          <span style="display:flex;align-items:center;gap:8px">🔗 קישורים</span>
+          <span id="links-arrow" style="font-size:18px;transition:transform .25s;display:inline-block">👇</span>
+        </div>
+        <div id="links-body" style="display:none;flex-direction:column;gap:10px;margin-top:14px">
+          <a href="https://www.bgu.ac.il/u/library/aranne/" target="_blank"
+             style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--card-bg);border:1.5px solid var(--border);border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;color:var(--orange);transition:border-color .15s"
+             onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'">
+            📚 ספריית אורן
+          </a>
+          <a href="https://new-ece-projects.ee.bgu.ac.il/landing/view/2/5" target="_blank"
+             style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--card-bg);border:1.5px solid var(--border);border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;color:var(--orange);transition:border-color .15s"
+             onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'">
+            🖥️ אתר פרויקטים
+          </a>
+        </div>
+      </div>
+
+      <!-- דוחות -->
+      <div style="margin:0 0 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow)">
+        <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          📊 דוחות
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <button onclick="toggleReportFolder('PDR', this)"
+             style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--card-bg);border:2px solid var(--orange);border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;color:var(--orange);transition:all .15s"
+             onmouseover="this.style.background='var(--orange)';this.style.color='#fff'" onmouseout="if(!this.dataset.open)this.style.background='var(--card-bg)';if(!this.dataset.open)this.style.color='var(--orange)'">
+            📁 PDR
+          </button>
+          <button onclick="toggleReportFolder('preliminary', this)"
+             style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--card-bg);border:2px solid var(--orange);border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;color:var(--orange);transition:all .15s"
+             onmouseover="this.style.background='var(--orange)';this.style.color='#fff'" onmouseout="if(!this.dataset.open)this.style.background='var(--card-bg)';if(!this.dataset.open)this.style.color='var(--orange)'">
+            📁 דוח מכין
+          </button>
+          <button onclick="toggleReportFolder('progress', this)"
+             style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--card-bg);border:2px solid var(--orange);border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;color:var(--orange);transition:all .15s"
+             onmouseover="this.style.background='var(--orange)';this.style.color='#fff'" onmouseout="if(!this.dataset.open)this.style.background='var(--card-bg)';if(!this.dataset.open)this.style.color='var(--orange)'">
+            📁 דוח התקדמות
+          </button>
+        </div>
+        <div id="report-panel-PDR"         style="display:none;flex-direction:column;gap:6px;margin-top:14px"></div>
+        <div id="report-panel-preliminary" style="display:none;flex-direction:column;gap:6px;margin-top:14px"></div>
+        <div id="report-panel-progress"    style="display:none;flex-direction:column;gap:6px;margin-top:14px"></div>
+      </div>
+
+      <!-- בחירת שנה -->
+      <div style="margin:0 0 20px">
+        <div class="year-tab-group">
+          <button class="year-tab active" data-year="" onclick="setYear(this)">כל השנים</button>
+          <button class="year-tab" data-year="2026" onclick="setYear(this)">2026</button>
+          <button class="year-tab" data-year="2025" onclick="setYear(this)">2025</button>
+          <button class="year-tab" data-year="2000" onclick="setYear(this)">אחר</button>
+        </div>
+      </div>
+
+      <div class="results-info" id="proj-info"></div>
+      <div id="proj-results"></div>
+      <div class="pagination" id="proj-pages"></div>
+    </div>
+
+    <!-- SCHOLARSHIPS -->
+    <div class="section" id="sec-scholarships">
+      <div class="page-title">💰 מלגות</div>
+      <div class="page-sub">מלגות אפשריות ותנאי זכאות לסטודנטים</div>
+
+      <!-- Regular search -->
+      <div class="search-row">
+        <input class="search-input" id="sch-q" placeholder="חפש מלגה, תנאי זכאות..." oninput="debounce(searchScholarships,400)()">
+        <button class="btn btn-primary" onclick="searchScholarships()">🔍 חפש</button>
+        <button class="btn btn-outline" onclick="clearScholarships()">מחק</button>
+      </div>
+
+      <!-- AI search -->
+      <div class="schol-ai-box">
+        <div class="schol-ai-label">🤖 חיפוש חכם – תאר מה אתה מחפש במלגה</div>
+        <div class="schol-ai-row">
+          <textarea id="schol-ai-input" placeholder="לדוגמה: אני סטודנט שנה ב׳ עם קשיים כלכליים, מחפש מלגה שלא דורשת הרבה התחייבויות..." onkeydown="scholAiKey(event)" oninput="autoResize(this)"></textarea>
+          <button id="schol-ai-btn" onclick="askScholAI()">שלח ▸</button>
+        </div>
+        <div id="schol-ai-status" class="schol-ai-status"></div>
+        <div id="schol-ai-result"></div>
+      </div>
+
+      <div style="text-align:center;margin:16px 0">
+        <a href="https://www.bgu.ac.il/welcome/ba/scholarship-lobby/" target="_blank" class="army-link-btn" style="background:#e65100">
+          🔗 לינק לאתר הרשמי של המלגות
+        </a>
+      </div>
+
+      <div class="results-info" id="sch-info"></div>
+      <div id="sch-results"></div>
+    </div>
+
+    <!-- MAP -->
+    <div class="section" id="sec-map">
+      <div class="page-title">🗺️ מפת הקמפוס</div>
+      <div class="page-sub">מפת אוניברסיטת בן גוריון בנגב – Beer Sheva Campus</div>
+      <div class="map-layout">
+        <div class="map-main">
+          <img src="/static/MAP.png" alt="מפת הקמפוס">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <a class="map-link" href="https://www.bgu.ac.il/general/maps/" target="_blank">
+              🔗 מפה רשמית באתר אוניברסיטת בן גוריון
+            </a>
+            <a class="map-link" href="https://www.bgu.ac.il/u/admin/logistics/gates-opening-hours" target="_blank">
+              🕐 שעות פתיחה שערים
+            </a>
+          </div>
+        </div>
+        <div class="map-side">
+          <div class="map2-panel">
+            <div class="map2-panel-title">📋 מדריך בניינים – מפה מפורטת</div>
+            <ul class="map2-list">
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261500,34.799694" target="_blank"><span class="map2-num">14</span><span class="map2-name">מכון למנהיגות חברתית</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261500,34.799694" target="_blank"><span class="map2-num">15</span><span class="map2-name">בית הספר לניהול</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261500,34.799694" target="_blank"><span class="map2-num">16</span><span class="map2-name">הנדסת תעשייה וניהול</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262000,34.799611" target="_blank"><span class="map2-num">17</span><span class="map2-name">עבודה סוציאלית</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262306,34.799639" target="_blank"><span class="map2-num">18</span><span class="map2-name">מעורבות חברתית</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262000,34.800806" target="_blank"><span class="map2-num">22</span><span class="map2-name">הספרייה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261667,34.799778" target="_blank"><span class="map2-num">25</span><span class="map2-name">בניין 25</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262139,34.802222" target="_blank"><span class="map2-num">26</span><span class="map2-name">אולמות הרצאה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261694,34.802889" target="_blank"><span class="map2-num">27</span><span class="map2-name">בניין 27</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261694,34.802889" target="_blank"><span class="map2-num">28</span><span class="map2-name">כיתות לימוד</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262194,34.802889" target="_blank"><span class="map2-num">29</span><span class="map2-name">מעבדות כימיה ופיזיקה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262000,34.803194" target="_blank"><span class="map2-num">30</span><span class="map2-name">הפקולטה למדעי הטבע</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261806,34.803750" target="_blank"><span class="map2-num">32</span><span class="map2-name">כיתות לימוד</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262194,34.803500" target="_blank"><span class="map2-num">33</span><span class="map2-name">הנדסת חשמל ומחשבים</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261806,34.803750" target="_blank"><span class="map2-num">34</span><span class="map2-name">כיתות לימוד</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261750,34.804167" target="_blank"><span class="map2-num">35</span><span class="map2-name">כיתות לימוד ומעבדות מחשבים</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262306,34.804222" target="_blank"><span class="map2-num">37</span><span class="map2-name">טכנולוגיה עילית</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261306,34.804194" target="_blank"><span class="map2-num">38</span><span class="map2-name">מדעי החיים (מעבדות הוראה)</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261472,34.804583" target="_blank"><span class="map2-num">39</span><span class="map2-name">מדעי החיים (מכון למחקר יישומי)</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261389,34.804806" target="_blank"><span class="map2-num">40</span><span class="map2-name">מדעי החיים</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.261528,34.805139" target="_blank"><span class="map2-num">41</span><span class="map2-name">המכון הלאומי לביוטכנולוגיה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262111,34.805500" target="_blank"><span class="map2-num">42</span><span class="map2-name">הנדסת ביוטכנולוגיה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262111,34.805500" target="_blank"><span class="map2-num">43</span><span class="map2-name">כימיה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262111,34.805500" target="_blank"><span class="map2-num">50</span><span class="map2-name">בניין 50</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262944,34.805583" target="_blank"><span class="map2-num">51</span><span class="map2-name">ננוטכנולוגיה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262722,34.805222" target="_blank"><span class="map2-num">54</span><span class="map2-name">פיזיקה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.263444,34.804861" target="_blank"><span class="map2-num">55</span><span class="map2-name">הנדסת מכונות</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.263000,34.804500" target="_blank"><span class="map2-num">56</span><span class="map2-name">הפקולטה למדעי ההנדסה (מזכירות)</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.263389,34.804500" target="_blank"><span class="map2-num">57</span><span class="map2-name">מעבדות כבדות</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262667,34.804139" target="_blank"><span class="map2-num">58</span><span class="map2-name">מתמטיקה וגיאולוגיה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.263028,34.804000" target="_blank"><span class="map2-num">59</span><span class="map2-name">הנדסת חומרים והנדסת כימיה</span><span class="map2-pin">📍</span></a></li>
+              <li><span class="map2-num">59.1</span><span class="map2-name">יחידה תת-קריטית</span></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.263611,34.804083" target="_blank"><span class="map2-num">60</span><span class="map2-name">בתי מלאכה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262667,34.803194" target="_blank"><span class="map2-num">62</span><span class="map2-name">מערך מחשוב ומעבדות כימיה ופיזיקה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.263000,34.803500" target="_blank"><span class="map2-num">63</span><span class="map2-name">הנדסת גרעין</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.263361,34.803417" target="_blank"><span class="map2-num">64</span><span class="map2-name">מעבדות כלליות</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.263083,34.801750" target="_blank"><span class="map2-num">70</span><span class="map2-name">בית הסטודנט ומינהל הסטודנטים</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.263028,34.801139" target="_blank"><span class="map2-num">71</span><span class="map2-name">המרכז האוניברסיטאי</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262722,34.800472" target="_blank"><span class="map2-num">72</span><span class="map2-name">הפקולטה למדעי הרוח והחברה (הוגוורטס)</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262528,34.800556" target="_blank"><span class="map2-num">73</span><span class="map2-name">אודיטוריום</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.262806,34.799528" target="_blank"><span class="map2-num">74</span><span class="map2-name">מרכז דילר</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.264667,34.803056" target="_blank"><span class="map2-num">90</span><span class="map2-name">כיתות ומרכז תרבות</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.264306,34.803000" target="_blank"><span class="map2-num">91</span><span class="map2-name">בניין שירות ציבורי</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.264389,34.803361" target="_blank"><span class="map2-num">92</span><span class="map2-name">אולמות הרצאה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.264694,34.803389" target="_blank"><span class="map2-num">93A</span><span class="map2-name">פיתוח ולוגיסטיקה</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.264806,34.803611" target="_blank"><span class="map2-num">94</span><span class="map2-name">בניין מעבדות</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.264306,34.802194" target="_blank"><span class="map2-num">95</span><span class="map2-name">מעבדות למחקרים מתקדמים</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.264833,34.802222" target="_blank"><span class="map2-num">96</span><span class="map2-name">הנדסת מערכות תוכנה ומידע</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.264722,34.801472" target="_blank"><span class="map2-num">97</span><span class="map2-name">מדעי ההתנהגות</span><span class="map2-pin">📍</span></a></li>
+              <li><a class="map2-link" href="https://www.google.com/maps?q=31.264722,34.801472" target="_blank"><span class="map2-num">98</span><span class="map2-name">פסיכולוגיה</span><span class="map2-pin">📍</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRADUATES -->
+    <div class="section" id="sec-graduates">
+      <div class="page-title">🎓 ציוני סוף תואר</div>
+      <div class="page-sub">התפלגות ציוני הבוגרים לפי תואר ושנה</div>
+
+      <!-- שלב 1: רשת תארים -->
+      <div id="grad-depts">
+        <div class="cards-grid" id="grad-dept-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr))"></div>
+      </div>
+
+      <!-- שלב 2: בחירת שנה -->
+      <div id="grad-years" style="display:none">
+        <button class="btn btn-outline" onclick="gradBack('depts')" style="margin-bottom:16px">← חזור לרשימת תארים</button>
+        <h3 id="grad-dept-title" style="margin-bottom:16px;color:var(--orange)"></h3>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn btn-primary" style="font-size:18px;padding:14px 28px" onclick="gradSelectYear(2024)">2024</button>
+          <button class="btn btn-primary" style="font-size:18px;padding:14px 28px" onclick="gradSelectYear(2023)">2023</button>
+          <button class="btn btn-primary" style="font-size:18px;padding:14px 28px" onclick="gradSelectYear(2022)">2022</button>
+          <button class="btn btn-primary" style="font-size:18px;padding:14px 28px" onclick="gradSelectYear(2021)">2021</button>
+        </div>
+      </div>
+
+      <!-- שלב 3: גרף + טבלה -->
+      <div id="grad-table-view" style="display:none">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap">
+          <button class="btn btn-outline" onclick="gradBack('years')">← חזור לשנים</button>
+          <h3 id="grad-table-title" style="margin:0;color:var(--orange)"></h3>
+          <div style="display:flex;gap:8px;margin-right:auto">
+            <button class="btn btn-outline" onclick="gradSelectYear(2024)" id="gyb2024">2024</button>
+            <button class="btn btn-outline" onclick="gradSelectYear(2023)" id="gyb2023">2023</button>
+            <button class="btn btn-outline" onclick="gradSelectYear(2022)" id="gyb2022">2022</button>
+            <button class="btn btn-outline" onclick="gradSelectYear(2021)" id="gyb2021">2021</button>
+          </div>
+        </div>
+        <div id="grad-chart-wrap" style="margin-bottom:24px"></div>
+        <table id="grad-data-table" style="width:100%;border-collapse:collapse;font-size:14px;direction:rtl"></table>
+      </div>
+    </div>
+
+    <!-- ARMY / RESERVES -->
+    <div class="section" id="sec-army">
+
+      <!-- Banner -->
+      <div class="army-banner">
+        <img src="/static/army_banner.jpg" alt="מילואים">
+        <div class="army-banner-overlay">
+          <div class="army-banner-text">
+            <div class="army-banner-title">🎖️ מילואים :</div>
+            <div class="army-banner-sub">תודה על שירותכם</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="army-tabs">
+        <div class="army-tab active" onclick="armyTab('matave')">📋 מתווה ומידע</div>
+        <div class="army-tab" onclick="armyTab('chat')">🤖 שאל שאלה</div>
+      </div>
+
+      <!-- MATAVE panel -->
+      <div class="army-panel active" id="army-panel-matave">
+
+        <!-- עדכונים חשובים accordion -->
+        <div class="army-accordion" onclick="toggleArmyUpdate()">
+          <span>📢 עדכונים חשובים</span>
+          <span class="army-accordion-arrow" id="army-arrow">▼</span>
+        </div>
+        <div class="army-update-body" id="army-update-body">
+          <img src="/static/army2.jpg" alt="עדכון חשוב מילואים"
+               style="width:100%;max-width:520px;display:block;margin:0 auto;border-radius:10px">
+        </div>
+
+        <!-- Official links -->
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
+          <a href="https://www.bgu.ac.il/welcome/mitve2026/" target="_blank" class="army-link-btn">
+            🔗 לעמוד המידע הרשמי על מילואים – אוניברסיטת בן גוריון
+          </a>
+          <a href="https://www.bgu.ac.il/u/academic-affairs/dekanat/miluim/" target="_blank" class="army-link-btn">
+            🔗 אתר המילואים הרשמי של האוניברסיטה
+          </a>
+        </div>
+
+        <!-- Info image -->
+        <div style="margin-top:20px;text-align:center">
+          <img src="/static/army.jpg" alt="זכאויות לתקופת המבחנים"
+               style="width:100%;max-width:680px;display:block;margin:0 auto;border-radius:12px;box-shadow:var(--shadow)">
+        </div>
+
+      </div>
+
+      <!-- CHAT panel -->
+      <div class="army-panel" id="army-panel-chat">
+        <div class="army-chat-box">
+          <div class="army-chat-label">🎖️ שאל שאלה על זכויות מילואים</div>
+          <div class="army-chat-row">
+            <input id="army-input" type="text"
+                   placeholder="לדוגמה: מה הזכויות שלי בזמן מבחנים?"
+                   onkeydown="if(event.key==='Enter') armySend()">
+            <button id="army-send" onclick="armySend()">➤</button>
+          </div>
+          <div class="army-chat-msgs" id="army-chat-msgs"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TIMETABLE -->
+    <div class="section" id="sec-timetable">
+      <div class="page-title">📅 מערכת שעות</div>
+      <div class="page-sub">בנה את מערכת השעות שלך – הוסף קורסים לפי מחלקה, תואר ומספר</div>
+
+      <!-- Controls bar -->
+      <div class="tt-bar">
+        <div class="tt-bar-group">
+          <label class="tt-label">שנה</label>
+          <select id="tt-year" class="tt-select">
+            <option value="2027">2027</option>
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+          </select>
+        </div>
+        <div class="tt-bar-group">
+          <label class="tt-label">סמסטר</label>
+          <select id="tt-semester" class="tt-select">
+            <option value="1">א׳</option>
+            <option value="2">ב׳</option>
+            <option value="3">קיץ</option>
+          </select>
+        </div>
+        <div class="tt-bar-sep"></div>
+        <div class="tt-bar-group">
+          <label class="tt-label">מספר קורס &nbsp;(מחלקה . תואר . קורס)</label>
+          <div class="tt-course-row">
+            <input id="tt-dept"   class="tt-inp tt-inp-dept"   maxlength="3" placeholder="361"
+                   oninput="ttAutoTab(this,'tt-degree',3)" title="3 ספרות – מחלקה">
+            <span class="tt-dot">.</span>
+            <input id="tt-degree" class="tt-inp tt-inp-deg"    maxlength="1" placeholder="1"
+                   oninput="ttAutoTab(this,'tt-kurs',1)"   title="ספרה אחת – תואר">
+            <span class="tt-dot">.</span>
+            <input id="tt-kurs"   class="tt-inp tt-inp-kurs"   maxlength="4" placeholder="3581"
+                   onkeydown="if(event.key==='Enter')ttSearch()" title="4 ספרות – קורס">
+          </div>
+        </div>
+        <button class="btn btn-primary" id="tt-add-btn" onclick="ttSearch()" style="height:34px;align-self:flex-end">
+          ➕ הוסף קורס
+        </button>
+      </div>
+
+      <!-- Status -->
+      <div id="tt-status" class="tt-status"></div>
+
+      <!-- Grid + Sidebar -->
+      <div class="tt-layout">
+        <div class="tt-grid-wrap">
+          <table class="tt-grid">
+            <thead>
+              <tr>
+                <th class="tt-th-time">שעה</th>
+                <th>ראשון</th><th>שני</th><th>שלישי</th><th>רביעי</th><th>חמישי</th>
+              </tr>
+            </thead>
+            <tbody id="tt-tbody"></tbody>
+          </table>
+        </div>
+        <div class="tt-sidebar">
+          <div class="tt-legend-title">קורסים במערכת</div>
+          <div id="tt-legend" class="tt-legend">
+            <div class="tt-empty">לא נוספו קורסים עדיין</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PEOPLE / STAFF -->
+    <div class="section" id="sec-people">
+      <div style="position:relative;overflow:hidden;border-radius:var(--radius);margin-bottom:20px;min-height:130px;display:flex;align-items:center">
+        <img src="/static/סגל1.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:rgba(15,18,35,0.58)"></div>
+        <div style="position:relative;padding:26px 28px">
+          <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">👥 אנשי סגל BGU</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.82)">חיפוש מרצים, חוקרים ועובדים – <span id="people-total-sub"></span></div>
+        </div>
+      </div>
+      <div class="search-row">
+        <input class="search-input" id="people-q" placeholder="חפש לפי שם, מייל או פקולטה..."
+               oninput="debounce(searchPeople,350)()" onkeydown="if(event.key==='Enter')searchPeople()">
+        <button class="btn btn-primary" onclick="searchPeople()">🔍 חפש</button>
+        <button class="btn btn-outline" onclick="clearPeople()">נקה</button>
+      </div>
+      <div style="margin:8px 0 4px;font-size:13px;color:var(--text-light)">
+        לרשימה המלאה:
+        <a href="https://www.bgu.ac.il/people/" target="_blank"
+           style="color:var(--orange);font-weight:600">אתר BGU – אנשי סגל ↗</a>
+      </div>
+      <div class="results-info" id="people-info"></div>
+      <div class="table-wrap" id="people-table-wrap" style="display:none">
+        <table>
+          <thead>
+            <tr>
+              <th>שם</th>
+              <th>מייל</th>
+              <th>פקולטה / יחידה</th>
+            </tr>
+          </thead>
+          <tbody id="people-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="people-pages"></div>
+    </div>
+
+    <!-- FORMS -->
+    <div class="section" id="sec-forms">
+      <div class="page-title">📋 טפסים</div>
+      <div class="page-sub">חיפוש טפסים ומסמכים של אוניברסיטת בן גוריון</div>
+      <div class="search-row">
+        <input class="search-input" id="forms-q" placeholder="איזה טופס אתה מחפש?"
+               oninput="debounce(searchForms,400)()" onkeydown="if(event.key==='Enter')searchForms()">
+        <button class="btn btn-primary" onclick="searchForms()">🔍 חפש</button>
+        <button class="btn btn-outline" onclick="clearForms()">מחק</button>
+      </div>
+      <div id="forms-info" class="results-info"></div>
+      <div id="forms-results"></div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="section" id="sec-chat">
+      <div class="page-title">🤖 AskUni – עוזר אקדמי</div>
+      <div class="page-sub">שאל כל שאלה – המערכת מחפשת בכל הנתונים ושולחת ל-AI לניתוח</div>
+      <div class="chat-wrap">
+        <div class="chat-msgs" id="chat-msgs">
+          <div class="msg bot">
+            <div class="av">🤖</div>
+            <div class="bubble">
+              שלום! אני AskUni – עוזר אקדמי חכם לסטודנטים של BGU.<br>
+              שאל אותי על <strong>ציונים, תנאי קבלה, פרויקטים או מלגות</strong>.<br><br>
+              <small style="color:var(--text-light)">לדוגמה: "מה הממוצע בקורס תכנות?" / "אילו מלגות יש לשנה א'?" / "מה תנאי הקבלה להנדסת חשמל?"</small>
+            </div>
+          </div>
+        </div>
+        <div class="search-status" id="chat-status"></div>
+        <div class="chat-input-row">
+          <textarea id="chat-input" rows="1" placeholder="שאל שאלה בשפה טבעית..." onkeydown="chatKey(event)" oninput="autoResize(this)"></textarea>
+          <button id="chat-send" onclick="sendChat()">➤</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- SCHOLARSHIP MODAL -->
+<div class="modal-overlay" id="schol-modal" onclick="closeScholModal(event)">
+  <div class="modal-box" id="schol-modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="schol-modal-title"></div>
+      <button class="modal-close" onclick="closeScholModal()">✕</button>
+    </div>
+    <div class="modal-body" id="schol-modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ==================== CREDENTIALS ====================
+const SERVER_TOKEN = "{{ server_token }}";
+
+function _confirmField(inputId, okId) {
+  const inp = document.getElementById(inputId);
+  const ok  = document.getElementById(okId);
+  inp.style.display = 'none';
+  inp.value = '';
+  ok.style.display = 'inline';
+}
+
+function _resetField(inputId, okId) {
+  const inp = document.getElementById(inputId);
+  const ok  = document.getElementById(okId);
+  inp.style.display = '';
+  inp.value = '';
+  ok.style.display = 'none';
+}
+
+function credEnter(event, field) {
+  if (event.key !== 'Enter') return;
+  if (field === 'username') {
+    const val = document.getElementById('cred-username').value.trim();
+    if (!val) return;
+    sessionStorage.setItem('bgu_token', SERVER_TOKEN);
+    sessionStorage.setItem('bgu_user', val);
+    _confirmField('cred-username', 'cred-user-ok');
+    document.getElementById('cred-password').focus();
+  } else if (field === 'password') {
+    const val = document.getElementById('cred-password').value;
+    if (!val) return;
+    sessionStorage.setItem('bgu_token', SERVER_TOKEN);
+    sessionStorage.setItem('bgu_pass', val);
+    _confirmField('cred-password', 'cred-pass-ok');
+    document.getElementById('cred-eye').style.display = 'none';
+    document.getElementById('cred-idnum').focus();
+  } else {
+    const val = document.getElementById('cred-idnum').value.trim();
+    if (!val) return;
+    sessionStorage.setItem('bgu_token', SERVER_TOKEN);
+    sessionStorage.setItem('bgu_id', val);
+    _confirmField('cred-idnum', 'cred-id-ok');
+    credLogin();
+  }
+}
+
+async function credLogin() {
+  const username = sessionStorage.getItem('bgu_user') || '';
+  const password = sessionStorage.getItem('bgu_pass') || '';
+  const idnum    = sessionStorage.getItem('bgu_id')   || '';
+  if (!username || !password || !idnum) return;
+
+  const okSpan = document.getElementById('cred-id-ok');
+  okSpan.textContent = '⏳';
+  okSpan.style.color = '#888';
+
+  try {
+    const resp = await fetch('/api/portal-login', {
+      method:  'POST',
+      headers: {'Content-Type': 'application/json'},
+      body:    JSON.stringify({username, password, idnum})
+    });
+    const data = await resp.json();
+    if (data.success) {
+      okSpan.textContent = '✔';
+      okSpan.style.color = '#2e7d32';
+    } else {
+      okSpan.textContent = '✗';
+      okSpan.style.color = '#c62828';
+    }
+  } catch(e) {
+    okSpan.textContent = '✗';
+    okSpan.style.color = '#c62828';
+  }
+}
+
+function loadCreds() {
+  if (sessionStorage.getItem('bgu_token') !== SERVER_TOKEN) {
+    sessionStorage.removeItem('bgu_token');
+    sessionStorage.removeItem('bgu_user');
+    sessionStorage.removeItem('bgu_id');
+    sessionStorage.removeItem('bgu_pass');
+    return;
+  }
+  if (sessionStorage.getItem('bgu_user')) {
+    _confirmField('cred-username', 'cred-user-ok');
+  }
+  if (sessionStorage.getItem('bgu_pass')) {
+    _confirmField('cred-password', 'cred-pass-ok');
+    document.getElementById('cred-eye').style.display = 'none';
+  }
+  if (sessionStorage.getItem('bgu_id')) {
+    const ok = document.getElementById('cred-id-ok');
+    ok.textContent = '←';
+    ok.style.color = '#555';
+    _confirmField('cred-idnum', 'cred-id-ok');
+  }
+}
+
+function resetCreds() {
+  _resetField('cred-username', 'cred-user-ok');
+  _resetField('cred-idnum',    'cred-id-ok');
+  _resetField('cred-password', 'cred-pass-ok');
+  document.getElementById('cred-eye').style.display = '';
+  document.getElementById('cred-eye').textContent = '👁';
+  document.getElementById('cred-password').type = 'password';
+  sessionStorage.removeItem('bgu_user');
+  sessionStorage.removeItem('bgu_id');
+  sessionStorage.removeItem('bgu_pass');
+  sessionStorage.removeItem('bgu_token');
+  document.getElementById('cred-username').focus();
+}
+
+function toggleCredPwd() {
+  const inp = document.getElementById('cred-password');
+  const btn = document.getElementById('cred-eye');
+  if (inp.type === 'password') { inp.type = 'text';     btn.textContent = '🙈'; }
+  else                         { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+document.addEventListener('DOMContentLoaded', () => { loadCreds(); ttBuildGrid(); });
+
+// ==================== TIMETABLE ====================
+const TT_SLOTS = [];
+for (let h = 8; h <= 21; h++) {
+  TT_SLOTS.push(String(h).padStart(2,'0') + ':00');
+}
+const TT_DAY_IDX = {א:0, ב:1, ג:2, ד:3, ה:4};
+const TT_COLORS  = ['#FF8A80','#80DEEA','#A5D6A7','#FFE082','#CE93D8',
+                    '#80CBC4','#FFAB91','#90CAF9','#F48FB1','#BCAAA4'];
+let ttCourses  = [];
+let ttCellData = {}; // key:"d-si" → [{course, entry, isStart}]
+
+function _ttKey(d, si) { return `${d}-${si}`; }
+
+function ttRenderCell(d, si) {
+  const cell = document.getElementById(`ttc-${d}-${si}`);
+  if (!cell) return;
+  const items = ttCellData[_ttKey(d, si)] || [];
+  if (!items.length) {
+    cell.style.background = '';
+    cell.style.color      = '';
+    cell.innerHTML        = '';
+    cell.title            = '';
+    return;
+  }
+  // unique colors per course object (preserve order)
+  const seen = new Set();
+  const colors = [];
+  items.forEach(it => { if (!seen.has(it.course)) { seen.add(it.course); colors.push(it.course.color); } });
+
+  if (colors.length === 1) {
+    cell.style.background = colors[0];
+  } else {
+    const pct   = 100 / colors.length;
+    const stops = colors.map((c, i) => `${c} ${i*pct}%, ${c} ${(i+1)*pct}%`).join(', ');
+    cell.style.background = `linear-gradient(to right, ${stops})`;
+  }
+  cell.style.color = '#333';
+
+  // Label: only courses whose slot starts here
+  const startItems = items.filter(it => it.isStart);
+  cell.textContent = startItems.map(it =>
+    it.course.id.split('.').pop() + ((it.entry.type||'')[0] ? ' ' + it.entry.type[0] : '')
+  ).join(' / ');
+
+  // Tooltip: one block per unique course+entry pair
+  const seenT = new Set();
+  cell.title = items.filter(it => {
+    const k = it.course.id + '|' + (it.entry.type||'') + '|' + (it.entry.lecturer||'');
+    if (seenT.has(k)) return false; seenT.add(k); return true;
+  }).map(it =>
+    `${it.course.id}: ${it.course.name}\n${it.entry.type||''} ${it.entry.lecturer||''}\n${it.entry.location||''}`
+  ).join('\n---\n');
+}
+
+function ttBuildGrid() {
+  const tbody = document.getElementById('tt-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  ttCellData = {};
+  TT_SLOTS.forEach((slot, si) => {
+    const tr = document.createElement('tr');
+    tr.className = 'tt-row-hour';
+    const td0 = document.createElement('td');
+    td0.className = 'tt-td-time';
+    td0.textContent = slot;
+    tr.appendChild(td0);
+    for (let d = 0; d < 5; d++) {
+      const td = document.createElement('td');
+      td.id = `ttc-${d}-${si}`;
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  });
+}
+
+function ttAutoTab(el, nextId, len) {
+  if (el.value.length >= len) document.getElementById(nextId)?.focus();
+}
+
+function ttTimeIdx(time) {
+  const [h] = time.split(':').map(Number);
+  return h - 8;
+}
+
+function ttPaintCourse(c) {
+  c.schedule.forEach(entry => {
+    (entry.times || []).forEach(t => {
+      const d = TT_DAY_IDX[t.day];
+      if (d === undefined) return;
+      const s0 = ttTimeIdx(t.start), s1 = ttTimeIdx(t.end);
+      for (let si = s0; si < s1; si++) {
+        const key = _ttKey(d, si);
+        if (!ttCellData[key]) ttCellData[key] = [];
+        // הוסף רק אם השילוב הזה עוד לא קיים
+        const exists = ttCellData[key].some(it => it.course === c && it.entry === entry && it.isStart === (si === s0));
+        if (!exists) ttCellData[key].push({course: c, entry, isStart: si === s0});
+        ttRenderCell(d, si);
+      }
+    });
+  });
+}
+
+function ttClearCourse(idx) {
+  const c = ttCourses[idx];
+  if (!c) return;
+  // הסר את הקורס מכל התאים
+  Object.keys(ttCellData).forEach(key => {
+    ttCellData[key] = ttCellData[key].filter(it => it.course !== c);
+  });
+  ttCourses.splice(idx, 1);
+  // צייר מחדש את כל התאים שהושפעו
+  Object.keys(ttCellData).forEach(key => {
+    const [d, si] = key.split('-').map(Number);
+    ttRenderCell(d, si);
+  });
+  ttRenderLegend();
+}
+
+function ttRenderLegend() {
+  const el = document.getElementById('tt-legend');
+  if (!ttCourses.length) { el.innerHTML = '<div class="tt-empty">לא נוספו קורסים עדיין</div>'; return; }
+  el.innerHTML = ttCourses.map((c, i) => `
+    <div class="tt-legend-item">
+      <div class="tt-legend-dot" style="background:${c.color}"></div>
+      <div class="tt-legend-info">
+        <div class="tt-legend-id">${c.id}</div>
+        <div class="tt-legend-name">${c.name}</div>
+      </div>
+      <button class="tt-legend-rm" onclick="ttClearCourse(${i})" title="הסר">✕</button>
+    </div>`).join('');
+}
+
+function ttSetStatus(msg, cls) {
+  const el = document.getElementById('tt-status');
+  el.textContent = msg; el.className = 'tt-status ' + (cls||'');
+}
+
+async function ttSearch() {
+  const dept = document.getElementById('tt-dept').value.trim();
+  const deg  = document.getElementById('tt-degree').value.trim();
+  const kurs = document.getElementById('tt-kurs').value.trim();
+  const year = document.getElementById('tt-year').value;
+  const sem  = document.getElementById('tt-semester').value;
+
+  if (!dept||!deg||!kurs)            { ttSetStatus('נא למלא מחלקה, תואר ומספר קורס','error'); return; }
+  if (!/^\d{3}$/.test(dept))         { ttSetStatus('מחלקה – 3 ספרות בדיוק','error'); return; }
+  if (!/^\d$/.test(deg))             { ttSetStatus('תואר – ספרה אחת בדיוק','error'); return; }
+  if (!/^\d{4}$/.test(kurs))         { ttSetStatus('מספר קורס – 4 ספרות בדיוק','error'); return; }
+
+  const cid = `${dept}.${deg}.${kurs}`;
+  if (ttCourses.find(c => c.id === cid)) { ttSetStatus(`הקורס ${cid} כבר במערכת`,'error'); return; }
+
+  document.getElementById('tt-add-btn').disabled = true;
+  ttSetStatus('🔍 מחפש קורס… הדפדפן מתחבר לאתר BGU (כ-20 שניות)', 'loading');
+
+  try {
+    const res  = await fetch('/api/timetable/search', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({department:dept, degree:deg, course_num:kurs, year, semester:sem})
+    });
+    const data = await res.json();
+
+    if (data.error) { ttSetStatus('❌ ' + data.error, 'error'); return; }
+    if (!data.schedule?.length) {
+      ttSetStatus(`⚠ "${data.course_name}" – לא נמצאו שעות לסמסטר זה`, 'error'); return;
+    }
+
+    const color = TT_COLORS[ttCourses.length % TT_COLORS.length];
+    const c = {id: cid, name: data.course_name, color, schedule: data.schedule};
+    ttCourses.push(c);
+    ttPaintCourse(c);
+    ttRenderLegend();
+
+    document.getElementById('tt-dept').value   = '';
+    document.getElementById('tt-degree').value = '';
+    document.getElementById('tt-kurs').value   = '';
+    ttSetStatus(`✔ נוסף: "${data.course_name}"  (${cid})`, 'success');
+  } catch(e) {
+    ttSetStatus('❌ שגיאת חיבור: ' + e.message, 'error');
+  } finally {
+    document.getElementById('tt-add-btn').disabled = false;
+  }
+}
+
+// ==================== NAVIGATION ====================
+let currentPage = 'dashboard';
+
+function go(page) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-'+page).classList.add('active');
+  document.querySelectorAll(`.nav-item[data-nav-page="${page}"]`).forEach(n => n.classList.add('active'));
+  currentPage = page;
+
+  // Load data on first visit
+  if (page === 'courses'      && !courseLoaded)     { courseLoaded=true; searchCourses(); }
+  if (page === 'admission'    && !admLoaded)         { admLoaded=true;    searchAdmission(); }
+  if (page === 'projects'     && !projLoaded)        { projLoaded=true;   loadProjectTracks().then(searchProjects); }
+  if (page === 'scholarships' && !scholLoaded)       { scholLoaded=true;  searchScholarships(); }
+  if (page === 'army'         && !armyLoaded)        { armyLoaded=true;   loadArmyResults(); }
+  if (page === 'people'       && !peopleLoaded)      { peopleLoaded=true; searchPeople(); }
+  if (page === 'graduates'    && !gradLoaded)        { gradLoaded=true;   initGraduates(); }
+  if (page === 'forms'        && !formsLoaded)       { formsLoaded=true; }
+}
+
+// ==================== GRADUATES FOLDER (inside ציונים) ====================
+let cfDept = null, cfYear = null, cfDeptInit = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('grad-folder')?.addEventListener('toggle', function() {
+    if (this.open && !cfDeptInit) { cfDeptInit = true; cfInitDepts(); }
+  });
+});
+
+function cfInitDepts() {
+  const grid = document.getElementById('cf-dept-grid');
+  grid.innerHTML = GRAD_DEPTS.map(d =>
+    `<div class="card" onclick="cfSelectDept('${d.replace(/'/g,"\\'")}')"`+
+    ` style="min-height:70px;display:flex;align-items:center;justify-content:center;`+
+    `text-align:center;padding:10px 8px;font-weight:700;font-size:13px;cursor:pointer">${d}</div>`
+  ).join('');
+}
+
+function cfSelectDept(dept) {
+  cfDept = dept;
+  document.getElementById('cf-dept-title').textContent = dept;
+  document.getElementById('cf-depts').style.display     = 'none';
+  document.getElementById('cf-years').style.display     = 'block';
+  document.getElementById('cf-table-view').style.display= 'none';
+}
+
+function cfSelectYear(year) {
+  cfYear = year;
+  document.getElementById('cf-table-title').textContent = cfDept + ' – ' + year;
+  document.getElementById('cf-depts').style.display     = 'none';
+  document.getElementById('cf-years').style.display     = 'none';
+  document.getElementById('cf-table-view').style.display= 'block';
+  [2024,2023,2022,2021].forEach(y => {
+    const b = document.getElementById('cfyb'+y);
+    if (b) b.className = 'btn ' + (y===year ? 'btn-primary':'btn-outline');
+  });
+  fetch(`/api/graduates?dept=${encodeURIComponent(cfDept)}&year=${year}`)
+    .then(r => r.json()).then(d => cfRenderData(d));
+}
+
+function cfBack(to) {
+  document.getElementById('cf-depts').style.display     = to==='depts' ? 'block':'none';
+  document.getElementById('cf-years').style.display     = to==='years' ? 'block':'none';
+  document.getElementById('cf-table-view').style.display= 'none';
+}
+
+function cfRenderData(data) {
+  const chartWrap = document.getElementById('cf-chart-wrap');
+  const tableEl   = document.getElementById('cf-data-table');
+  if (!data.rows || !data.rows.length) {
+    chartWrap.innerHTML = '<p style="color:#888">אין נתונים.</p>';
+    tableEl.innerHTML = ''; return;
+  }
+  const maxVal = Math.max(...data.rows.map(r => r.count), 1);
+  chartWrap.innerHTML = '<div style="display:flex;flex-direction:column;gap:6px">' +
+    data.rows.map(r => `
+      <div style="display:flex;align-items:center;gap:8px;direction:rtl">
+        <div style="width:80px;text-align:right;font-size:13px;font-weight:600;flex-shrink:0">${r.range}</div>
+        <div style="flex:1;background:#f0f0f0;border-radius:4px;height:24px;overflow:hidden">
+          <div style="width:${(r.count/maxVal*100).toFixed(1)}%;height:100%;`+
+              `background:linear-gradient(90deg,#e8973a,#f4b96e);border-radius:4px;`+
+              `display:flex;align-items:center;padding-right:6px;`+
+              `font-size:12px;font-weight:700;color:#fff;box-sizing:border-box">`+
+              `${r.count>0?r.count:''}</div></div>
+        <div style="width:30px;text-align:left;font-size:13px;color:#555">${r.count}</div>
+      </div>`).join('') + '</div>';
+  tableEl.innerHTML =
+    `<thead style="background:#f5f5f5"><tr>`+
+    `<th style="padding:7px 12px;text-align:right;border-bottom:2px solid #ddd">טווח ציונים</th>`+
+    `<th style="padding:7px 12px;text-align:right;border-bottom:2px solid #ddd">מספר סטודנטים</th>`+
+    `</tr></thead><tbody>`+
+    data.rows.map(r=>
+      `<tr><td style="padding:6px 12px;border-bottom:1px solid #eee">${r.range}</td>`+
+      `<td style="padding:6px 12px;border-bottom:1px solid #eee;font-weight:700">${r.count}</td></tr>`
+    ).join('')+'</tbody>';
+}
+
+// ==================== GRADUATES ====================
+const GRAD_DEPTS = [
+  'המחלקה להנדסת חשמל ומחשבים','הנדסת מחשבים','הנדסה כימית',
+  'הנדסת חומרים','הנדסת ביוטכנולוגיה','הנדסת מערכות מידע',
+  'הנדסת בניין','הנדסת חשמל','הנדסת מכונות',
+  'הנדסת תעשייה וניהול','הנדסה ביורפואית','הנדסת מערכות תקשורת',
+  'הנדסת תוכנה','הנדסת נתונים'
+];
+let gradLoaded = false, gradDept = null, gradYear = null;
+
+function initGraduates() {
+  const grid = document.getElementById('grad-dept-grid');
+  grid.innerHTML = GRAD_DEPTS.map(d =>
+    `<div class="card" onclick="gradSelectDept('${d.replace(/'/g,"\\'")}')"`+
+    ` style="min-height:100px;display:flex;align-items:center;justify-content:center;text-align:center;`+
+    `padding:16px;font-weight:700;font-size:14px;cursor:pointer">${d}</div>`
+  ).join('');
+}
+
+function gradSelectDept(dept) {
+  gradDept = dept;
+  document.getElementById('grad-dept-title').textContent = dept;
+  document.getElementById('grad-depts').style.display  = 'none';
+  document.getElementById('grad-years').style.display  = 'block';
+  document.getElementById('grad-table-view').style.display = 'none';
+}
+
+function gradSelectYear(year) {
+  gradYear = year;
+  document.getElementById('grad-table-title').textContent = gradDept + ' – ' + year;
+  document.getElementById('grad-depts').style.display  = 'none';
+  document.getElementById('grad-years').style.display  = 'none';
+  document.getElementById('grad-table-view').style.display = 'block';
+  [2024,2023,2022,2021].forEach(y => {
+    const b = document.getElementById('gyb'+y);
+    if (b) b.className = 'btn ' + (y===year ? 'btn-primary' : 'btn-outline');
+  });
+  fetch(`/api/graduates?dept=${encodeURIComponent(gradDept)}&year=${year}`)
+    .then(r => r.json()).then(renderGradData);
+}
+
+function gradBack(to) {
+  document.getElementById('grad-depts').style.display     = to==='depts' ? 'block':'none';
+  document.getElementById('grad-years').style.display     = to==='years' ? 'block':'none';
+  document.getElementById('grad-table-view').style.display= 'none';
+}
+
+function renderGradData(data) {
+  const chartWrap = document.getElementById('grad-chart-wrap');
+  const tableEl   = document.getElementById('grad-data-table');
+  if (!data.rows || !data.rows.length) {
+    chartWrap.innerHTML = '<p style="color:#888">אין נתונים לתואר ושנה אלו.</p>';
+    tableEl.innerHTML = '';
+    return;
+  }
+  const maxVal = Math.max(...data.rows.map(r => r.count), 1);
+  chartWrap.innerHTML = '<div style="display:flex;flex-direction:column;gap:8px">' +
+    data.rows.map(r => `
+      <div style="display:flex;align-items:center;gap:10px;direction:rtl">
+        <div style="width:90px;text-align:right;font-size:13px;font-weight:600;flex-shrink:0">${r.range}</div>
+        <div style="flex:1;background:#f0f0f0;border-radius:4px;height:26px;overflow:hidden">
+          <div style="width:${(r.count/maxVal*100).toFixed(1)}%;height:100%;`+
+              `background:linear-gradient(90deg,#e8973a,#f4b96e);border-radius:4px;`+
+              `transition:width .4s;display:flex;align-items:center;padding-right:8px;`+
+              `font-size:12px;font-weight:700;color:#fff;box-sizing:border-box">`+
+              `${r.count>0?r.count:''}</div>
+        </div>
+        <div style="width:36px;text-align:left;font-size:13px;color:#555">${r.count}</div>
+      </div>`
+    ).join('') + '</div>';
+  tableEl.innerHTML =
+    `<thead style="background:#f5f5f5"><tr>`+
+    `<th style="padding:8px 12px;text-align:right;border-bottom:2px solid #ddd">טווח ציונים</th>`+
+    `<th style="padding:8px 12px;text-align:right;border-bottom:2px solid #ddd">מספר סטודנטים</th>`+
+    `</tr></thead><tbody>`+
+    data.rows.map(r=>
+      `<tr><td style="padding:7px 12px;border-bottom:1px solid #eee">${r.range}</td>`+
+      `<td style="padding:7px 12px;border-bottom:1px solid #eee;font-weight:700">${r.count}</td></tr>`
+    ).join('')+'</tbody>';
+}
+
+// ==================== HERO SEARCH ====================
+function heroKey(e) { if (e.key === 'Enter') heroSend(); }
+
+function heroSend() {
+  const val = document.getElementById('hero-input').value.trim();
+  if (!val) return;
+  document.getElementById('chat-input').value = val;
+  go('chat');
+  sendChat();
+}
+
+// Fix nav item selection
+document.querySelectorAll('.nav-item').forEach((el,i) => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  });
+});
+
+let courseLoaded=false, admLoaded=false, projLoaded=false, scholLoaded=false, armyLoaded=false, peopleLoaded=false, formsLoaded=false;
+let coursePage=1, projPage=1;
+
+// ==================== UTILS ====================
+function debounce(fn, ms) {
+  let t; return (...a) => { clearTimeout(t); t = setTimeout(()=>fn(...a), ms); };
+}
+function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,100)+'px'; }
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function _linkButtons(label, url) {
+  const realUrl = url.replace(/&amp;/g, '&');
+  return `<span class="md-link-wrap">` +
+    `<a href="${url}" target="_blank" rel="noopener" class="md-link">${label}</a>` +
+    `<button class="md-copy-btn" data-copy="${realUrl}">📋 העתק</button>` +
+    `</span>`;
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.classList.contains('md-copy-btn')) return;
+  const url = e.target.getAttribute('data-copy');
+  navigator.clipboard.writeText(url).catch(() => {});
+  e.target.textContent = '✓ הועתק';
+  setTimeout(() => { e.target.textContent = '📋 העתק'; }, 1500);
+});
+
+function markdownLite(t) {
+  // Bold
+  t = t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  // Markdown links [label](url) — process first, mark with placeholder to avoid double-match
+  const links = [];
+  t = t.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, (_, label, url) => {
+    links.push(_linkButtons(label, url));
+    return `\x00LINK${links.length - 1}\x00`;
+  });
+  // Bare URLs not already inside an attribute
+  t = t.replace(/(?<![=("'>])(https?:\/\/[^\s<>"')\]]+)/g, url => {
+    links.push(_linkButtons(url, url));
+    return `\x00LINK${links.length - 1}\x00`;
+  });
+  // Bullet lists: lines starting with * or -
+  t = t.replace(/^[\*\-]\s+(.+)$/gm,'<li>$1</li>');
+  // Numbered lists
+  t = t.replace(/^\d+\.\s+(.+)$/gm,'<li>$1</li>');
+  // Wrap consecutive <li> in <ul>
+  t = t.replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  // Newlines to <br> (but not inside list items)
+  t = t.replace(/\n(?!<\/?[ul])/g,'<br>');
+  // Restore links
+  t = t.replace(/\x00LINK(\d+)\x00/g, (_, i) => links[+i]);
+  return t;
+}
+
+// ===== GRADE COLOR =====
+function gradeClass(n) {
+  if (isNaN(n)) return '';
+  if (n >= 90)  return 'grade-1';
+  if (n >= 85)  return 'grade-2';
+  if (n >= 80)  return 'grade-3';
+  if (n >= 75)  return 'grade-4';
+  if (n >= 70)  return 'grade-5';
+  if (n >= 65)  return 'grade-6';
+  if (n >= 60)  return 'grade-7';
+  return 'grade-8';
+}
+function gradeCell(val) {
+  if (!val) return `<td style="color:#ddd;text-align:center">—</td>`;
+  const cls = gradeClass(parseFloat(val));
+  return `<td style="text-align:center"><span class="grade-badge ${cls}">${escHtml(val)}</span></td>`;
+}
+
+// ==================== COURSES ====================
+async function searchCourses(page=1) {
+  coursePage = page;
+  const q = document.getElementById('course-q').value.trim();
+  const res = await fetch(`/api/courses?q=${encodeURIComponent(q)}&page=${page}`);
+  const data = await res.json();
+
+  document.getElementById('course-info').textContent =
+    `נמצאו ${(data.total||0).toLocaleString()} קורסים`;
+
+  const thead = document.getElementById('courses-head');
+  const tbody = document.getElementById('courses-body');
+
+  if (!data.courses || !data.courses.length) {
+    thead.innerHTML = '<tr><th>מספר קורס</th><th>שם קורס</th><th>נק"ז</th></tr>';
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#888;padding:32px">לא נמצאו קורסים</td></tr>';
+    return;
+  }
+
+  // Build dynamic headers from grade columns
+  const semCols = data.grade_cols || [];
+  thead.innerHTML = `<tr>
+    <th>מספר קורס</th><th>שם קורס</th><th>נק"ז</th>
+    ${semCols.map(c=>`<th style="font-size:12px;white-space:nowrap">${escHtml(c)}</th>`).join('')}
+  </tr>`;
+
+  tbody.innerHTML = data.courses.map(c => {
+    const gradeCells = semCols.map(col => {
+      const v = c.grades ? (c.grades[col] || '') : '';
+      return gradeCell(v);
+    }).join('');
+    return `<tr>
+      <td><code style="font-size:12px">${escHtml(c.id)}</code></td>
+      <td><span class="grade-link" onclick="showCourseDetail('${escHtml(c.id)}')">${escHtml(c.name)}</span></td>
+      <td style="text-align:center">${escHtml(c.credits)}</td>
+      ${gradeCells}
+    </tr>`;
+  }).join('');
+
+  renderPages('courses-pages', data.total, data.per_page, page, p=>searchCourses(p));
+}
+
+function clearCourses() { document.getElementById('course-q').value=''; searchCourses(); }
+
+async function showCourseDetail(id) {
+  document.getElementById('course-list-view').style.display='none';
+  document.getElementById('course-detail-view').style.display='block';
+  document.getElementById('course-detail-content').innerHTML='<p style="color:#888;padding:20px">טוען...</p>';
+
+  const res  = await fetch(`/api/courses/${encodeURIComponent(id)}`);
+  const data = await res.json();
+  if (data.error) {
+    document.getElementById('course-detail-content').innerHTML=`<p style="color:red">${data.error}</p>`;
+    return;
+  }
+
+  const histHtml = Object.entries(data.history).map(([sem,g])=>{
+    const cls = gradeClass(parseFloat(g));
+    return `<span class="grade-badge ${cls}" style="padding:6px 14px;font-size:13px">${escHtml(sem)}: ${escHtml(g)}</span>`;
+  }).join('') || '<span style="color:#aaa">אין נתוני ממוצעים</span>';
+
+  document.getElementById('course-detail-content').innerHTML = `
+    <div class="detail-panel">
+      <h3>${escHtml(data.name)}</h3>
+      <div class="detail-grid">
+        <div class="detail-item"><div class="detail-label">מספר קורס</div><div class="detail-value">${escHtml(data.id)}</div></div>
+        <div class="detail-item"><div class="detail-label">נקודות זכות</div><div class="detail-value">${escHtml(data.credits)||'—'}</div></div>
+        <div class="detail-item"><div class="detail-label">קורסי קדם</div><div class="detail-value" style="font-size:13px">${escHtml(data.prereqs)||'אין'}</div></div>
+      </div>
+      <div style="font-weight:700;margin-bottom:8px;font-size:14px">היסטוריית ממוצעים:</div>
+      <div class="history-bar">${histHtml}</div>
+    </div>`;
+}
+
+function showCourseList() {
+  document.getElementById('course-list-view').style.display='block';
+  document.getElementById('course-detail-view').style.display='none';
+}
+
+// ==================== ADMISSION ====================
+async function searchAdmission() {
+  const q = document.getElementById('adm-q').value.trim();
+  const res  = await fetch(`/api/admission?q=${encodeURIComponent(q)}`);
+  const data = await res.json();
+
+  document.getElementById('adm-info').textContent = `נמצאו ${data.total} מסלולים`;
+
+  const container = document.getElementById('adm-results');
+  if (!data.tracks.length) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>לא נמצאו מסלולים</div>';
+    return;
+  }
+
+  container.innerHTML = data.tracks.map(t => {
+    const fields = [
+      ['סכ"מ', t.score], ['פסיכומטרי', t.psycho], ['ממוצע בגרות', t.bagrut],
+      ['מתמטיקה', t.math], ['אנגלית', t.english], ['פיסיקה', t.physics],
+      ['סכ"מ הנדסה', t.eng_score]
+    ].filter(([,v])=>v);
+
+    const gridHtml = fields.map(([l,v])=>`
+      <div class="track-item">
+        <div class="track-item-label">${escHtml(l)}</div>
+        <div class="track-item-val">${escHtml(v)}</div>
+      </div>`).join('');
+
+    const urlHtml = t.url ? `<div class="track-url"><a href="${escHtml(t.url)}" target="_blank">🔗 לדף הרשמי</a></div>` : '';
+    const typeBadge = t.type && t.type !== 'רגיל' ? `<span class="badge badge-track" style="margin-right:8px">${escHtml(t.type)}</span>` : '';
+
+    return `<div class="track-card">
+      <div class="track-name">${escHtml(t.name)} ${typeBadge}</div>
+      <div class="track-grid">${gridHtml}</div>
+      ${urlHtml}
+    </div>`;
+  }).join('');
+}
+
+function clearAdmission() { document.getElementById('adm-q').value=''; searchAdmission(); }
+
+// ==================== PROJECTS ====================
+function toggleLinks() {
+  const body  = document.getElementById('links-body');
+  const arrow = document.getElementById('links-arrow');
+  const isOpen = body.style.display !== 'none';
+  body.style.display  = isOpen ? 'none' : 'flex';
+  arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+async function toggleReportFolder(folder, btn) {
+  const panel = document.getElementById('report-panel-' + folder);
+  const isOpen = panel.style.display !== 'none';
+  if (isOpen) {
+    panel.style.display = 'none';
+    btn.dataset.open = '';
+    btn.style.background = 'var(--card-bg)';
+    btn.style.color = 'var(--orange)';
+    return;
+  }
+  const res  = await fetch('/api/reports/' + folder);
+  const data = await res.json();
+  if (!data.files.length) {
+    panel.innerHTML = '<div style="color:var(--text-light);font-size:13px;padding:6px 0">אין קבצים בתיקייה עדיין</div>';
+  } else {
+    panel.innerHTML = data.files.map(f =>
+      `<a href="/static/reports/${folder}/${encodeURIComponent(f)}" target="_blank"
+          style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;color:var(--text);transition:border-color .15s"
+          onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'">
+        📄 ${f}
+      </a>`
+    ).join('');
+  }
+  panel.style.display = 'flex';
+  panel.style.flexDirection = 'column';
+  btn.dataset.open = '1';
+  btn.style.background = 'var(--orange)';
+  btn.style.color = '#fff';
+}
+
+function setYear(btn) {
+  document.querySelectorAll('.year-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('proj-year').value = btn.dataset.year;
+  searchProjects();
+}
+
+async function loadProjectTracks() {
+  const res  = await fetch('/api/projects?page=1&per_page=1');
+  const data = await res.json();
+
+  // Tracks dropdown only (years are fixed tabs)
+  const selTrack = document.getElementById('proj-track');
+  selTrack.innerHTML = '<option value="">כל התחומים</option>';
+  (data.tracks||[]).forEach(t => {
+    if(t) selTrack.innerHTML += `<option value="${escHtml(t)}">${escHtml(t)}</option>`;
+  });
+}
+
+async function searchProjects(page=1) {
+  projPage = page;
+  const q     = document.getElementById('proj-q').value.trim();
+  const year  = document.getElementById('proj-year').value;
+  const track = document.getElementById('proj-track').value;
+  const res   = await fetch(`/api/projects?q=${encodeURIComponent(q)}&year=${encodeURIComponent(year)}&track=${encodeURIComponent(track)}&page=${page}`);
+  const data  = await res.json();
+
+  document.getElementById('proj-info').textContent = `נמצאו ${data.total} פרויקטים`;
+
+  const container = document.getElementById('proj-results');
+
+  if (!data.projects || !data.projects.length) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">🔬</div>לא נמצאו פרויקטים</div>';
+    document.getElementById('proj-pages').innerHTML = '';
+    return;
+  }
+
+  // Group by year (if no year filter selected)
+  if (!year) {
+    const byYear = {};
+    data.projects.forEach(p => {
+      const y = p['_display_year'] || p['Year'] || p['year'] || 'אחר';
+      if (!byYear[y]) byYear[y] = [];
+      byYear[y].push(p);
+    });
+    // Sort years newest first
+    const sortedYears = Object.keys(byYear).sort((a,b)=>b-a);
+
+    container.innerHTML = sortedYears.map(y => `
+      <div class="year-group">
+        <div class="year-header">
+          📅 שנת ${escHtml(y)}
+          <span class="year-count">(${byYear[y].length} פרויקטים)</span>
+        </div>
+        <div class="proj-cards">
+          ${byYear[y].map(p => projCard(p)).join('')}
+        </div>
+      </div>`).join('');
+  } else {
+    container.innerHTML = `<div class="proj-cards">${data.projects.map(p=>projCard(p)).join('')}</div>`;
+  }
+
+  renderPages('proj-pages', data.total, data.per_page||20, page, p=>searchProjects(p));
+}
+
+function projCard(p) {
+  const name     = escHtml(p['Project Name'] || p['שם'] || '—');
+  const advisers = escHtml(p['Advisers'] || p['Advisors'] || '');
+  const keywords = escHtml(p['Keywords'] || '');
+  const spec     = escHtml(p['Specialization'] || '');
+  const link     = p['Link'] || '';
+  const pid      = escHtml(p['Project ID'] || '');
+
+  return `<div class="proj-card">
+    <div class="proj-name">${name}</div>
+    <div class="proj-meta">
+      ${advisers ? `<span>👤 ${advisers}</span>` : ''}
+      ${keywords  ? `<span>🔑 ${keywords}</span>`  : ''}
+      ${pid       ? `<span>🆔 ${pid}</span>`        : ''}
+    </div>
+    ${spec ? `<div><span class="proj-spec">${spec}</span></div>` : ''}
+    ${link ? `<div style="margin-top:8px"><a href="${escHtml(link)}" target="_blank" style="color:var(--orange);font-size:12px;text-decoration:none">🔗 פרטים נוספים</a></div>` : ''}
+  </div>`;
+}
+
+// ==================== SCHOLARSHIPS ====================
+let scholData = []; // store all scholarships for modal lookup
+
+async function searchScholarships() {
+  const q   = document.getElementById('sch-q').value.trim();
+  const res = await fetch(`/api/scholarships?q=${encodeURIComponent(q)}`);
+  const data = await res.json();
+
+  scholData = data.scholarships || [];
+  document.getElementById('sch-info').textContent = `נמצאו ${data.total} מלגות`;
+
+  const container = document.getElementById('sch-results');
+  if (!scholData.length) {
+    container.innerHTML='<div class="empty"><div class="empty-icon">💰</div>לא נמצאו מלגות</div>';
+    return;
+  }
+
+  container.innerHTML = scholData.map((s, i) => {
+    const desc   = s.desc   || '';
+    const target = s.target || '';
+    const amount = s.amount || '';
+
+    const tags = [
+      target && `👥 ${target.slice(0,60)}${target.length>60?'...':''}`,
+      amount && `💵 ${amount.slice(0,60)}${amount.length>60?'...':''}`,
+    ].filter(Boolean);
+
+    return `<div class="schol-card" onclick="openScholModal(${i})">
+      <div class="schol-name">${escHtml(s.name || '—')}</div>
+      ${desc ? `<div class="schol-body">${escHtml(desc.slice(0,180))}${desc.length>180?'...':''}</div>` : ''}
+      ${tags.length ? `<div class="schol-tags">${tags.map(t=>`<span class="schol-tag">${escHtml(t)}</span>`).join('')}</div>` : ''}
+      <div class="schol-click-hint">לחץ לפרטים מלאים ▸</div>
+    </div>`;
+  }).join('');
+}
+
+function clearScholarships() { document.getElementById('sch-q').value=''; searchScholarships(); }
+
+// ===== SCHOLARSHIP AI SEARCH =====
+function scholAiKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); askScholAI(); } }
+
+const SCHOL_AI_STEPS = ['🔍 קורא את כל המלגות...','🧠 מנתח את הבקשה...','🤖 מחפש התאמות...','✍️ מכין המלצות...'];
+
+async function askScholAI() {
+  const input  = document.getElementById('schol-ai-input');
+  const status = document.getElementById('schol-ai-status');
+  const result = document.getElementById('schol-ai-result');
+  const btn    = document.getElementById('schol-ai-btn');
+  const query  = input.value.trim();
+  if (!query) return;
+
+  btn.disabled = true;
+  result.innerHTML = '';
+  status.style.opacity = '1';
+
+  let step = 0;
+  status.textContent = SCHOL_AI_STEPS[0];
+  const timer = setInterval(() => {
+    step = (step + 1) % SCHOL_AI_STEPS.length;
+    status.textContent = SCHOL_AI_STEPS[step];
+  }, 900);
+
+  try {
+    const res  = await fetch('/api/scholarships/ask', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({query})
+    });
+    const data = await res.json();
+    clearInterval(timer);
+    status.style.opacity = '0';
+
+    if (data.error) {
+      result.innerHTML = `<div class="schol-ai-answer" style="color:#c00">${escHtml(data.error)}</div>`;
+      return;
+    }
+
+    // Answer text
+    let html = `<div class="schol-ai-answer">${markdownLite(escHtml(data.answer))}</div>`;
+
+    // Matched scholarship cards
+    if (data.matched && data.matched.length) {
+      // Merge matched into scholData so modal works
+      const baseIdx = scholData.length;
+      data.matched.forEach((s, i) => {
+        s._modalIdx = baseIdx + i;
+        scholData.push(s);
+      });
+
+      html += `<div class="schol-ai-matched-title">📋 המלגות המומלצות – לחץ לפרטים מלאים</div>`;
+      html += `<div class="schol-ai-cards">`;
+      data.matched.forEach((s, i) => {
+        const mIdx = baseIdx + i;
+        html += `<div class="schol-card" onclick="openScholModal(${mIdx})" style="margin-bottom:0">
+          <div class="schol-name">${escHtml(s.name || '—')}</div>
+          ${s.desc ? `<div class="schol-body">${escHtml(s.desc.slice(0,140))}${s.desc.length>140?'...':''}</div>` : ''}
+          <div class="schol-click-hint">לחץ לפרטים מלאים ▸</div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    result.innerHTML = html;
+  } catch(e) {
+    clearInterval(timer);
+    status.style.opacity = '0';
+    result.innerHTML = `<div class="schol-ai-answer" style="color:#ff8080">שגיאת חיבור. בדוק שהשרת פועל.</div>`;
+  } finally {
+    btn.disabled = false;
+    input.focus();
+  }
+}
+
+// ===== SCHOLARSHIP MODAL =====
+const SCHOL_SECTIONS = [
+  { key: 'desc',         icon: '📋', title: 'תיאור כללי'           },
+  { key: 'target',       icon: '👥', title: 'קהל יעד'              },
+  { key: 'eligibility',  icon: '✅', title: 'תנאי זכאות'           },
+  { key: 'amount',       icon: '💵', title: 'סכום המלגה'           },
+  { key: 'dates',        icon: '📅', title: 'תאריכי הרשמה'         },
+  { key: 'obligations',  icon: '📝', title: 'התחייבויות'           },
+];
+
+function openScholModal(idx) {
+  const s = scholData[idx];
+  if (!s) return;
+
+  document.getElementById('schol-modal-title').textContent = s.name || 'מלגה';
+
+  let body = '';
+  for (const { key, icon, title } of SCHOL_SECTIONS) {
+    const val = s[key];
+    if (!val) continue;
+    body += `<div class="modal-section">
+      <div class="modal-section-title">${icon} ${title}</div>
+      <div class="modal-section-body">${escHtml(val)}</div>
+    </div>`;
+  }
+  // Extra fields
+  if (s.extra && Object.keys(s.extra).length) {
+    for (const [k, v] of Object.entries(s.extra)) {
+      if (v) body += `<div class="modal-section">
+        <div class="modal-section-title">📌 ${escHtml(k.replace(/_/g,' '))}</div>
+        <div class="modal-section-body">${escHtml(String(v))}</div>
+      </div>`;
+    }
+  }
+  // URL
+  if (s.url) {
+    body += `<div class="modal-section">
+      <a class="modal-url" href="${escHtml(s.url)}" target="_blank">🔗 לדף המלגה הרשמי באתר BGU</a>
+    </div>`;
+  }
+
+  document.getElementById('schol-modal-body').innerHTML = body;
+  document.getElementById('schol-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeScholModal(e) {
+  if (e && e.target !== document.getElementById('schol-modal')) return;
+  document.getElementById('schol-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close modal on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeScholModal();
+});
+
+// ==================== PAGINATION ====================
+function renderPages(containerId, total, perPage, current, callback) {
+  const pages = Math.ceil(total / perPage);
+  const el = document.getElementById(containerId);
+  if (pages <= 1) { el.innerHTML=''; return; }
+
+  let html = '';
+  const from = Math.max(1, current-2), to = Math.min(pages, current+2);
+  if (from > 1) html += `<button class="page-btn" onclick="(${callback})(1)">«</button>`;
+  for (let p=from; p<=to; p++)
+    html += `<button class="page-btn${p===current?' active':''}" onclick="(${callback})(${p})">${p}</button>`;
+  if (to < pages) html += `<button class="page-btn" onclick="(${callback})(${pages})">»</button>`;
+
+  el.innerHTML = html;
+}
+
+// ==================== AI CHAT ====================
+function chatKey(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
+
+const SOURCE_META = {
+  grades:       { label: '📊 ציונים',       cls: 'grades'      },
+  admission:    { label: '🎓 תנאי קבלה',    cls: 'admission'   },
+  projects:     { label: '🔬 פרויקטים',     cls: 'projects'    },
+  scholarships: { label: '💰 מלגות',        cls: 'scholarships'},
+};
+const STATUS_STEPS = [
+  '🔍 מחפש בנתוני ציונים...',
+  '📋 בודק תנאי קבלה...',
+  '🔬 סורק פרויקטים...',
+  '💰 בודק מלגות...',
+  '🤖 שולח ל-AI לניתוח...',
+];
+
+async function sendChat() {
+  const input  = document.getElementById('chat-input');
+  const status = document.getElementById('chat-status');
+  const msg    = input.value.trim();
+  if (!msg) return;
+
+  appendMsg('user', msg);
+  input.value=''; input.style.height='auto';
+  document.getElementById('chat-send').disabled=true;
+  status.style.opacity='1';
+
+  // Animated status while waiting
+  let stepIdx = 0;
+  status.textContent = STATUS_STEPS[0];
+  const statusTimer = setInterval(() => {
+    stepIdx = (stepIdx + 1) % STATUS_STEPS.length;
+    status.textContent = STATUS_STEPS[stepIdx];
+  }, 900);
+
+  const typingId = showTyping();
+
+  try {
+    const res  = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message: msg})
+    });
+    const data = await res.json();
+    clearInterval(statusTimer);
+    status.style.opacity='0';
+    removeTyping(typingId);
+
+    if (data.error) {
+      appendMsg('bot', `שגיאה: ${data.error}`);
+    } else {
+      appendMsgWithSources('bot', data.answer, data.sources || []);
+    }
+  } catch(e) {
+    clearInterval(statusTimer);
+    status.style.opacity='0';
+    removeTyping(typingId);
+    appendMsg('bot','שגיאת חיבור. בדוק שהשרת פועל.');
+  } finally {
+    document.getElementById('chat-send').disabled=false;
+    input.focus();
+  }
+}
+
+function appendMsgWithSources(role, text, sources) {
+  const container = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  // Build sources bar
+  let srcHtml = '';
+  if (sources && sources.length) {
+    const chips = sources.map(s => {
+      const meta = SOURCE_META[s.source] || { label: s.source, cls: 'vector' };
+      const topic = s.topic ? ` – ${s.topic}` : '';
+      return `<span class="src-chip ${meta.cls}">${meta.label}${topic}</span>`;
+    }).join('');
+    srcHtml = `<div class="sources-bar">${chips}</div>`;
+  }
+
+  div.innerHTML = `
+    <div class="av">🤖</div>
+    <div class="bubble">${markdownLite(escHtml(text))}${srcHtml}</div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function appendMsg(role, text) {
+  const container = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.innerHTML = `
+    <div class="av">${role==='user'?'👤':'🤖'}</div>
+    <div class="bubble">${markdownLite(escHtml(text))}</div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+// ==================== COURSE AI QUESTION ====================
+async function courseAskAI() {
+  const input  = document.getElementById('course-ai-input');
+  const result = document.getElementById('course-ai-result');
+  const query  = input.value.trim();
+  if (!query) return;
+
+  result.innerHTML = '<div class="course-ai-answer" style="color:#888">🔍 מחפש...</div>';
+
+  try {
+    const res  = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: query})
+    });
+    const data = await res.json();
+    if (data.error) {
+      result.innerHTML = `<div class="course-ai-answer" style="color:#c00">${escHtml(data.error)}</div>`;
+    } else {
+      result.innerHTML = `<div class="course-ai-answer">${markdownLite(escHtml(data.answer))}</div>`;
+    }
+  } catch(e) {
+    result.innerHTML = '<div class="course-ai-answer" style="color:#c00">שגיאת חיבור.</div>';
+  }
+}
+
+let typingCounter = 0;
+function showTyping() {
+  const id = 'typing-'+(++typingCounter);
+  const container = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className='msg bot'; div.id=id;
+  div.innerHTML=`<div class="av">🤖</div><div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  container.appendChild(div);
+  container.scrollTop=container.scrollHeight;
+  return id;
+}
+function removeTyping(id) { document.getElementById(id)?.remove(); }
+
+// ==================== PEOPLE / STAFF ====================
+let peoplePage = 1;
+
+async function searchPeople(page = 1) {
+  peoplePage = page;
+  const q = document.getElementById('people-q').value.trim();
+  const res = await fetch(`/api/people?q=${encodeURIComponent(q)}&page=${page}`);
+  const data = await res.json();
+
+  const total = data.total || 0;
+  document.getElementById('people-info').textContent = `נמצאו ${total} אנשים`;
+  document.getElementById('people-total-sub').textContent = `${total} תוצאות`;
+
+  const tbody = document.getElementById('people-tbody');
+  const wrap  = document.getElementById('people-table-wrap');
+
+  if (!data.people || !data.people.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:30px">לא נמצאו תוצאות</td></tr>';
+    wrap.style.display = 'block';
+    document.getElementById('people-pages').innerHTML = '';
+    return;
+  }
+
+  tbody.innerHTML = data.people.map(p => {
+    const name    = escHtml(p.name || '—');
+    const email   = escHtml(p.email || '');
+    const faculty = escHtml(p.faculty || '');
+    const url     = p.url || '';
+    const emailHtml = email
+      ? `<a href="mailto:${email}" style="color:var(--orange)">${email}</a>`
+      : '<span style="color:var(--text-light)">—</span>';
+    const linkHtml = url
+      ? `<a href="${escHtml(url)}" target="_blank" style="color:var(--orange);font-size:13px">🔗 פרופיל</a>`
+      : '';
+    return `<tr>
+      <td style="font-weight:600">${name}</td>
+      <td style="font-size:13px">${emailHtml}</td>
+      <td style="font-size:13px;color:var(--text-light)">${faculty || '—'}</td>
+    </tr>`;
+  }).join('');
+
+  wrap.style.display = 'block';
+  renderPages('people-pages', total, data.per_page || 30, page, p => searchPeople(p));
+}
+
+function clearPeople() {
+  document.getElementById('people-q').value = '';
+  document.getElementById('people-tbody').innerHTML = '';
+  document.getElementById('people-table-wrap').style.display = 'none';
+  document.getElementById('people-info').textContent = '';
+  document.getElementById('people-pages').innerHTML = '';
+}
+
+// ==================== ARMY / RESERVES ====================
+function toggleArmyUpdate() {
+  const body  = document.getElementById('army-update-body');
+  const arrow = document.getElementById('army-arrow');
+  const open  = body.classList.toggle('open');
+  arrow.style.transform = open ? 'rotate(180deg)' : '';
+}
+
+function armyTab(name) {
+  document.querySelectorAll('.army-tab').forEach((t,i) => {
+    const panels = ['matave','chat'];
+    t.classList.toggle('active', panels[i] === name);
+  });
+  document.querySelectorAll('.army-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('army-panel-'+name).classList.add('active');
+}
+
+async function loadArmyResults() {
+  const container = document.getElementById('army-results-container');
+  try {
+    const res  = await fetch('/api/army/results');
+    const data = await res.json();
+    if (!data.results || !data.results.length) {
+      container.innerHTML = '<div class="army-empty">לא נמצא מידע. הרץ את army.py תחילה.</div>';
+      return;
+    }
+    container.innerHTML = data.results.map(r => `
+      <div class="army-result-card">
+        <div class="army-result-title">${escHtml(r.title || r.url)}</div>
+        <div class="army-result-text">${escHtml(r.text || '')}</div>
+        <a class="army-result-url" href="${escHtml(r.url)}" target="_blank">🔗 לעמוד המקור</a>
+      </div>`).join('');
+  } catch(e) {
+    container.innerHTML = '<div class="army-empty">שגיאה בטעינת נתוני מילואים.</div>';
+  }
+}
+
+async function armySend() {
+  const input  = document.getElementById('army-input');
+  const msgs   = document.getElementById('army-chat-msgs');
+  const btn    = document.getElementById('army-send');
+  const query  = input.value.trim();
+  if (!query) return;
+
+  // User message
+  msgs.innerHTML += `<div class="army-msg user">${escHtml(query)}</div>`;
+  input.value = '';
+  btn.disabled = true;
+  msgs.innerHTML += `<div class="army-msg bot" id="army-typing">...</div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  try {
+    const res  = await fetch('/api/army/ask', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: query})
+    });
+    const data = await res.json();
+    document.getElementById('army-typing')?.remove();
+    const answer = data.error ? `שגיאה: ${data.error}` : (data.answer || '');
+    msgs.innerHTML += `<div class="army-msg bot">${markdownLite(escHtml(answer))}</div>`;
+  } catch(e) {
+    document.getElementById('army-typing')?.remove();
+    msgs.innerHTML += `<div class="army-msg bot">שגיאת חיבור.</div>`;
+  } finally {
+    btn.disabled = false;
+    msgs.scrollTop = msgs.scrollHeight;
+    input.focus();
+  }
+}
+// טעינת ספירת אנשי סגל לכרטיס בדשבורד
+(async () => {
+  try {
+    const res  = await fetch('/api/people?q=&page=1');
+    const data = await res.json();
+    if (data.total) {
+      const el = document.getElementById('people-count-badge');
+      if (el) el.textContent = data.total.toLocaleString();
+    }
+  } catch(e) {}
+})();
+</script>
+
+<!-- ── כפתור לייק צף ── -->
+<div id="like-widget" style="
+  position:fixed;
+  bottom:32px;
+  left:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  z-index:9999;
+">
+  <button id="like-btn" onclick="sendLike()" title="אהבתי את האתר!" style="
+    width:56px;height:56px;
+    border-radius:50%;
+    border:none;
+    background:var(--orange);
+    color:#fff;
+    font-size:26px;
+    cursor:pointer;
+    box-shadow:0 4px 16px rgba(0,0,0,.35);
+    transition:transform .15s,background .15s;
+    display:flex;align-items:center;justify-content:center;
+  " onmouseover="this.style.transform='scale(1.12)'" onmouseout="this.style.transform='scale(1)'">
+    👍
+  </button>
+  <div id="like-count" style="
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:3px 12px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--text);
+    box-shadow:0 2px 8px rgba(0,0,0,.2);
+    min-width:36px;
+    text-align:center;
+  ">…</div>
+  <div style="font-size:10px;color:var(--text-light);text-align:center">אהבתי</div>
+</div>
+
+<script>
+(async function loadLikes() {
+  try {
+    const r = await fetch('/api/like');
+    const d = await r.json();
+    document.getElementById('like-count').textContent = d.likes;
+  } catch(e) {}
+})();
+
+async function sendLike() {
+  const btn = document.getElementById('like-btn');
+  btn.disabled = true;
+  btn.style.background = '#aaa';
+  try {
+    const r = await fetch('/api/like', { method: 'POST' });
+    const d = await r.json();
+    document.getElementById('like-count').textContent = d.likes;
+    btn.style.background = '#27ae60';
+    btn.textContent = '✅';
+    setTimeout(() => {
+      btn.style.background = 'var(--orange)';
+      btn.textContent = '👍';
+      btn.disabled = false;
+    }, 2000);
+  } catch(e) {
+    btn.disabled = false;
+    btn.style.background = 'var(--orange)';
+  }
+}
+</script>
+
+<script>
+// ==================== FORMS ====================
+async function searchForms() {
+  const q = document.getElementById('forms-q').value.trim();
+  const info = document.getElementById('forms-info');
+  const results = document.getElementById('forms-results');
+
+  if (!q) {
+    info.textContent = 'הקלד שם טופס לחיפוש';
+    results.innerHTML = '';
+    return;
+  }
+
+  info.textContent = 'מחפש...';
+  results.innerHTML = '';
+
+  try {
+    const res = await fetch(`/api/forms?q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+
+    if (!data.forms || !data.forms.length) {
+      info.textContent = 'לא נמצאו טפסים התואמים את החיפוש';
+      return;
+    }
+
+    info.textContent = `נמצאו ${data.total} תוצאות`;
+    results.innerHTML = `<div class="table-wrap"><table>
+      <thead><tr><th>שם המסמך</th><th style="width:100px;text-align:center">קישור</th></tr></thead>
+      <tbody>
+        ${data.forms.map(f => `<tr>
+          <td>${escHtml(f.name)}</td>
+          <td style="text-align:center">
+            <a href="${escHtml(f.url)}" target="_blank"
+               style="color:var(--orange);font-weight:600;text-decoration:none">📄 פתח</a>
+          </td>
+        </tr>`).join('')}
+      </tbody>
+    </table></div>`;
+  } catch(e) {
+    info.textContent = 'שגיאה בחיפוש – נסה שוב';
+  }
+}
+
+function clearForms() {
+  document.getElementById('forms-q').value = '';
+  document.getElementById('forms-info').textContent = '';
+  document.getElementById('forms-results').innerHTML = '';
+}
+
+// ==================== SIDEBAR DRUM WHEEL ====================
+(function () {
+  function init() {
+    const sidebar = document.querySelector('.sidebar');
+    if (!sidebar) return;
+
+    const origItems = [...sidebar.querySelectorAll('.nav-item:not(.nav-item-fixed), .nav-sep')];
+    const N = origItems.length;
+    if (!N) return;
+
+    // Build inner (mask container) + track (scrollable strip)
+    const inner = document.createElement('div');
+    inner.className = 'sidebar-inner';
+    const track = document.createElement('div');
+    track.className = 'sidebar-track';
+
+    sidebar.style.padding = '0';
+
+    // Move originals into track
+    origItems.forEach(item => track.appendChild(item));
+
+    // Prepend one "before" clone set
+    const beforeFrag = document.createDocumentFragment();
+    origItems.forEach(item => {
+      const c = item.cloneNode(true);
+      c.setAttribute('aria-hidden', 'true');
+      beforeFrag.appendChild(c);
+    });
+    track.insertBefore(beforeFrag, track.firstChild);
+
+    // Append one "after" clone set
+    origItems.forEach(item => {
+      const c = item.cloneNode(true);
+      c.setAttribute('aria-hidden', 'true');
+      track.appendChild(c);
+    });
+
+    inner.appendChild(track);
+    sidebar.appendChild(inner);
+
+    // Wait two frames for layout
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const all = [...track.querySelectorAll('.nav-item, .nav-sep')];
+      // Height of one "set" = y-position of the first original (= N-th item in 3N total)
+      const setH = all[N] ? all[N].offsetTop : track.offsetHeight / 3;
+      if (!setH) return;
+
+      let cur = setH, tgt = setH, raf;
+
+      function depth() {
+        const sh = sidebar.clientHeight;
+        const sr = sidebar.getBoundingClientRect();
+        const cy = sh / 2;
+        all.forEach(el => {
+          const r = el.getBoundingClientRect();
+          const mid = r.top - sr.top + r.height / 2;
+          const d = Math.abs(mid - cy);
+          const n = Math.min(d / (sh * 0.42), 1);
+          el.style.transform = `scaleY(${(1 - n * 0.22).toFixed(4)})`;
+          el.style.opacity = Math.max(0.1, 1 - n * 0.72).toFixed(4);
+        });
+      }
+
+      function animate() {
+        cur += (tgt - cur) * 0.13;
+        track.style.transform = `translateY(-${cur}px)`;
+        depth();
+        if (Math.abs(cur - tgt) > 0.2) raf = requestAnimationFrame(animate);
+      }
+
+      sidebar.addEventListener('wheel', e => {
+        e.preventDefault();
+        tgt += e.deltaY * 0.35;
+        // Seamless loop: stay in middle copy territory
+        while (tgt > setH * 2) { tgt -= setH; cur -= setH; }
+        while (tgt < 0)        { tgt += setH; cur += setH; }
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(animate);
+      }, { passive: false });
+
+      depth();
+    }));
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+</body>
+</html>
